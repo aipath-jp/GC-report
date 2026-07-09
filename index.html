@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>GOD-CLEANER 修理報告書</title>
+<style>
+  :root{
+    --ink:#1a1a1a;
+    --line:#333;
+    --line-light:#ccc;
+    --panel-bg:#f4f4f3;
+    --panel-border:#ddd;
+    --accent:#1a1a1a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",-apple-system,"Meiryo",sans-serif;
+    color:var(--ink);
+    background:#e8e8e6;
+  }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar{
+    position:sticky; top:0; z-index:10;
+    background:#1a1a1a; color:#fff;
+    padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px;
+  }
+  .toolbar h1{
+    font-size:16px; margin:0; font-weight:600; letter-spacing:.03em;
+  }
+  .toolbar button{
+    background:#fff; color:#1a1a1a; border:none;
+    padding:9px 18px; font-size:14px; font-weight:600;
+    border-radius:3px; cursor:pointer; letter-spacing:.02em;
+  }
+  .toolbar button:hover{ background:#e2e2e2; }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    display:flex; gap:20px; align-items:flex-start;
+    padding:20px; max-width:1600px; margin:0 auto;
+  }
+  .editor{
+    flex:0 0 430px;
+    background:#fff;
+    border:1px solid var(--panel-border);
+    border-radius:4px;
+    padding:20px 22px 26px;
+    max-height:calc(100vh - 84px);
+    overflow-y:auto;
+  }
+  .editor h2{
+    font-size:13px; letter-spacing:.08em; color:#555;
+    border-bottom:2px solid var(--line);
+    padding-bottom:6px; margin:22px 0 12px;
+  }
+  .editor h2:first-child{ margin-top:0; }
+  .field{ margin-bottom:12px; }
+  .field label{
+    display:block; font-size:12px; color:#555; margin-bottom:4px;
+  }
+  .field .hint{
+    font-size:11px; color:#999; margin-top:3px;
+  }
+  .field input[type=text],
+  .field input[type=date],
+  .field input[type=number],
+  .field textarea{
+    width:100%; padding:7px 8px; font-size:13px;
+    border:1px solid var(--line-light); border-radius:3px;
+    font-family:inherit; resize:vertical;
+  }
+  .field textarea{ min-height:56px; }
+  .field select{
+    width:100%; padding:7px 8px; font-size:13px;
+    border:1px solid var(--line-light); border-radius:3px;
+    font-family:inherit; background:#fff;
+  }
+  table.return-check-table{
+    width:100%; border-collapse:collapse; font-size:12px;
+  }
+  table.return-check-table th, table.return-check-table td{
+    border:1px solid var(--line-light); padding:6px 8px; text-align:center;
+  }
+  table.return-check-table th:first-child, table.return-check-table td:first-child{
+    text-align:left;
+  }
+  table.return-check-table input[type=checkbox]{
+    width:16px; height:16px;
+  }
+  .row2{ display:flex; gap:10px; }
+  .row2 > div{ flex:1; }
+  .row3{ display:flex; gap:6px; }
+
+  /* ---------- Billing rows (advanced) ---------- */
+  .billing-card{
+    border:1px solid var(--panel-border);
+    border-radius:4px;
+    padding:10px;
+    margin-bottom:8px;
+    background:#fafafa;
+  }
+  .billing-card .b-line1{
+    display:flex; gap:6px; margin-bottom:6px;
+  }
+  .billing-card .b-line1 select{
+    flex:1; min-width:0;
+    font-size:12px; padding:6px 4px;
+    border:1px solid var(--line-light); border-radius:3px;
+    background:#fff;
+  }
+  .billing-card .b-line2{
+    display:grid;
+    grid-template-columns: 1fr 56px 84px 88px;
+    gap:6px; align-items:center;
+  }
+  .billing-card .b-line2 input{
+    width:100%; padding:6px 6px; font-size:12px;
+    border:1px solid var(--line-light); border-radius:3px;
+  }
+  .billing-card .b-freename[disabled]{
+    background:#eee; color:#999;
+  }
+  .billing-card .b-price[readonly]{
+    background:#eee; color:#555;
+  }
+  .billing-head{
+    display:grid; grid-template-columns: 1fr 56px 84px 88px;
+    gap:6px; font-size:11px; color:#777; margin-bottom:4px;
+  }
+  .amount-readout{ text-align:right; font-size:12px; padding:6px 6px; }
+
+  .mgmt-hint{
+    font-size:11px; color:#888; margin-top:4px;
+  }
+
+  .preview-wrap{
+    flex:1;
+    display:flex; justify-content:center;
+  }
+
+  /* ---------- A4 Preview ---------- */
+  .page{
+    width:210mm;
+    min-height:297mm;
+    background:#fff;
+    box-shadow:0 0 0 1px #ccc, 0 4px 18px rgba(0,0,0,.12);
+    padding:16mm 16mm 14mm;
+    font-size:11.5px;
+    line-height:1.6;
+  }
+  .doc-header{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    border-bottom:3px solid var(--line);
+    padding-bottom:8px; margin-bottom:14px;
+  }
+  .doc-header .brand{
+    font-size:20px; font-weight:700; letter-spacing:.04em;
+  }
+  .doc-header .brand span{
+    display:block; font-size:11px; font-weight:400; letter-spacing:.1em; color:#555; margin-top:2px;
+  }
+  .doc-header .doc-title{
+    font-size:22px; font-weight:700; letter-spacing:.15em;
+  }
+
+  .meta-table{
+    width:100%; border-collapse:collapse; margin-bottom:16px;
+  }
+  .meta-table td{
+    border:1px solid var(--line); padding:6px 8px; vertical-align:top;
+  }
+  .meta-table td.k{
+    width:26%; background:#f2f2f2; font-weight:600; white-space:nowrap;
+  }
+
+  .section-title{
+    font-size:12px; font-weight:700; letter-spacing:.05em;
+    border-left:5px solid var(--line);
+    padding-left:8px; margin:16px 0 6px;
+  }
+  .section-title.compact{ margin:10px 0 4px; }
+
+  .block-box{
+    border:1px solid var(--line); padding:8px 10px; min-height:26px;
+    white-space:pre-wrap; margin-bottom:4px;
+  }
+  /* 故障内容・修理内容：大きく見やすく */
+  .block-box-lg{
+    border:1px solid var(--line); padding:14px 16px; min-height:44px;
+    white-space:pre-wrap; margin-bottom:4px;
+    font-size:18px; line-height:1.8; font-weight:600;
+  }
+
+  table.billing{
+    width:100%; border-collapse:collapse; margin-top:6px;
+  }
+  table.billing th, table.billing td{
+    border:1px solid var(--line); padding:6px 8px;
+  }
+  table.billing th{
+    background:#f2f2f2; font-size:11px; font-weight:700; text-align:left;
+  }
+  table.billing td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  table.billing tfoot td{ font-weight:700; }
+  table.billing tfoot tr.total td{ font-size:13px; background:#eee; }
+
+  /* 返却品確認・請求明細：コンパクト表示 */
+  table.billing.compact th, table.billing.compact td{
+    padding:3px 7px; font-size:10px;
+  }
+  table.billing.compact tfoot tr.total td{ font-size:11px; }
+
+  .footer-note{
+    margin-top:18px; padding-top:8px; border-top:1px solid var(--line-light);
+    font-size:10.5px; color:#444; text-align:center;
+  }
+
+  /* ---------- Print ---------- */
+  @page{ size:A4; margin:0; }
+  @media print{
+    body{ background:#fff; }
+    .toolbar, .editor{ display:none !important; }
+    .layout{ padding:0; max-width:none; }
+    .preview-wrap{ display:block; }
+    .page{
+      box-shadow:none; width:210mm; min-height:297mm;
+      margin:0; padding:16mm 16mm 14mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>GOD-CLEANER 修理報告書</h1>
+  <button id="printBtn">印刷</button>
+</div>
+
+<div class="layout">
+
+  <!-- ============ 入力フォーム ============ -->
+  <div class="editor">
+
+    <h2>基本情報</h2>
+    <div class="row2">
+      <div class="field">
+        <label>管理番号</label>
+        <input type="text" id="mgmtNo" placeholder="例）001">
+        <div class="mgmt-hint"></div>
+      </div>
+      <div class="field">
+        <label>ご返却日</label>
+        <input type="date" id="returnDate">
+      </div>
+    </div>
+    <div class="field">
+      <label>お客様名</label>
+      <input type="text" id="customerName" placeholder="例）山田 太郎 様">
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>機器購入日</label>
+        <div class="row3">
+          <input type="number" id="purchaseYear" placeholder="年" min="1900" max="2100" step="1">
+          <select id="purchaseMonth">
+            <option value="">月</option>
+            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+          </select>
+          <select id="purchaseDay">
+            <option value="">日</option>
+            <script>for(let d=1;d<=31;d++)document.write(`<option value="${d}">${d}日</option>`);</script>
+          </select>
+        </div>
+        <div class="hint"></div>
+      </div>
+      <div class="field">
+        <label>機器No.</label>
+        <input type="text" id="deviceNo" placeholder="例）G0001">
+      </div>
+    </div>
+
+    <h2>返却品（チェック項目）</h2>
+    <div class="field">
+      <table class="return-check-table" id="returnCheckTable">
+        <thead>
+          <tr><th>項目</th><th>同梱</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GC本体</td>
+            <td><input type="checkbox" class="ret-included" data-item="GC本体"></td>
+          </tr>
+          <tr>
+            <td>ACコード</td>
+            <td><input type="checkbox" class="ret-included" data-item="ACコード"></td>
+          </tr>
+          <tr>
+            <td>カートリッジ</td>
+            <td><input type="checkbox" class="ret-included" data-item="カートリッジ"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>故障・修理内容</h2>
+    <div class="field">
+      <label>故障内容</label>
+      <select id="failureContentSel">
+        <option value="">選択してください</option>
+        <option value="ピン折れ">ピン折れ</option>
+        <option value="色出ない">色出ない</option>
+        <option value="P3エラー">P3エラー</option>
+        <option value="P2エラー">P2エラー</option>
+        <option value="0％エラー">0％エラー</option>
+        <option value="__other__">その他</option>
+      </select>
+      <textarea id="failureContent" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px;" disabled></textarea>
+    </div>
+    <div class="field">
+      <label>修理内容</label>
+      <select id="repairContentSel">
+        <option value="">選択してください</option>
+        <option value="ピン挿入部交換">ピン挿入部交換</option>
+        <option value="本体基盤交換">本体基盤交換</option>
+        <option value="カートリッジ同等品交換">カートリッジ同等品交換</option>
+        <option value="3Aヒューズ交換">3Aヒューズ交換</option>
+        <option value="__other__">その他</option>
+      </select>
+      <textarea id="repairContent" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px;" disabled></textarea>
+    </div>
+    <div class="field">
+      <label>備考</label>
+      <select id="remarksSel">
+        <option value="">選択してください</option>
+        <option value="再修理のため無償修理とさせていただきます。">再修理のため無償修理とさせていただきます。</option>
+        <option value="保証期間内のため無償修理とさせていただきます。">保証期間内のため無償修理とさせていただきます。</option>
+        <option value="__other__">その他</option>
+      </select>
+      <textarea id="remarks" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px;" disabled></textarea>
+    </div>
+
+    <h2>修理費用ご請求明細</h2>
+    <div class="billing-head">
+      <div>項目名（その他時）</div><div>数量</div><div>単価(円)</div><div>金額(円)</div>
+    </div>
+    <div id="billingRows"></div>
+
+  </div>
+
+  <!-- ============ プレビュー（A4・印刷対象） ============ -->
+  <div class="preview-wrap">
+    <div class="page" id="printArea">
+
+      <div class="doc-header">
+        <div class="brand">GOD-CLEANER<span>株式会社マインドフィットネス</span></div>
+        <div class="doc-title">修理報告書</div>
+      </div>
+
+      <table class="meta-table">
+        <tr>
+          <td class="k">管理No.</td><td id="p_mgmtNo">&nbsp;</td>
+          <td class="k">ご返却日</td><td id="p_returnDate">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="k">お客様名</td><td id="p_customerName">&nbsp;</td>
+          <td class="k">機器No.</td><td id="p_deviceNo">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="k">機器購入日</td><td id="p_purchaseDate">&nbsp;</td>
+          <td class="k">発行日</td><td id="p_issueDate">&nbsp;</td>
+        </tr>
+      </table>
+
+      <div class="section-title compact">返却品</div>
+      <table class="billing compact">
+        <thead>
+          <tr><th style="width:60%">項目</th><th style="width:40%">同梱</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GC本体</td><td class="num p-ret-included" data-item="GC本体">□</td></tr>
+          <tr><td>ACコード</td><td class="num p-ret-included" data-item="ACコード">□</td></tr>
+          <tr><td>カートリッジ</td><td class="num p-ret-included" data-item="カートリッジ">□</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">故障内容</div>
+      <div class="block-box-lg" id="p_failureContent">&nbsp;</div>
+
+      <div class="section-title">修理内容</div>
+      <div class="block-box-lg" id="p_repairContent">&nbsp;</div>
+
+      <div class="section-title">備考</div>
+      <div class="block-box" id="p_remarks">&nbsp;</div>
+
+      <div class="section-title compact">修理費用ご請求明細</div>
+      <table class="billing compact">
+        <thead>
+          <tr><th style="width:46%">項目</th><th style="width:14%">数量</th><th style="width:20%">単価</th><th style="width:20%">金額</th></tr>
+        </thead>
+        <tbody id="p_billingBody"></tbody>
+        <tfoot>
+          <tr><td colspan="3">小計</td><td class="num" id="p_subtotal">¥0</td></tr>
+          <tr><td colspan="3">消費税（10％）</td><td class="num" id="p_tax">¥0</td></tr>
+          <tr class="total"><td colspan="3">総合計金額</td><td class="num" id="p_total">¥0</td></tr>
+        </tfoot>
+      </table>
+
+      <div class="footer-note" id="p_companyAddress">&nbsp;</div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ===================== 弊社情報（固定） ===================== */
+const COMPANY_ADDRESS = `〒541-0042 大阪市中央区今橋1-7-19 北浜BLD 11F
+㈱マインドフィットネス
+TEL:06-6202-5401`;
+document.getElementById('p_companyAddress').textContent = COMPANY_ADDRESS;
+
+/* ===================== 費用項目マスタ ===================== */
+/* 大分類ごとの小分類リスト。price が数値なら固定金額、null なら自由入力（その他） */
+const CATEGORY_DATA = {
+  "交換部品代": [
+    { label: "ピン挿入部", price: 3000 },
+    { label: "基盤", price: 15000 },
+    { label: "ACコード", price: 1500 },
+    { label: "CA同等品or基盤", price: 3000 },
+    { label: "ファン", price: 2000 },
+    { label: "電源挿入口", price: 2000 },
+    { label: "ヒューズ", price: 350 },
+    { label: "スイッチ", price: 2000 },
+    { label: "その他", price: null }
+  ],
+  "修理工賃": [
+    { label: "工賃（固定）", price: 5000 },
+    { label: "その他", price: null }
+  ],
+  "送料（発）": [
+    { label: "関東・信越・九州", price: 1680 },
+    { label: "北陸・中部・関西・中国・四国", price: 1590 },
+    { label: "その他", price: null }
+  ],
+  "送料（受）": [
+    { label: "その他（自由入力）", price: null }
+  ],
+  "特別割引": [
+    { label: "2年以内", price: -5000 },
+    { label: "2年越え", price: -3000 },
+    { label: "その他", price: null }
+  ]
+};
+const CATEGORY_NAMES = Object.keys(CATEGORY_DATA);
+
+const BILLING_ROWS = 7;
+const billingRowsEl = document.getElementById('billingRows');
+const pBillingBody = document.getElementById('p_billingBody');
+
+function buildCatOptionsHTML(){
+  let html = '<option value="">項目を選択</option>';
+  CATEGORY_NAMES.forEach(name => {
+    html += `<option value="${name}">${name}</option>`;
+  });
+  return html;
+}
+function buildSubOptionsHTML(catName){
+  if(!catName || !CATEGORY_DATA[catName]) return '<option value="">-</option>';
+  let html = '';
+  CATEGORY_DATA[catName].forEach((item, idx) => {
+    html += `<option value="${idx}">${item.label}${item.price !== null ? '（' + yen(item.price) + '）' : ''}</option>`;
+  });
+  return html;
+}
+
+/* 入力欄側の明細行と、プレビュー側の明細行を生成 */
+for(let i=0;i<BILLING_ROWS;i++){
+  const card = document.createElement('div');
+  card.className = 'billing-card';
+  card.innerHTML = `
+    <div class="b-line1">
+      <select class="b-cat">${buildCatOptionsHTML()}</select>
+      <select class="b-sub" disabled><option value="">-</option></select>
+    </div>
+    <div class="b-line2">
+      <input type="text" class="b-freename" placeholder="項目名（その他選択時のみ入力可）" disabled>
+      <input type="number" class="b-qty" value="1" min="0">
+      <input type="number" class="b-price" value="0" min="0" step="1" readonly>
+      <input type="text" class="amount-readout b-amount" value="¥0" readonly>
+    </div>
+  `;
+  billingRowsEl.appendChild(card);
+
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="p-b-name">&nbsp;</td><td class="num p-b-qty"></td><td class="num p-b-price"></td><td class="num p-b-amount">¥0</td>`;
+  pBillingBody.appendChild(tr);
+}
+
+function yen(n){
+  const sign = n < 0 ? '-' : '';
+  return sign + '¥' + Math.abs(Math.round(n)).toLocaleString('ja-JP');
+}
+
+function fmtDate(v){
+  if(!v) return '';
+  const [y,m,d] = v.split('-');
+  return `${y}年${Number(m)}月${Number(d)}日`;
+}
+
+function syncText(inputId, previewId, formatter){
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  const update = () => {
+    const val = formatter ? formatter(input.value) : input.value;
+    preview.textContent = val && val.trim() !== '' ? val : '\u00A0';
+  };
+  input.addEventListener('input', update);
+  update();
+}
+
+syncText('mgmtNo','p_mgmtNo');
+syncText('returnDate','p_returnDate', fmtDate);
+syncText('customerName','p_customerName');
+syncText('deviceNo','p_deviceNo');
+syncText('failureContent','p_failureContent');
+syncText('repairContent','p_repairContent');
+syncText('remarks','p_remarks');
+
+// 発行日（本日の日付を自動表示）
+document.getElementById('p_issueDate').textContent = fmtDate(new Date().toISOString().slice(0,10));
+
+/* ===================== 機器購入日：年・月・日 独立入力 ===================== */
+function syncPurchaseDate(){
+  const y = document.getElementById('purchaseYear').value;
+  const m = document.getElementById('purchaseMonth').value;
+  const d = document.getElementById('purchaseDay').value;
+  let text = '';
+  if(y) text += `${y}年`;
+  if(m) text += `${Number(m)}月`;
+  if(d) text += `${Number(d)}日`;
+  document.getElementById('p_purchaseDate').textContent = text !== '' ? text : '\u00A0';
+}
+['purchaseYear','purchaseMonth','purchaseDay'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', syncPurchaseDate);
+  el.addEventListener('change', syncPurchaseDate);
+});
+syncPurchaseDate();
+
+/* ===================== 返却品チェック ===================== */
+function setupReturnCheck(){
+  const included = document.querySelectorAll('.ret-included');
+  function sync(){
+    included.forEach(cb => {
+      const cell = document.querySelector(`.p-ret-included[data-item="${cb.dataset.item}"]`);
+      if(cell) cell.textContent = cb.checked ? '✓' : '□';
+    });
+  }
+  included.forEach(cb => cb.addEventListener('change', sync));
+  sync();
+}
+setupReturnCheck();
+
+/* ===================== 故障内容・修理内容・備考：選択式 ===================== */
+function setupSelectField(selId, textareaId){
+  const sel = document.getElementById(selId);
+  const ta = document.getElementById(textareaId);
+  sel.addEventListener('change', () => {
+    if(sel.value === '__other__'){
+      ta.disabled = false;
+      ta.value = '';
+      ta.focus();
+    } else {
+      ta.disabled = true;
+      ta.value = sel.value;
+    }
+    ta.dispatchEvent(new Event('input'));
+  });
+}
+setupSelectField('failureContentSel', 'failureContent');
+setupSelectField('repairContentSel', 'repairContent');
+setupSelectField('remarksSel', 'remarks');
+
+/* ===================== ご返却日：本日の日付を自動入力（手動変更可） ===================== */
+const returnDateInput = document.getElementById('returnDate');
+if(!returnDateInput.value){
+  returnDateInput.value = new Date().toISOString().slice(0,10);
+  returnDateInput.dispatchEvent(new Event('input'));
+}
+
+/* ===================== 機器No.：デフォルトで先頭に「G」 ===================== */
+const deviceNoInput = document.getElementById('deviceNo');
+if(!deviceNoInput.value){
+  deviceNoInput.value = 'G';
+  deviceNoInput.dispatchEvent(new Event('input'));
+}
+
+/* ===================== 明細行の挙動 ===================== */
+const cards = billingRowsEl.querySelectorAll('.billing-card');
+
+cards.forEach(card => {
+  const catSel = card.querySelector('.b-cat');
+  const subSel = card.querySelector('.b-sub');
+  const freeName = card.querySelector('.b-freename');
+  const priceInput = card.querySelector('.b-price');
+  const qtyInput = card.querySelector('.b-qty');
+
+  catSel.addEventListener('change', () => {
+    const catName = catSel.value;
+    if(catName){
+      subSel.disabled = false;
+      subSel.innerHTML = buildSubOptionsHTML(catName);
+    } else {
+      subSel.disabled = true;
+      subSel.innerHTML = '<option value="">-</option>';
+    }
+    subSel.dispatchEvent(new Event('change'));
+  });
+
+  subSel.addEventListener('change', () => {
+    const catName = catSel.value;
+    const idx = subSel.value;
+    const item = (catName && idx !== '') ? CATEGORY_DATA[catName][idx] : null;
+    if(item && item.price !== null){
+      // 固定金額項目
+      priceInput.value = item.price;
+      priceInput.readOnly = true;
+      freeName.disabled = true;
+      freeName.value = '';
+      freeName.placeholder = '項目名（その他選択時のみ入力可）';
+    } else if(item && item.price === null){
+      // その他（自由入力）
+      priceInput.value = priceInput.value === '0' ? 0 : priceInput.value;
+      priceInput.readOnly = false;
+      freeName.disabled = false;
+      freeName.placeholder = '項目名を入力してください';
+    } else {
+      // 未選択
+      priceInput.value = 0;
+      priceInput.readOnly = true;
+      freeName.disabled = true;
+      freeName.value = '';
+    }
+    recalcBilling();
+  });
+
+  [freeName, priceInput, qtyInput].forEach(el => {
+    el.addEventListener('input', recalcBilling);
+  });
+});
+
+function recalcBilling(){
+  const pRows = pBillingBody.querySelectorAll('tr');
+  let subtotal = 0;
+
+  cards.forEach((card, i) => {
+    const catSel = card.querySelector('.b-cat');
+    const subSel = card.querySelector('.b-sub');
+    const freeName = card.querySelector('.b-freename');
+    const priceInput = card.querySelector('.b-price');
+    const qtyInput = card.querySelector('.b-qty');
+    const amountEl = card.querySelector('.b-amount');
+
+    const catName = catSel.value;
+    const idx = subSel.value;
+    const item = (catName && idx !== '') ? CATEGORY_DATA[catName][idx] : null;
+    const isOther = !!(item && item.price === null);
+
+    const qty = parseFloat(qtyInput.value) || 0;
+    const price = parseFloat(priceInput.value) || 0;
+    const amount = qty * price;
+    const hasContent = !!catName;
+    amountEl.value = hasContent ? yen(amount) : '';
+
+    // 表示名：大分類名を基本とし、「その他」でフリー入力があればそちらを優先
+    let displayName = '';
+    if(hasContent){
+      displayName = (isOther && freeName.value.trim() !== '') ? freeName.value.trim() : catName;
+    }
+
+    const pRow = pRows[i];
+    pRow.querySelector('.p-b-name').textContent = hasContent ? displayName : '\u00A0';
+    pRow.querySelector('.p-b-qty').textContent = hasContent ? qty : '';
+    pRow.querySelector('.p-b-price').textContent = hasContent ? yen(price) : '';
+    pRow.querySelector('.p-b-amount').textContent = hasContent ? yen(amount) : '';
+
+    if(hasContent) subtotal += amount;
+  });
+
+  const tax = Math.floor(subtotal * 0.10);
+  const total = subtotal + tax;
+
+  document.getElementById('p_subtotal').textContent = yen(subtotal);
+  document.getElementById('p_tax').textContent = yen(tax);
+  document.getElementById('p_total').textContent = yen(total);
+}
+
+recalcBilling();
+
+/* ===================== 管理番号の自動採番 ===================== */
+const MGMT_STORAGE_KEY = 'godcleaner_last_mgmt_no';
+const mgmtNoInput = document.getElementById('mgmtNo');
+
+function getNextMgmtNo(){
+  const last = localStorage.getItem(MGMT_STORAGE_KEY);
+  if(!last) return '001';
+  const width = Math.max(last.length, 3);
+  const nextNum = parseInt(last, 10) + 1;
+  return String(nextNum).padStart(width, '0');
+}
+
+// 初期表示：前回の続き番号を自動入力（手動でも書き換え可能）
+mgmtNoInput.value = getNextMgmtNo();
+mgmtNoInput.dispatchEvent(new Event('input'));
+
+function saveMgmtNoIfNeeded(){
+  const digits = (mgmtNoInput.value.match(/\d+/) || [null])[0];
+  if(digits){
+    const width = Math.max(digits.length, 3);
+    localStorage.setItem(MGMT_STORAGE_KEY, digits.padStart(width, '0'));
+  }
+}
+
+document.getElementById('printBtn').addEventListener('click', () => {
+  saveMgmtNoIfNeeded();
+  window.print();
+});
+</script>
+
+</body>
+</html>
