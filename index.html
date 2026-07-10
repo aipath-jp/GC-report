@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>GOD-CLEANER 修理報告書</title>
+<title>GOD-CLEANER 修理報告書 作成</title>
 <style>
   :root{
     --ink:#1a1a1a;
@@ -12,11 +11,12 @@
     --panel-bg:#f4f4f3;
     --panel-border:#ddd;
     --accent:#1a1a1a;
+    --success:#27ae60;
+    --danger:#c0392b;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;margin:0;padding:0;}
   body{
-    margin:0;
-    font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",-apple-system,"Meiryo",sans-serif;
+    font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;
     color:var(--ink);
     background:#e8e8e6;
   }
@@ -25,19 +25,31 @@
   .toolbar{
     position:sticky; top:0; z-index:10;
     background:#1a1a1a; color:#fff;
-    padding:14px 20px;
+    padding:0 20px; height:56px;
     display:flex; align-items:center; justify-content:space-between;
     gap:12px;
   }
-  .toolbar h1{
-    font-size:16px; margin:0; font-weight:600; letter-spacing:.03em;
+  .toolbar-left { display:flex; align-items:center; gap:16px; }
+  .toolbar h1{ font-size:16px; margin:0; font-weight:600; letter-spacing:.03em; }
+  .toolbar a.home-link {
+    font-size:12px; color:#aaa; text-decoration:none; letter-spacing:.05em;
+    padding:4px 8px; border:1px solid #444; border-radius:3px;
+    transition: all .15s;
   }
-  .toolbar button{
+  .toolbar a.home-link:hover { color:#fff; border-color:#888; }
+  .toolbar-actions { display:flex; gap:10px; }
+  .toolbar button, .toolbar .btn{
     background:#fff; color:#1a1a1a; border:none;
     padding:9px 18px; font-size:14px; font-weight:600;
-    border-radius:3px; cursor:pointer; letter-spacing:.02em;
+    border-radius:3px; cursor:pointer; letter-spacing:.02em; font-family:inherit;
+    text-decoration:none; display:inline-flex; align-items:center; gap:6px;
   }
-  .toolbar button:hover{ background:#e2e2e2; }
+  .toolbar button:hover, .toolbar .btn:hover{ background:#e2e2e2; }
+  .toolbar .btn-save {
+    background:#27ae60; color:#fff;
+  }
+  .toolbar .btn-save:hover { background:#229a56; }
+  .toolbar .btn-save:disabled { background:#888; cursor:not-allowed; }
 
   /* ---------- Layout ---------- */
   .layout{
@@ -50,7 +62,7 @@
     border:1px solid var(--panel-border);
     border-radius:4px;
     padding:20px 22px 26px;
-    max-height:calc(100vh - 84px);
+    max-height:calc(100vh - 76px);
     overflow-y:auto;
   }
   .editor h2{
@@ -96,7 +108,7 @@
   .row2 > div{ flex:1; }
   .row3{ display:flex; gap:6px; }
 
-  /* ---------- Billing rows (advanced) ---------- */
+  /* ---------- Billing rows ---------- */
   .billing-card{
     border:1px solid var(--panel-border);
     border-radius:4px;
@@ -186,10 +198,9 @@
   .section-title.compact{ margin:10px 0 4px; }
 
   .block-box{
-  border:1px solid var(--line); padding:4px 8px; min-height:18px;
-  white-space:pre-wrap; margin-bottom:2px; font-size:10.5px;
-}
-  /* 故障内容・修理内容：大きく見やすく */
+    border:1px solid var(--line); padding:4px 8px; min-height:18px;
+    white-space:pre-wrap; margin-bottom:2px; font-size:10.5px;
+  }
   .block-box-lg{
     border:1px solid var(--line); padding:14px 16px; min-height:44px;
     white-space:pre-wrap; margin-bottom:4px;
@@ -209,7 +220,6 @@
   table.billing tfoot td{ font-weight:700; }
   table.billing tfoot tr.total td{ font-size:13px; background:#eee; }
 
-  /* 返却品確認・請求明細：コンパクト表示 */
   table.billing.compact th, table.billing.compact td{
     padding:3px 7px; font-size:10px;
   }
@@ -219,6 +229,17 @@
     margin-top:18px; padding-top:8px; border-top:1px solid var(--line-light);
     font-size:10.5px; color:#444; text-align:center;
   }
+
+  /* ---------- Save Banner ---------- */
+  .save-banner {
+    display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    background: var(--success); color:#fff;
+    padding:12px 28px; border-radius:3px; font-size:14px; font-weight:600;
+    box-shadow:0 4px 16px rgba(0,0,0,.2); z-index:50;
+    animation: fadeUp .3s ease;
+  }
+  .save-banner.error { background: var(--danger); }
+  @keyframes fadeUp { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%); } }
 
   /* ---------- Print ---------- */
   @page{ size:A4; margin:0; }
@@ -237,8 +258,14 @@
 <body>
 
 <div class="toolbar">
-  <h1>GOD-CLEANER 修理報告書</h1>
-  <button id="printBtn">印刷</button>
+  <div class="toolbar-left">
+    <a class="home-link" href="index.html">← 一覧へ戻る</a>
+    <h1>修理報告書 作成</h1>
+  </div>
+  <div class="toolbar-actions">
+    <button class="btn-save" id="saveBtn">💾 保存してアーカイブ</button>
+    <button id="printBtn">印刷</button>
+  </div>
 </div>
 
 <div class="layout">
@@ -279,7 +306,6 @@
             <script>for(let d=1;d<=31;d++)document.write(`<option value="${d}">${d}日</option>`);</script>
           </select>
         </div>
-        <div class="hint"></div>
       </div>
       <div class="field">
         <label>機器No.</label>
@@ -294,18 +320,9 @@
           <tr><th>項目</th><th>同梱</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td>GC本体</td>
-            <td><input type="checkbox" class="ret-included" data-item="GC本体"></td>
-          </tr>
-          <tr>
-            <td>ACコード</td>
-            <td><input type="checkbox" class="ret-included" data-item="ACコード"></td>
-          </tr>
-          <tr>
-            <td>カートリッジ</td>
-            <td><input type="checkbox" class="ret-included" data-item="カートリッジ"></td>
-          </tr>
+          <tr><td>GC本体</td><td><input type="checkbox" class="ret-included" data-item="GC本体"></td></tr>
+          <tr><td>ACコード</td><td><input type="checkbox" class="ret-included" data-item="ACコード"></td></tr>
+          <tr><td>カートリッジ</td><td><input type="checkbox" class="ret-included" data-item="カートリッジ"></td></tr>
         </tbody>
       </table>
     </div>
@@ -355,7 +372,7 @@
 
   </div>
 
-  <!-- ============ プレビュー（A4・印刷対象） ============ -->
+  <!-- ============ プレビュー ============ -->
   <div class="preview-wrap">
     <div class="page" id="printArea">
 
@@ -381,21 +398,21 @@
 
       <div class="section-title compact">返却品</div>
       <table class="billing compact return-grid">
-  <thead>
-    <tr>
-      <th style="width:33%">GC本体</th>
-      <th style="width:33%">ACコード</th>
-      <th style="width:34%">カートリッジ</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="num p-ret-included" data-item="GC本体">□</td>
-      <td class="num p-ret-included" data-item="ACコード">□</td>
-      <td class="num p-ret-included" data-item="カートリッジ">□</td>
-    </tr>
-  </tbody>
-</table>
+        <thead>
+          <tr>
+            <th style="width:33%">GC本体</th>
+            <th style="width:33%">ACコード</th>
+            <th style="width:34%">カートリッジ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num p-ret-included" data-item="GC本体">□</td>
+            <td class="num p-ret-included" data-item="ACコード">□</td>
+            <td class="num p-ret-included" data-item="カートリッジ">□</td>
+          </tr>
+        </tbody>
+      </table>
 
       <div class="section-title">故障内容</div>
       <div class="block-box-lg" id="p_failureContent">&nbsp;</div>
@@ -407,7 +424,7 @@
       <div class="block-box" id="p_remarks">&nbsp;</div>
 
       <div class="section-title compact">修理費用ご請求明細</div>
-<table class="billing">
+      <table class="billing">
         <thead>
           <tr><th style="width:46%">項目</th><th style="width:14%">数量</th><th style="width:20%">単価</th><th style="width:20%">金額</th></tr>
         </thead>
@@ -426,68 +443,67 @@
 
 </div>
 
+<div class="save-banner" id="saveBanner"></div>
+
 <script>
-/* ===================== 弊社情報（固定） ===================== */
-const COMPANY_ADDRESS = `〒541-0042 大阪市中央区今橋1-7-19 北浜BLD 11F
-㈱マインドフィットネス
-TEL:06-6202-5401`;
+/* ===================== Firebase ===================== */
+const DB_URL = 'https://trade-analysis-1474d-default-rtdb.asia-southeast1.firebasedatabase.app/repairReports';
+
+async function fbSave(data){
+  const r = await fetch(`${DB_URL}.json`, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(data)
+  });
+  if(!r.ok) throw new Error('Firebase save error: ' + r.status);
+  return r.json();
+}
+
+/* ===================== 弊社情報 ===================== */
+const COMPANY_ADDRESS = `〒541-0042 大阪市中央区今橋1-7-19 北浜BLD 11F\n㈱マインドフィットネス\nTEL:06-6202-5401`;
 document.getElementById('p_companyAddress').textContent = COMPANY_ADDRESS;
 
 /* ===================== 費用項目マスタ ===================== */
-/* 大分類ごとの小分類リスト。price が数値なら固定金額、null なら自由入力（その他） */
 const CATEGORY_DATA = {
   "交換部品代": [
-    { label: "ピン挿入部", price: 3000 },
-    { label: "基盤", price: 15000 },
-    { label: "ACコード", price: 1500 },
-    { label: "CA同等品or基盤", price: 3000 },
-    { label: "ファン", price: 2000 },
-    { label: "電源挿入口", price: 2000 },
-    { label: "ヒューズ", price: 350 },
-    { label: "スイッチ", price: 2000 },
-    { label: "その他", price: null }
+    { label:"ピン挿入部", price:3000 },{ label:"基盤", price:15000 },
+    { label:"ACコード", price:1500 },{ label:"CA同等品or基盤", price:3000 },
+    { label:"ファン", price:2000 },{ label:"電源挿入口", price:2000 },
+    { label:"ヒューズ", price:350 },{ label:"スイッチ", price:2000 },
+    { label:"その他", price:null }
   ],
   "修理工賃": [
-    { label: "工賃（固定）", price: 5000 },
-    { label: "その他", price: null }
+    { label:"工賃（固定）", price:5000 },{ label:"その他", price:null }
   ],
   "送料（発）": [
-    { label: "関東・信越・九州", price: 1680 },
-    { label: "北陸・中部・関西・中国・四国", price: 1590 },
-    { label: "その他", price: null }
+    { label:"関東・信越・九州", price:1680 },
+    { label:"北陸・中部・関西・中国・四国", price:1590 },
+    { label:"その他", price:null }
   ],
   "送料（受）": [
-    { label: "その他（自由入力）", price: null }
+    { label:"その他（自由入力）", price:null }
   ],
   "特別割引": [
-    { label: "2年以内", price: -5000 },
-    { label: "2年越え", price: -3000 },
-    { label: "その他", price: null }
+    { label:"2年以内", price:-5000 },{ label:"2年越え", price:-3000 },
+    { label:"その他", price:null }
   ]
 };
 const CATEGORY_NAMES = Object.keys(CATEGORY_DATA);
-
 const BILLING_ROWS = 7;
 const billingRowsEl = document.getElementById('billingRows');
 const pBillingBody = document.getElementById('p_billingBody');
 
 function buildCatOptionsHTML(){
-  let html = '<option value="">項目を選択</option>';
-  CATEGORY_NAMES.forEach(name => {
-    html += `<option value="${name}">${name}</option>`;
-  });
-  return html;
+  return '<option value="">項目を選択</option>' +
+    CATEGORY_NAMES.map(n=>`<option value="${n}">${n}</option>`).join('');
 }
 function buildSubOptionsHTML(catName){
-  if(!catName || !CATEGORY_DATA[catName]) return '<option value="">-</option>';
-  let html = '';
-  CATEGORY_DATA[catName].forEach((item, idx) => {
-    html += `<option value="${idx}">${item.label}${item.price !== null ? '（' + yen(item.price) + '）' : ''}</option>`;
-  });
-  return html;
+  if(!catName||!CATEGORY_DATA[catName]) return '<option value="">-</option>';
+  return CATEGORY_DATA[catName].map((item,idx)=>
+    `<option value="${idx}">${item.label}${item.price!==null?'（'+yen(item.price)+'）':''}</option>`
+  ).join('');
 }
 
-/* 入力欄側の明細行と、プレビュー側の明細行を生成 */
 for(let i=0;i<BILLING_ROWS;i++){
   const card = document.createElement('div');
   card.className = 'billing-card';
@@ -501,245 +517,294 @@ for(let i=0;i<BILLING_ROWS;i++){
       <input type="number" class="b-qty" value="1" min="0">
       <input type="number" class="b-price" value="0" min="0" step="1" readonly>
       <input type="text" class="amount-readout b-amount" value="¥0" readonly>
-    </div>
-  `;
+    </div>`;
   billingRowsEl.appendChild(card);
-
   const tr = document.createElement('tr');
   tr.innerHTML = `<td class="p-b-name">&nbsp;</td><td class="num p-b-qty"></td><td class="num p-b-price"></td><td class="num p-b-amount">¥0</td>`;
   pBillingBody.appendChild(tr);
 }
 
 function yen(n){
-  const sign = n < 0 ? '-' : '';
-  return sign + '¥' + Math.abs(Math.round(n)).toLocaleString('ja-JP');
+  const sign=n<0?'-':'';
+  return sign+'¥'+Math.abs(Math.round(n)).toLocaleString('ja-JP');
 }
-
 function fmtDate(v){
-  if(!v) return '';
-  const [y,m,d] = v.split('-');
-  return `${y}年${Number(m)}月${Number(d)}日`;
+  if(!v)return'';
+  const[y,m,d]=v.split('-');
+  return`${y}年${Number(m)}月${Number(d)}日`;
 }
 
-function syncText(inputId, previewId, formatter){
-  const input = document.getElementById(inputId);
-  const preview = document.getElementById(previewId);
-  const update = () => {
-    const val = formatter ? formatter(input.value) : input.value;
-    preview.textContent = val && val.trim() !== '' ? val : '\u00A0';
+function syncText(inputId,previewId,formatter){
+  const input=document.getElementById(inputId);
+  const preview=document.getElementById(previewId);
+  const update=()=>{
+    const val=formatter?formatter(input.value):input.value;
+    preview.textContent=val&&val.trim()!==''?val:'\u00A0';
   };
-  input.addEventListener('input', update);
+  input.addEventListener('input',update);
   update();
 }
-
 syncText('mgmtNo','p_mgmtNo');
-syncText('returnDate','p_returnDate', fmtDate);
+syncText('returnDate','p_returnDate',fmtDate);
 syncText('customerName','p_customerName');
 syncText('deviceNo','p_deviceNo');
 syncText('failureContent','p_failureContent');
 syncText('repairContent','p_repairContent');
 syncText('remarks','p_remarks');
 
-// 発行日（本日の日付を自動表示）
-document.getElementById('p_issueDate').textContent = fmtDate(new Date().toISOString().slice(0,10));
+document.getElementById('p_issueDate').textContent=fmtDate(new Date().toISOString().slice(0,10));
 
-/* ===================== 機器購入日：年・月・日 独立入力 ===================== */
+/* 機器購入日 */
 function syncPurchaseDate(){
-  const y = document.getElementById('purchaseYear').value;
-  const m = document.getElementById('purchaseMonth').value;
-  const d = document.getElementById('purchaseDay').value;
-  let text = '';
-  if(y) text += `${y}年`;
-  if(m) text += `${Number(m)}月`;
-  if(d) text += `${Number(d)}日`;
-  document.getElementById('p_purchaseDate').textContent = text !== '' ? text : '\u00A0';
+  const y=document.getElementById('purchaseYear').value;
+  const m=document.getElementById('purchaseMonth').value;
+  const d=document.getElementById('purchaseDay').value;
+  let text='';
+  if(y)text+=`${y}年`;
+  if(m)text+=`${Number(m)}月`;
+  if(d)text+=`${Number(d)}日`;
+  document.getElementById('p_purchaseDate').textContent=text||'\u00A0';
 }
-['purchaseYear','purchaseMonth','purchaseDay'].forEach(id => {
-  const el = document.getElementById(id);
-  el.addEventListener('input', syncPurchaseDate);
-  el.addEventListener('change', syncPurchaseDate);
+['purchaseYear','purchaseMonth','purchaseDay'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',syncPurchaseDate);
+  document.getElementById(id).addEventListener('change',syncPurchaseDate);
 });
 syncPurchaseDate();
 
-/* ===================== 返却品チェック ===================== */
+/* 返却品チェック */
 function setupReturnCheck(){
-  const included = document.querySelectorAll('.ret-included');
+  const included=document.querySelectorAll('.ret-included');
   function sync(){
-    included.forEach(cb => {
-      const cell = document.querySelector(`.p-ret-included[data-item="${cb.dataset.item}"]`);
-      if(cell) cell.textContent = cb.checked ? '✓' : '□';
+    included.forEach(cb=>{
+      const cell=document.querySelector(`.p-ret-included[data-item="${cb.dataset.item}"]`);
+      if(cell)cell.textContent=cb.checked?'✓':'□';
     });
   }
-  included.forEach(cb => cb.addEventListener('change', sync));
+  included.forEach(cb=>cb.addEventListener('change',sync));
   sync();
 }
 setupReturnCheck();
 
-/* ===================== 故障内容・修理内容・備考：選択式 ===================== */
-function setupSelectField(selId, textareaId){
-  const sel = document.getElementById(selId);
-  const ta = document.getElementById(textareaId);
-  sel.addEventListener('change', () => {
-    if(sel.value === '__other__'){
-      ta.disabled = false;
-      ta.value = '';
-      ta.focus();
-    } else {
-      ta.disabled = true;
-      ta.value = sel.value;
+/* 選択式フィールド */
+function setupSelectField(selId,textareaId){
+  const sel=document.getElementById(selId);
+  const ta=document.getElementById(textareaId);
+  sel.addEventListener('change',()=>{
+    if(sel.value==='__other__'){
+      ta.disabled=false; ta.value=''; ta.focus();
+    }else{
+      ta.disabled=true; ta.value=sel.value;
     }
     ta.dispatchEvent(new Event('input'));
   });
 }
-setupSelectField('failureContentSel', 'failureContent');
-setupSelectField('repairContentSel', 'repairContent');
-setupSelectField('remarksSel', 'remarks');
+setupSelectField('failureContentSel','failureContent');
+setupSelectField('repairContentSel','repairContent');
+setupSelectField('remarksSel','remarks');
 
-/* ===================== ご返却日：本日の日付を自動入力（手動変更可） ===================== */
-const returnDateInput = document.getElementById('returnDate');
+/* ご返却日：本日自動 */
+const returnDateInput=document.getElementById('returnDate');
 if(!returnDateInput.value){
-  returnDateInput.value = new Date().toISOString().slice(0,10);
+  returnDateInput.value=new Date().toISOString().slice(0,10);
   returnDateInput.dispatchEvent(new Event('input'));
 }
 
-/* ===================== 機器No.：デフォルトで先頭に「G」 ===================== */
-const deviceNoInput = document.getElementById('deviceNo');
+/* 機器No.デフォルト */
+const deviceNoInput=document.getElementById('deviceNo');
 if(!deviceNoInput.value){
-  deviceNoInput.value = 'G';
+  deviceNoInput.value='G';
   deviceNoInput.dispatchEvent(new Event('input'));
 }
 
-/* ===================== 明細行の挙動 ===================== */
-const cards = billingRowsEl.querySelectorAll('.billing-card');
+/* 明細行 */
+const cards=billingRowsEl.querySelectorAll('.billing-card');
+let currentSubtotal=0, currentTax=0, currentTotal=0;
 
-cards.forEach(card => {
-  const catSel = card.querySelector('.b-cat');
-  const subSel = card.querySelector('.b-sub');
-  const freeName = card.querySelector('.b-freename');
-  const priceInput = card.querySelector('.b-price');
-  const qtyInput = card.querySelector('.b-qty');
+cards.forEach(card=>{
+  const catSel=card.querySelector('.b-cat');
+  const subSel=card.querySelector('.b-sub');
+  const freeName=card.querySelector('.b-freename');
+  const priceInput=card.querySelector('.b-price');
+  const qtyInput=card.querySelector('.b-qty');
 
-  catSel.addEventListener('change', () => {
-    const catName = catSel.value;
+  catSel.addEventListener('change',()=>{
+    const catName=catSel.value;
     if(catName){
-      subSel.disabled = false;
-      subSel.innerHTML = buildSubOptionsHTML(catName);
-    } else {
-      subSel.disabled = true;
-      subSel.innerHTML = '<option value="">-</option>';
+      subSel.disabled=false;
+      subSel.innerHTML=buildSubOptionsHTML(catName);
+    }else{
+      subSel.disabled=true;
+      subSel.innerHTML='<option value="">-</option>';
     }
     subSel.dispatchEvent(new Event('change'));
   });
 
-  subSel.addEventListener('change', () => {
-    const catName = catSel.value;
-    const idx = subSel.value;
-    const item = (catName && idx !== '') ? CATEGORY_DATA[catName][idx] : null;
-    if(item && item.price !== null){
-      // 固定金額項目
-      priceInput.value = item.price;
-      priceInput.readOnly = true;
-      freeName.disabled = true;
-      freeName.value = '';
-      freeName.placeholder = '項目名（その他選択時のみ入力可）';
-    } else if(item && item.price === null){
-      // その他（自由入力）
-      priceInput.value = priceInput.value === '0' ? 0 : priceInput.value;
-      priceInput.readOnly = false;
-      freeName.disabled = false;
-      freeName.placeholder = '項目名を入力してください';
-    } else {
-      // 未選択
-      priceInput.value = 0;
-      priceInput.readOnly = true;
-      freeName.disabled = true;
-      freeName.value = '';
+  subSel.addEventListener('change',()=>{
+    const catName=catSel.value;
+    const idx=subSel.value;
+    const item=(catName&&idx!=='')?CATEGORY_DATA[catName][idx]:null;
+    if(item&&item.price!==null){
+      priceInput.value=item.price; priceInput.readOnly=true;
+      freeName.disabled=true; freeName.value='';
+      freeName.placeholder='項目名（その他選択時のみ入力可）';
+    }else if(item&&item.price===null){
+      priceInput.value=priceInput.value==='0'?0:priceInput.value;
+      priceInput.readOnly=false;
+      freeName.disabled=false;
+      freeName.placeholder='項目名を入力してください';
+    }else{
+      priceInput.value=0; priceInput.readOnly=true;
+      freeName.disabled=true; freeName.value='';
     }
     recalcBilling();
   });
-
-  [freeName, priceInput, qtyInput].forEach(el => {
-    el.addEventListener('input', recalcBilling);
-  });
+  [freeName,priceInput,qtyInput].forEach(el=>el.addEventListener('input',recalcBilling));
 });
 
 function recalcBilling(){
-  const pRows = pBillingBody.querySelectorAll('tr');
-  let subtotal = 0;
-
-  cards.forEach((card, i) => {
-    const catSel = card.querySelector('.b-cat');
-    const subSel = card.querySelector('.b-sub');
-    const freeName = card.querySelector('.b-freename');
-    const priceInput = card.querySelector('.b-price');
-    const qtyInput = card.querySelector('.b-qty');
-    const amountEl = card.querySelector('.b-amount');
-
-    const catName = catSel.value;
-    const idx = subSel.value;
-    const item = (catName && idx !== '') ? CATEGORY_DATA[catName][idx] : null;
-    const isOther = !!(item && item.price === null);
-
-    const qty = parseFloat(qtyInput.value) || 0;
-    const price = parseFloat(priceInput.value) || 0;
-    const amount = qty * price;
-    const hasContent = !!catName;
-    amountEl.value = hasContent ? yen(amount) : '';
-
-    // 表示名：大分類名を基本とし、「その他」でフリー入力があればそちらを優先
-    let displayName = '';
-    if(hasContent){
-      displayName = (isOther && freeName.value.trim() !== '') ? freeName.value.trim() : catName;
-    }
-
-    const pRow = pRows[i];
-    pRow.querySelector('.p-b-name').textContent = hasContent ? displayName : '\u00A0';
-    pRow.querySelector('.p-b-qty').textContent = hasContent ? qty : '';
-    pRow.querySelector('.p-b-price').textContent = hasContent ? yen(price) : '';
-    pRow.querySelector('.p-b-amount').textContent = hasContent ? yen(amount) : '';
-
-    if(hasContent) subtotal += amount;
+  const pRows=pBillingBody.querySelectorAll('tr');
+  let subtotal=0;
+  cards.forEach((card,i)=>{
+    const catSel=card.querySelector('.b-cat');
+    const subSel=card.querySelector('.b-sub');
+    const freeName=card.querySelector('.b-freename');
+    const priceInput=card.querySelector('.b-price');
+    const qtyInput=card.querySelector('.b-qty');
+    const amountEl=card.querySelector('.b-amount');
+    const catName=catSel.value;
+    const idx=subSel.value;
+    const item=(catName&&idx!=='')?CATEGORY_DATA[catName][idx]:null;
+    const isOther=!!(item&&item.price===null);
+    const qty=parseFloat(qtyInput.value)||0;
+    const price=parseFloat(priceInput.value)||0;
+    const amount=qty*price;
+    const hasContent=!!catName;
+    amountEl.value=hasContent?yen(amount):'';
+    let displayName='';
+    if(hasContent) displayName=(isOther&&freeName.value.trim()!=='')?freeName.value.trim():catName;
+    const pRow=pRows[i];
+    pRow.querySelector('.p-b-name').textContent=hasContent?displayName:'\u00A0';
+    pRow.querySelector('.p-b-qty').textContent=hasContent?qty:'';
+    pRow.querySelector('.p-b-price').textContent=hasContent?yen(price):'';
+    pRow.querySelector('.p-b-amount').textContent=hasContent?yen(amount):'';
+    if(hasContent)subtotal+=amount;
   });
-
-  const tax = Math.floor(subtotal * 0.10);
-  const total = subtotal + tax;
-
-  document.getElementById('p_subtotal').textContent = yen(subtotal);
-  document.getElementById('p_tax').textContent = yen(tax);
-  document.getElementById('p_total').textContent = yen(total);
+  const tax=Math.floor(subtotal*0.10);
+  const total=subtotal+tax;
+  currentSubtotal=subtotal; currentTax=tax; currentTotal=total;
+  document.getElementById('p_subtotal').textContent=yen(subtotal);
+  document.getElementById('p_tax').textContent=yen(tax);
+  document.getElementById('p_total').textContent=yen(total);
 }
-
 recalcBilling();
 
-/* ===================== 管理番号の自動採番 ===================== */
-const MGMT_STORAGE_KEY = 'godcleaner_last_mgmt_no';
-const mgmtNoInput = document.getElementById('mgmtNo');
-
+/* 管理番号自動採番 */
+const MGMT_STORAGE_KEY='godcleaner_last_mgmt_no';
+const mgmtNoInput=document.getElementById('mgmtNo');
 function getNextMgmtNo(){
-  const last = localStorage.getItem(MGMT_STORAGE_KEY);
-  if(!last) return '001';
-  const width = Math.max(last.length, 3);
-  const nextNum = parseInt(last, 10) + 1;
-  return String(nextNum).padStart(width, '0');
+  const last=localStorage.getItem(MGMT_STORAGE_KEY);
+  if(!last)return'001';
+  const width=Math.max(last.length,3);
+  return String(parseInt(last,10)+1).padStart(width,'0');
 }
-
-// 初期表示：前回の続き番号を自動入力（手動でも書き換え可能）
-mgmtNoInput.value = getNextMgmtNo();
+mgmtNoInput.value=getNextMgmtNo();
 mgmtNoInput.dispatchEvent(new Event('input'));
 
 function saveMgmtNoIfNeeded(){
-  const digits = (mgmtNoInput.value.match(/\d+/) || [null])[0];
+  const digits=(mgmtNoInput.value.match(/\d+/)||[null])[0];
   if(digits){
-    const width = Math.max(digits.length, 3);
-    localStorage.setItem(MGMT_STORAGE_KEY, digits.padStart(width, '0'));
+    const width=Math.max(digits.length,3);
+    localStorage.setItem(MGMT_STORAGE_KEY,digits.padStart(width,'0'));
   }
 }
 
-document.getElementById('printBtn').addEventListener('click', () => {
+/* ===================== 保存ロジック ===================== */
+function collectBillingLines(){
+  const lines=[];
+  cards.forEach(card=>{
+    const catSel=card.querySelector('.b-cat');
+    const subSel=card.querySelector('.b-sub');
+    const freeName=card.querySelector('.b-freename');
+    const priceInput=card.querySelector('.b-price');
+    const qtyInput=card.querySelector('.b-qty');
+    const catName=catSel.value;
+    if(!catName)return;
+    const idx=subSel.value;
+    const item=(catName&&idx!=='')?CATEGORY_DATA[catName][idx]:null;
+    const isOther=!!(item&&item.price===null);
+    const qty=parseFloat(qtyInput.value)||0;
+    const price=parseFloat(priceInput.value)||0;
+    const displayName=(isOther&&freeName.value.trim()!=='')?freeName.value.trim():catName;
+    lines.push({ name:displayName, qty, price, amount:qty*price });
+  });
+  return lines;
+}
+
+function collectReturnedItems(){
+  return Array.from(document.querySelectorAll('.ret-included'))
+    .filter(cb=>cb.checked)
+    .map(cb=>cb.dataset.item);
+}
+
+function getPurchaseDateStr(){
+  const y=document.getElementById('purchaseYear').value;
+  const m=document.getElementById('purchaseMonth').value;
+  const d=document.getElementById('purchaseDay').value;
+  let t='';
+  if(y)t+=`${y}年`;
+  if(m)t+=`${Number(m)}月`;
+  if(d)t+=`${Number(d)}日`;
+  return t;
+}
+
+async function saveReport(){
+  const btn=document.getElementById('saveBtn');
+  btn.disabled=true;
+  btn.textContent='保存中…';
+
+  const payload = {
+    mgmtNo: mgmtNoInput.value.trim(),
+    returnDate: document.getElementById('returnDate').value,
+    customerName: document.getElementById('customerName').value.trim(),
+    deviceNo: document.getElementById('deviceNo').value.trim(),
+    purchaseDate: getPurchaseDateStr(),
+    returnedItems: collectReturnedItems(),
+    failureContent: document.getElementById('failureContent').value.trim(),
+    repairContent: document.getElementById('repairContent').value.trim(),
+    remarks: document.getElementById('remarks').value.trim(),
+    billingLines: collectBillingLines(),
+    subtotal: currentSubtotal,
+    tax: currentTax,
+    total: currentTotal,
+    issueDate: new Date().toISOString().slice(0,10),
+    savedAt: new Date().toISOString()
+  };
+
+  try {
+    await fbSave(payload);
+    saveMgmtNoIfNeeded();
+    showBanner('✓ アーカイブに保存しました');
+  } catch(e) {
+    showBanner('⚠ 保存に失敗しました: ' + e.message, true);
+  } finally {
+    btn.disabled=false;
+    btn.textContent='💾 保存してアーカイブ';
+  }
+}
+
+function showBanner(msg, isError=false){
+  const el=document.getElementById('saveBanner');
+  el.textContent=msg;
+  el.className='save-banner' + (isError?' error':'');
+  el.style.display='block';
+  setTimeout(()=>{ el.style.display='none'; }, 3500);
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveReport);
+document.getElementById('printBtn').addEventListener('click',()=>{
   saveMgmtNoIfNeeded();
   window.print();
 });
 </script>
-
 </body>
 </html>
