@@ -2,468 +2,784 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>GOD-CLEANER 修理報告書 作成</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOD-CLEANER 修理管理システム</title>
 <style>
-  :root{
-    --ink:#1a1a1a;
-    --line:#333;
-    --line-light:#ccc;
-    --panel-bg:#f4f4f3;
-    --panel-border:#ddd;
-    --accent:#1a1a1a;
-    --success:#27ae60;
-    --danger:#c0392b;
+  :root {
+    --ink: #1a1a1a;
+    --bg: #e8e8e6;
+    --white: #ffffff;
+    --border: #ddd;
+    --line: #333;
+    --line-light: #ccc;
+    --muted: #777;
+    --success: #27ae60;
+    --danger: #c0392b;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;
-    color:var(--ink);
-    background:#e8e8e6;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;
+    color: var(--ink); background: var(--bg); min-height: 100vh;
   }
 
-  /* ---------- Toolbar ---------- */
-  .toolbar{
-    position:sticky; top:0; z-index:10;
-    background:#1a1a1a; color:#fff;
-    padding:0 20px; height:56px;
-    display:flex; align-items:center; justify-content:space-between;
-    gap:12px;
+  /* ── Screens ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ══════════════════════════════
+     TOPBAR
+  ══════════════════════════════ */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--ink); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 56px;
   }
-  .toolbar-left { display:flex; align-items:center; gap:16px; }
-  .toolbar h1{ font-size:16px; margin:0; font-weight:600; letter-spacing:.03em; }
-  .toolbar a.home-link {
-    font-size:12px; color:#aaa; text-decoration:none; letter-spacing:.05em;
-    padding:4px 8px; border:1px solid #444; border-radius:3px;
+  .topbar-brand { font-size: 17px; font-weight: 700; letter-spacing: .04em; }
+  .topbar-brand span { font-size: 11px; font-weight: 400; color: #aaa; margin-left: 10px; letter-spacing: .1em; }
+  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; font-size: 13px; font-weight: 600; font-family: inherit;
+    border: none; border-radius: 3px; cursor: pointer; transition: background .15s;
+    text-decoration: none; letter-spacing: .02em;
+  }
+  .btn-white  { background: #fff; color: var(--ink); }
+  .btn-white:hover { background: #e2e2e2; }
+  .btn-ghost  { background: transparent; color: #fff; border: 1px solid #555; }
+  .btn-ghost:hover { background: #2c2c2c; }
+  .btn-green  { background: var(--success); color: #fff; }
+  .btn-green:hover { background: #229a56; }
+  .btn-green:disabled { background: #888; cursor: not-allowed; }
+  .btn-red    { background: var(--danger); color: #fff; }
+  .btn-red:hover { background: #a93226; }
+  .btn-sm     { padding: 5px 12px; font-size: 12px; }
+
+  /* ══════════════════════════════
+     HOME SCREEN
+  ══════════════════════════════ */
+  .home-main { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
+
+  .stats-bar { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  .stat-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 4px;
+    padding: 16px 24px; min-width: 140px;
+  }
+  .stat-card .stat-num { font-size: 32px; font-weight: 700; line-height: 1; }
+  .stat-card .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: .05em; }
+
+  .search-bar {
+    background: var(--white); border: 1px solid var(--border); border-radius: 4px;
+    padding: 16px 20px; margin-bottom: 20px;
+    display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+  }
+  .search-group { display: flex; flex-direction: column; gap: 4px; }
+  .search-group label { font-size: 11px; color: var(--muted); letter-spacing: .05em; }
+  .search-group input {
+    padding: 8px 10px; font-size: 13px; border: 1px solid var(--border);
+    border-radius: 3px; font-family: inherit; min-width: 160px;
+  }
+  .search-group input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+
+  .table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .table-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 20px 10px; border-bottom: 2px solid var(--line);
+  }
+  .table-head h2 { font-size: 13px; letter-spacing: .08em; color: #555; font-weight: 600; }
+
+  table.archive-table { width: 100%; border-collapse: collapse; }
+  table.archive-table thead tr { background: #f2f2f2; border-bottom: 1px solid var(--border); }
+  table.archive-table th { padding: 10px 14px; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-align: left; white-space: nowrap; }
+  table.archive-table tbody tr { border-bottom: 1px solid #eee; transition: background .1s; }
+  table.archive-table tbody tr:hover { background: #f9f9f8; }
+  table.archive-table td { padding: 10px 14px; font-size: 13px; vertical-align: middle; }
+  .td-mgmt { font-weight: 700; font-size: 12px; color: #555; }
+  .td-customer { font-weight: 600; }
+  .td-device { font-family: monospace; font-size: 12px; }
+  .td-total { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+  .td-actions { text-align: right; white-space: nowrap; }
+
+  .empty-state { padding: 60px 20px; text-align: center; color: var(--muted); }
+  .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 50;
+    background: rgba(0,0,0,.55); align-items: flex-start; justify-content: center;
+    padding: 40px 16px; overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 4px; width: 100%; max-width: 740px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.25); animation: slideIn .2s ease;
+  }
+  @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 24px; border-bottom: 2px solid var(--line);
+  }
+  .modal-header h3 { font-size: 16px; font-weight: 700; }
+  .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: #555; line-height: 1; }
+  .modal-body { padding: 20px 24px 24px; }
+
+  .detail-meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 16px;
+  }
+  .detail-meta-k, .detail-meta-v { padding: 8px 12px; font-size: 13px; border-bottom: 1px solid #eee; }
+  .detail-meta-k { background: #f2f2f2; font-weight: 600; font-size: 12px; }
+  .detail-sec { font-size: 12px; font-weight: 700; letter-spacing: .06em; border-left: 4px solid var(--line); padding-left: 8px; margin: 14px 0 6px; }
+  .detail-box { border: 1px solid var(--border); border-radius: 3px; padding: 10px 12px; font-size: 14px; font-weight: 600; background: #fafaf9; white-space: pre-wrap; }
+  .detail-box.sm { font-size: 12px; font-weight: 400; }
+  table.detail-billing { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.detail-billing th, table.detail-billing td { border: 1px solid var(--border); padding: 6px 10px; }
+  table.detail-billing th { background: #f2f2f2; font-weight: 700; }
+  table.detail-billing td.r { text-align: right; font-variant-numeric: tabular-nums; }
+  table.detail-billing tfoot td { font-weight: 700; }
+  table.detail-billing tfoot tr.total td { background: #eee; }
+
+  /* ── Delete confirm dialog ── */
+  .confirm-dialog {
+    display: none; position: fixed; inset: 0; z-index: 60;
+    background: rgba(0,0,0,.6); align-items: center; justify-content: center;
+  }
+  .confirm-dialog.open { display: flex; }
+  .confirm-box {
+    background: #fff; border-radius: 4px; padding: 28px 32px; max-width: 360px; width: 100%;
+    box-shadow: 0 8px 40px rgba(0,0,0,.3); text-align: center;
+  }
+  .confirm-box .confirm-icon { font-size: 36px; margin-bottom: 12px; }
+  .confirm-box h4 { font-size: 16px; margin-bottom: 8px; }
+  .confirm-box p { font-size: 13px; color: #555; margin-bottom: 20px; }
+  .confirm-box .confirm-actions { display: flex; gap: 10px; justify-content: center; }
+
+  /* ══════════════════════════════
+     REPORT CREATE SCREEN
+  ══════════════════════════════ */
+  .report-toolbar {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--ink); color: #fff;
+    padding: 0 20px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .report-toolbar-left { display: flex; align-items: center; gap: 16px; }
+  .report-toolbar h1 { font-size: 16px; font-weight: 600; letter-spacing: .03em; }
+  .back-btn {
+    font-size: 12px; color: #aaa; background: none; border: 1px solid #444;
+    border-radius: 3px; padding: 5px 10px; cursor: pointer; font-family: inherit;
     transition: all .15s;
   }
-  .toolbar a.home-link:hover { color:#fff; border-color:#888; }
-  .toolbar-actions { display:flex; gap:10px; }
-  .toolbar button, .toolbar .btn{
-    background:#fff; color:#1a1a1a; border:none;
-    padding:9px 18px; font-size:14px; font-weight:600;
-    border-radius:3px; cursor:pointer; letter-spacing:.02em; font-family:inherit;
-    text-decoration:none; display:inline-flex; align-items:center; gap:6px;
-  }
-  .toolbar button:hover, .toolbar .btn:hover{ background:#e2e2e2; }
-  .toolbar .btn-save {
-    background:#27ae60; color:#fff;
-  }
-  .toolbar .btn-save:hover { background:#229a56; }
-  .toolbar .btn-save:disabled { background:#888; cursor:not-allowed; }
+  .back-btn:hover { color: #fff; border-color: #888; }
+  .report-toolbar-actions { display: flex; gap: 10px; }
 
-  /* ---------- Layout ---------- */
-  .layout{
-    display:flex; gap:20px; align-items:flex-start;
-    padding:20px; max-width:1600px; margin:0 auto;
+  .report-layout {
+    display: flex; gap: 20px; align-items: flex-start;
+    padding: 20px; max-width: 1600px; margin: 0 auto;
   }
-  .editor{
-    flex:0 0 430px;
-    background:#fff;
-    border:1px solid var(--panel-border);
-    border-radius:4px;
-    padding:20px 22px 26px;
-    max-height:calc(100vh - 76px);
-    overflow-y:auto;
+  .editor {
+    flex: 0 0 430px; background: #fff;
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 20px 22px 26px;
+    max-height: calc(100vh - 76px); overflow-y: auto;
   }
-  .editor h2{
-    font-size:13px; letter-spacing:.08em; color:#555;
-    border-bottom:2px solid var(--line);
-    padding-bottom:6px; margin:22px 0 12px;
+  .editor h2 {
+    font-size: 13px; letter-spacing: .08em; color: #555;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 6px; margin: 22px 0 12px;
   }
-  .editor h2:first-child{ margin-top:0; }
-  .field{ margin-bottom:12px; }
-  .field label{
-    display:block; font-size:12px; color:#555; margin-bottom:4px;
-  }
-  .field .hint{
-    font-size:11px; color:#999; margin-top:3px;
-  }
+  .editor h2:first-child { margin-top: 0; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 12px; color: #555; margin-bottom: 4px; }
   .field input[type=text],
   .field input[type=date],
   .field input[type=number],
-  .field textarea{
-    width:100%; padding:7px 8px; font-size:13px;
-    border:1px solid var(--line-light); border-radius:3px;
-    font-family:inherit; resize:vertical;
+  .field textarea {
+    width: 100%; padding: 7px 8px; font-size: 13px;
+    border: 1px solid var(--line-light); border-radius: 3px;
+    font-family: inherit; resize: vertical;
   }
-  .field textarea{ min-height:56px; }
-  .field select{
-    width:100%; padding:7px 8px; font-size:13px;
-    border:1px solid var(--line-light); border-radius:3px;
-    font-family:inherit; background:#fff;
+  .field textarea { min-height: 56px; }
+  .field select {
+    width: 100%; padding: 7px 8px; font-size: 13px;
+    border: 1px solid var(--line-light); border-radius: 3px;
+    font-family: inherit; background: #fff;
   }
-  table.return-check-table{
-    width:100%; border-collapse:collapse; font-size:12px;
+  table.return-check-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.return-check-table th, table.return-check-table td {
+    border: 1px solid var(--line-light); padding: 6px 8px; text-align: center;
   }
-  table.return-check-table th, table.return-check-table td{
-    border:1px solid var(--line-light); padding:6px 8px; text-align:center;
-  }
-  table.return-check-table th:first-child, table.return-check-table td:first-child{
-    text-align:left;
-  }
-  table.return-check-table input[type=checkbox]{
-    width:16px; height:16px;
-  }
-  .row2{ display:flex; gap:10px; }
-  .row2 > div{ flex:1; }
-  .row3{ display:flex; gap:6px; }
+  table.return-check-table th:first-child, table.return-check-table td:first-child { text-align: left; }
+  table.return-check-table input[type=checkbox] { width: 16px; height: 16px; }
+  .row2 { display: flex; gap: 10px; }
+  .row2 > div { flex: 1; }
+  .row3 { display: flex; gap: 6px; }
 
-  /* ---------- Billing rows ---------- */
-  .billing-card{
-    border:1px solid var(--panel-border);
-    border-radius:4px;
-    padding:10px;
-    margin-bottom:8px;
-    background:#fafafa;
+  .billing-card { border: 1px solid var(--border); border-radius: 4px; padding: 10px; margin-bottom: 8px; background: #fafafa; }
+  .billing-card .b-line1 { display: flex; gap: 6px; margin-bottom: 6px; }
+  .billing-card .b-line1 select {
+    flex: 1; min-width: 0; font-size: 12px; padding: 6px 4px;
+    border: 1px solid var(--line-light); border-radius: 3px; background: #fff;
   }
-  .billing-card .b-line1{
-    display:flex; gap:6px; margin-bottom:6px;
-  }
-  .billing-card .b-line1 select{
-    flex:1; min-width:0;
-    font-size:12px; padding:6px 4px;
-    border:1px solid var(--line-light); border-radius:3px;
-    background:#fff;
-  }
-  .billing-card .b-line2{
-    display:grid;
-    grid-template-columns: 1fr 56px 84px 88px;
-    gap:6px; align-items:center;
-  }
-  .billing-card .b-line2 input{
-    width:100%; padding:6px 6px; font-size:12px;
-    border:1px solid var(--line-light); border-radius:3px;
-  }
-  .billing-card .b-freename[disabled]{
-    background:#eee; color:#999;
-  }
-  .billing-card .b-price[readonly]{
-    background:#eee; color:#555;
-  }
-  .billing-head{
-    display:grid; grid-template-columns: 1fr 56px 84px 88px;
-    gap:6px; font-size:11px; color:#777; margin-bottom:4px;
-  }
-  .amount-readout{ text-align:right; font-size:12px; padding:6px 6px; }
+  .billing-card .b-line2 { display: grid; grid-template-columns: 1fr 56px 84px 88px; gap: 6px; align-items: center; }
+  .billing-card .b-line2 input { width: 100%; padding: 6px; font-size: 12px; border: 1px solid var(--line-light); border-radius: 3px; }
+  .billing-card .b-freename[disabled] { background: #eee; color: #999; }
+  .billing-card .b-price[readonly] { background: #eee; color: #555; }
+  .billing-head { display: grid; grid-template-columns: 1fr 56px 84px 88px; gap: 6px; font-size: 11px; color: #777; margin-bottom: 4px; }
+  .amount-readout { text-align: right; font-size: 12px; padding: 6px; }
+  .mgmt-hint { font-size: 11px; color: #888; margin-top: 4px; }
 
-  .mgmt-hint{
-    font-size:11px; color:#888; margin-top:4px;
+  /* ── A4 Preview ── */
+  .preview-wrap { flex: 1; display: flex; justify-content: center; }
+  .page {
+    width: 210mm; min-height: 297mm; background: #fff;
+    box-shadow: 0 0 0 1px #ccc, 0 4px 18px rgba(0,0,0,.12);
+    padding: 16mm 16mm 14mm; font-size: 11.5px; line-height: 1.6;
   }
+  .doc-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 3px solid var(--line); padding-bottom: 8px; margin-bottom: 14px;
+  }
+  .doc-header .brand { font-size: 20px; font-weight: 700; letter-spacing: .04em; }
+  .doc-header .brand span { display: block; font-size: 11px; font-weight: 400; letter-spacing: .1em; color: #555; margin-top: 2px; }
+  .doc-header .doc-title { font-size: 22px; font-weight: 700; letter-spacing: .15em; }
+  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  .meta-table td { border: 1px solid var(--line); padding: 6px 8px; vertical-align: top; }
+  .meta-table td.k { width: 26%; background: #f2f2f2; font-weight: 600; white-space: nowrap; }
+  .section-title { font-size: 12px; font-weight: 700; letter-spacing: .05em; border-left: 5px solid var(--line); padding-left: 8px; margin: 16px 0 6px; }
+  .section-title.compact { margin: 10px 0 4px; }
+  .block-box { border: 1px solid var(--line); padding: 4px 8px; min-height: 18px; white-space: pre-wrap; margin-bottom: 2px; font-size: 10.5px; }
+  .block-box-lg { border: 1px solid var(--line); padding: 14px 16px; min-height: 44px; white-space: pre-wrap; margin-bottom: 4px; font-size: 18px; line-height: 1.8; font-weight: 600; }
+  table.billing { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  table.billing th, table.billing td { border: 1px solid var(--line); padding: 6px 8px; }
+  table.billing th { background: #f2f2f2; font-size: 11px; font-weight: 700; text-align: left; }
+  table.billing td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.billing tfoot td { font-weight: 700; }
+  table.billing tfoot tr.total td { font-size: 13px; background: #eee; }
+  table.billing.compact th, table.billing.compact td { padding: 3px 7px; font-size: 10px; }
+  table.billing.compact tfoot tr.total td { font-size: 11px; }
+  .footer-note { margin-top: 18px; padding-top: 8px; border-top: 1px solid var(--line-light); font-size: 10.5px; color: #444; text-align: center; }
 
-  .preview-wrap{
-    flex:1;
-    display:flex; justify-content:center;
+  /* ── Toast ── */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; z-index: 100;
+    background: var(--ink); color: #fff;
+    padding: 12px 20px; border-radius: 3px; font-size: 13px;
+    opacity: 0; transform: translateY(10px);
+    transition: all .2s; pointer-events: none;
   }
+  .toast.show { opacity: 1; transform: none; }
+  .toast.success { background: var(--success); }
+  .toast.error { background: var(--danger); }
 
-  /* ---------- A4 Preview ---------- */
-  .page{
-    width:210mm;
-    min-height:297mm;
-    background:#fff;
-    box-shadow:0 0 0 1px #ccc, 0 4px 18px rgba(0,0,0,.12);
-    padding:16mm 16mm 14mm;
-    font-size:11.5px;
-    line-height:1.6;
-  }
-  .doc-header{
-    display:flex; justify-content:space-between; align-items:flex-end;
-    border-bottom:3px solid var(--line);
-    padding-bottom:8px; margin-bottom:14px;
-  }
-  .doc-header .brand{
-    font-size:20px; font-weight:700; letter-spacing:.04em;
-  }
-  .doc-header .brand span{
-    display:block; font-size:11px; font-weight:400; letter-spacing:.1em; color:#555; margin-top:2px;
-  }
-  .doc-header .doc-title{
-    font-size:22px; font-weight:700; letter-spacing:.15em;
-  }
-
-  .meta-table{
-    width:100%; border-collapse:collapse; margin-bottom:16px;
-  }
-  .meta-table td{
-    border:1px solid var(--line); padding:6px 8px; vertical-align:top;
-  }
-  .meta-table td.k{
-    width:26%; background:#f2f2f2; font-weight:600; white-space:nowrap;
-  }
-
-  .section-title{
-    font-size:12px; font-weight:700; letter-spacing:.05em;
-    border-left:5px solid var(--line);
-    padding-left:8px; margin:16px 0 6px;
-  }
-  .section-title.compact{ margin:10px 0 4px; }
-
-  .block-box{
-    border:1px solid var(--line); padding:4px 8px; min-height:18px;
-    white-space:pre-wrap; margin-bottom:2px; font-size:10.5px;
-  }
-  .block-box-lg{
-    border:1px solid var(--line); padding:14px 16px; min-height:44px;
-    white-space:pre-wrap; margin-bottom:4px;
-    font-size:18px; line-height:1.8; font-weight:600;
-  }
-
-  table.billing{
-    width:100%; border-collapse:collapse; margin-top:6px;
-  }
-  table.billing th, table.billing td{
-    border:1px solid var(--line); padding:6px 8px;
-  }
-  table.billing th{
-    background:#f2f2f2; font-size:11px; font-weight:700; text-align:left;
-  }
-  table.billing td.num{ text-align:right; font-variant-numeric:tabular-nums; }
-  table.billing tfoot td{ font-weight:700; }
-  table.billing tfoot tr.total td{ font-size:13px; background:#eee; }
-
-  table.billing.compact th, table.billing.compact td{
-    padding:3px 7px; font-size:10px;
-  }
-  table.billing.compact tfoot tr.total td{ font-size:11px; }
-
-  .footer-note{
-    margin-top:18px; padding-top:8px; border-top:1px solid var(--line-light);
-    font-size:10.5px; color:#444; text-align:center;
-  }
-
-  /* ---------- Save Banner ---------- */
-  .save-banner {
-    display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-    background: var(--success); color:#fff;
-    padding:12px 28px; border-radius:3px; font-size:14px; font-weight:600;
-    box-shadow:0 4px 16px rgba(0,0,0,.2); z-index:50;
-    animation: fadeUp .3s ease;
-  }
-  .save-banner.error { background: var(--danger); }
-  @keyframes fadeUp { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%); } }
-
-  /* ---------- Print ---------- */
-  @page{ size:A4; margin:0; }
-  @media print{
-    body{ background:#fff; }
-    .toolbar, .editor{ display:none !important; }
-    .layout{ padding:0; max-width:none; }
-    .preview-wrap{ display:block; }
-    .page{
-      box-shadow:none; width:210mm; min-height:297mm;
-      margin:0; padding:16mm 16mm 14mm;
-    }
+  /* ── Print ── */
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { background: #fff; }
+    .report-toolbar { display: none !important; }
+    .report-layout { padding: 0; max-width: none; }
+    .editor { display: none !important; }
+    .preview-wrap { display: block; }
+    .page { box-shadow: none; width: 210mm; min-height: 297mm; margin: 0; padding: 16mm 16mm 14mm; }
   }
 </style>
 </head>
 <body>
 
-<div class="toolbar">
-  <div class="toolbar-left">
-    <a class="home-link" href="index.html">← 一覧へ戻る</a>
-    <h1>修理報告書 作成</h1>
+<!-- ══════════════════════════════
+     HOME SCREEN
+══════════════════════════════ -->
+<div id="screenHome" class="screen active">
+
+  <div class="topbar">
+    <div class="topbar-brand">GOD-CLEANER <span>修理管理システム</span></div>
+    <div class="topbar-actions">
+      <button class="btn btn-white" onclick="showScreen('report')">＋ 新規報告書作成</button>
+    </div>
   </div>
-  <div class="toolbar-actions">
-    <button class="btn-save" id="saveBtn">💾 保存してアーカイブ</button>
-    <button id="printBtn">印刷</button>
+
+  <div class="home-main">
+    <div class="stats-bar">
+      <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">総報告書数</div></div>
+      <div class="stat-card"><div class="stat-num" id="statMonth">—</div><div class="stat-label">今月の件数</div></div>
+      <div class="stat-card"><div class="stat-num" id="statRevenue">—</div><div class="stat-label">今月の売上合計</div></div>
+    </div>
+
+    <div class="search-bar">
+      <div class="search-group">
+        <label>お客様名</label>
+        <input type="text" id="searchCustomer" placeholder="例）山田">
+      </div>
+      <div class="search-group">
+        <label>機器No.</label>
+        <input type="text" id="searchDevice" placeholder="例）G0001">
+      </div>
+      <div class="search-group">
+        <label>管理No.</label>
+        <input type="text" id="searchMgmt" placeholder="例）001">
+      </div>
+      <div class="search-group">
+        <label>返却日（から）</label>
+        <input type="date" id="searchDateFrom">
+      </div>
+      <div class="search-group">
+        <label>返却日（まで）</label>
+        <input type="date" id="searchDateTo">
+      </div>
+      <button class="btn btn-white" id="btnSearch">検索</button>
+      <button class="btn btn-ghost" id="btnReset">リセット</button>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-head">
+        <h2>アーカイブ一覧</h2>
+        <span id="resultCount" style="font-size:12px;color:var(--muted)"></span>
+      </div>
+      <div id="tableBody">
+        <div class="empty-state"><div class="empty-icon">📋</div><p>読み込み中…</p></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="layout">
+<!-- ══════════════════════════════
+     REPORT CREATE SCREEN
+══════════════════════════════ -->
+<div id="screenReport" class="screen">
 
-  <!-- ============ 入力フォーム ============ -->
-  <div class="editor">
+  <div class="report-toolbar">
+    <div class="report-toolbar-left">
+      <button class="back-btn" onclick="showScreen('home')">← 一覧へ戻る</button>
+      <h1>修理報告書 作成</h1>
+    </div>
+    <div class="report-toolbar-actions">
+      <button class="btn btn-green" id="saveBtn">💾 保存してアーカイブ</button>
+      <button class="btn btn-white" id="printBtn">印刷</button>
+    </div>
+  </div>
 
-    <h2>基本情報</h2>
-    <div class="row2">
-      <div class="field">
-        <label>管理番号</label>
-        <input type="text" id="mgmtNo" placeholder="例）001">
-        <div class="mgmt-hint"></div>
-      </div>
-      <div class="field">
-        <label>ご返却日</label>
-        <input type="date" id="returnDate">
-      </div>
-    </div>
-    <div class="field">
-      <label>お客様名</label>
-      <input type="text" id="customerName" placeholder="例）山田 太郎 様">
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>機器購入日</label>
-        <div class="row3">
-          <input type="number" id="purchaseYear" placeholder="年" min="1900" max="2100" step="1">
-          <select id="purchaseMonth">
-            <option value="">月</option>
-            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
-            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
-            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
-            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
-          </select>
-          <select id="purchaseDay">
-            <option value="">日</option>
-            <script>for(let d=1;d<=31;d++)document.write(`<option value="${d}">${d}日</option>`);</script>
-          </select>
+  <div class="report-layout">
+    <div class="editor">
+
+      <h2>基本情報</h2>
+      <div class="row2">
+        <div class="field">
+          <label>管理番号</label>
+          <input type="text" id="mgmtNo" placeholder="例）001">
+          <div class="mgmt-hint"></div>
+        </div>
+        <div class="field">
+          <label>ご返却日</label>
+          <input type="date" id="returnDate">
         </div>
       </div>
       <div class="field">
-        <label>機器No.</label>
-        <input type="text" id="deviceNo" placeholder="例）G0001">
+        <label>お客様名</label>
+        <input type="text" id="customerName" placeholder="例）山田 太郎 様">
       </div>
-    </div>
-
-    <h2>返却品（チェック項目）</h2>
-    <div class="field">
-      <table class="return-check-table" id="returnCheckTable">
-        <thead>
-          <tr><th>項目</th><th>同梱</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>GC本体</td><td><input type="checkbox" class="ret-included" data-item="GC本体"></td></tr>
-          <tr><td>ACコード</td><td><input type="checkbox" class="ret-included" data-item="ACコード"></td></tr>
-          <tr><td>カートリッジ</td><td><input type="checkbox" class="ret-included" data-item="カートリッジ"></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2>故障・修理内容</h2>
-    <div class="field">
-      <label>故障内容</label>
-      <select id="failureContentSel">
-        <option value="">選択してください</option>
-        <option value="ピン折れ">ピン折れ</option>
-        <option value="色出ない">色出ない</option>
-        <option value="P3エラー">P3エラー</option>
-        <option value="P2エラー">P2エラー</option>
-        <option value="0％エラー">0％エラー</option>
-        <option value="__other__">その他</option>
-      </select>
-      <textarea id="failureContent" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px;" disabled></textarea>
-    </div>
-    <div class="field">
-      <label>修理内容</label>
-      <select id="repairContentSel">
-        <option value="">選択してください</option>
-        <option value="ピン挿入部交換">ピン挿入部交換</option>
-        <option value="本体基盤交換">本体基盤交換</option>
-        <option value="カートリッジ同等品交換">カートリッジ同等品交換</option>
-        <option value="3Aヒューズ交換">3Aヒューズ交換</option>
-        <option value="__other__">その他</option>
-      </select>
-      <textarea id="repairContent" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px;" disabled></textarea>
-    </div>
-    <div class="field">
-      <label>備考</label>
-      <select id="remarksSel">
-        <option value="">選択してください</option>
-        <option value="再修理のため無償修理とさせていただきます。">再修理のため無償修理とさせていただきます。</option>
-        <option value="保証期間内のため無償修理とさせていただきます。">保証期間内のため無償修理とさせていただきます。</option>
-        <option value="__other__">その他</option>
-      </select>
-      <textarea id="remarks" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px;" disabled></textarea>
-    </div>
-
-    <h2>修理費用ご請求明細</h2>
-    <div class="billing-head">
-      <div>項目名（その他時）</div><div>数量</div><div>単価(円)</div><div>金額(円)</div>
-    </div>
-    <div id="billingRows"></div>
-
-  </div>
-
-  <!-- ============ プレビュー ============ -->
-  <div class="preview-wrap">
-    <div class="page" id="printArea">
-
-      <div class="doc-header">
-        <div class="brand">GOD-CLEANER<span>株式会社マインドフィットネス</span></div>
-        <div class="doc-title">修理報告書</div>
+      <div class="row2">
+        <div class="field">
+          <label>機器購入日</label>
+          <div class="row3">
+            <input type="number" id="purchaseYear" placeholder="年" min="1900" max="2100" step="1" style="width:64px">
+            <select id="purchaseMonth">
+              <option value="">月</option>
+              <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+              <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+              <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+              <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            </select>
+            <select id="purchaseDay">
+              <option value="">日</option>
+              <script>for(let d=1;d<=31;d++)document.write(`<option value="${d}">${d}日</option>`);</script>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>機器No.</label>
+          <input type="text" id="deviceNo" placeholder="例）G0001">
+        </div>
       </div>
 
-      <table class="meta-table">
-        <tr>
-          <td class="k">管理No.</td><td id="p_mgmtNo">&nbsp;</td>
-          <td class="k">ご返却日</td><td id="p_returnDate">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="k">お客様名</td><td id="p_customerName">&nbsp;</td>
-          <td class="k">機器No.</td><td id="p_deviceNo">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="k">機器購入日</td><td id="p_purchaseDate">&nbsp;</td>
-          <td class="k">発行日</td><td id="p_issueDate">&nbsp;</td>
-        </tr>
-      </table>
+      <h2>返却品（チェック項目）</h2>
+      <div class="field">
+        <table class="return-check-table">
+          <thead><tr><th>項目</th><th>同梱</th></tr></thead>
+          <tbody>
+            <tr><td>GC本体</td><td><input type="checkbox" class="ret-included" data-item="GC本体"></td></tr>
+            <tr><td>ACコード</td><td><input type="checkbox" class="ret-included" data-item="ACコード"></td></tr>
+            <tr><td>カートリッジ</td><td><input type="checkbox" class="ret-included" data-item="カートリッジ"></td></tr>
+          </tbody>
+        </table>
+      </div>
 
-      <div class="section-title compact">返却品</div>
-      <table class="billing compact return-grid">
-        <thead>
+      <h2>故障・修理内容</h2>
+      <div class="field">
+        <label>故障内容</label>
+        <select id="failureContentSel">
+          <option value="">選択してください</option>
+          <option value="ピン折れ">ピン折れ</option>
+          <option value="色出ない">色出ない</option>
+          <option value="P3エラー">P3エラー</option>
+          <option value="P2エラー">P2エラー</option>
+          <option value="0％エラー">0％エラー</option>
+          <option value="__other__">その他</option>
+        </select>
+        <textarea id="failureContent" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px" disabled></textarea>
+      </div>
+      <div class="field">
+        <label>修理内容</label>
+        <select id="repairContentSel">
+          <option value="">選択してください</option>
+          <option value="ピン挿入部交換">ピン挿入部交換</option>
+          <option value="本体基盤交換">本体基盤交換</option>
+          <option value="カートリッジ同等品交換">カートリッジ同等品交換</option>
+          <option value="3Aヒューズ交換">3Aヒューズ交換</option>
+          <option value="__other__">その他</option>
+        </select>
+        <textarea id="repairContent" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px" disabled></textarea>
+      </div>
+      <div class="field">
+        <label>備考</label>
+        <select id="remarksSel">
+          <option value="">選択してください</option>
+          <option value="再修理のため無償修理とさせていただきます。">再修理のため無償修理とさせていただきます。</option>
+          <option value="保証期間内のため無償修理とさせていただきます。">保証期間内のため無償修理とさせていただきます。</option>
+          <option value="__other__">その他</option>
+        </select>
+        <textarea id="remarks" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px" disabled></textarea>
+      </div>
+
+      <h2>修理費用ご請求明細</h2>
+      <div class="billing-head">
+        <div>項目名（その他時）</div><div>数量</div><div>単価(円)</div><div>金額(円)</div>
+      </div>
+      <div id="billingRows"></div>
+
+    </div><!-- /editor -->
+
+    <div class="preview-wrap">
+      <div class="page" id="printArea">
+        <div class="doc-header">
+          <div class="brand">GOD-CLEANER<span>株式会社マインドフィットネス</span></div>
+          <div class="doc-title">修理報告書</div>
+        </div>
+        <table class="meta-table">
           <tr>
-            <th style="width:33%">GC本体</th>
-            <th style="width:33%">ACコード</th>
-            <th style="width:34%">カートリッジ</th>
+            <td class="k">管理No.</td><td id="p_mgmtNo">&nbsp;</td>
+            <td class="k">ご返却日</td><td id="p_returnDate">&nbsp;</td>
           </tr>
-        </thead>
-        <tbody>
           <tr>
-            <td class="num p-ret-included" data-item="GC本体">□</td>
-            <td class="num p-ret-included" data-item="ACコード">□</td>
-            <td class="num p-ret-included" data-item="カートリッジ">□</td>
+            <td class="k">お客様名</td><td id="p_customerName">&nbsp;</td>
+            <td class="k">機器No.</td><td id="p_deviceNo">&nbsp;</td>
           </tr>
-        </tbody>
-      </table>
-
-      <div class="section-title">故障内容</div>
-      <div class="block-box-lg" id="p_failureContent">&nbsp;</div>
-
-      <div class="section-title">修理内容</div>
-      <div class="block-box-lg" id="p_repairContent">&nbsp;</div>
-
-      <div class="section-title">備考</div>
-      <div class="block-box" id="p_remarks">&nbsp;</div>
-
-      <div class="section-title compact">修理費用ご請求明細</div>
-      <table class="billing">
-        <thead>
-          <tr><th style="width:46%">項目</th><th style="width:14%">数量</th><th style="width:20%">単価</th><th style="width:20%">金額</th></tr>
-        </thead>
-        <tbody id="p_billingBody"></tbody>
-        <tfoot>
-          <tr><td colspan="3">小計</td><td class="num" id="p_subtotal">¥0</td></tr>
-          <tr><td colspan="3">消費税（10％）</td><td class="num" id="p_tax">¥0</td></tr>
-          <tr class="total"><td colspan="3">総合計金額</td><td class="num" id="p_total">¥0</td></tr>
-        </tfoot>
-      </table>
-
-      <div class="footer-note" id="p_companyAddress">&nbsp;</div>
-
+          <tr>
+            <td class="k">機器購入日</td><td id="p_purchaseDate">&nbsp;</td>
+            <td class="k">発行日</td><td id="p_issueDate">&nbsp;</td>
+          </tr>
+        </table>
+        <div class="section-title compact">返却品</div>
+        <table class="billing compact">
+          <thead>
+            <tr>
+              <th style="width:33%">GC本体</th>
+              <th style="width:33%">ACコード</th>
+              <th style="width:34%">カートリッジ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num p-ret-included" data-item="GC本体">□</td>
+              <td class="num p-ret-included" data-item="ACコード">□</td>
+              <td class="num p-ret-included" data-item="カートリッジ">□</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="section-title">故障内容</div>
+        <div class="block-box-lg" id="p_failureContent">&nbsp;</div>
+        <div class="section-title">修理内容</div>
+        <div class="block-box-lg" id="p_repairContent">&nbsp;</div>
+        <div class="section-title">備考</div>
+        <div class="block-box" id="p_remarks">&nbsp;</div>
+        <div class="section-title compact">修理費用ご請求明細</div>
+        <table class="billing">
+          <thead>
+            <tr><th style="width:46%">項目</th><th style="width:14%">数量</th><th style="width:20%">単価</th><th style="width:20%">金額</th></tr>
+          </thead>
+          <tbody id="p_billingBody"></tbody>
+          <tfoot>
+            <tr><td colspan="3">小計</td><td class="num" id="p_subtotal">¥0</td></tr>
+            <tr><td colspan="3">消費税（10％）</td><td class="num" id="p_tax">¥0</td></tr>
+            <tr class="total"><td colspan="3">総合計金額</td><td class="num" id="p_total">¥0</td></tr>
+          </tfoot>
+        </table>
+        <div class="footer-note" id="p_companyAddress"></div>
+      </div>
     </div>
   </div>
-
 </div>
 
-<div class="save-banner" id="saveBanner"></div>
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">修理報告書 詳細</h3>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Delete Confirm Dialog -->
+<div class="confirm-dialog" id="confirmDialog">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <h4>報告書を削除しますか？</h4>
+    <p>この操作は取り消すことができません。</p>
+    <div class="confirm-actions">
+      <button class="btn btn-red" id="confirmYes">削除する</button>
+      <button class="btn btn-white" id="confirmNo" style="border:1px solid #ccc">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-/* ===================== Firebase ===================== */
+/* ══════════════════════════════
+   Firebase
+══════════════════════════════ */
 const DB_URL = 'https://trade-analysis-1474d-default-rtdb.asia-southeast1.firebasedatabase.app/repairReports';
 
-async function fbSave(data){
-  const r = await fetch(`${DB_URL}.json`, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(data)
-  });
-  if(!r.ok) throw new Error('Firebase save error: ' + r.status);
+async function fbGetAll() {
+  const r = await fetch(`${DB_URL}.json`);
+  if (!r.ok) throw new Error('読み込み失敗: ' + r.status);
   return r.json();
 }
+async function fbPost(data) {
+  const r = await fetch(`${DB_URL}.json`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error('保存失敗: ' + r.status);
+  return r.json();
+}
+async function fbDelete(id) {
+  const r = await fetch(`${DB_URL}/${id}.json`, { method: 'DELETE' });
+  if (!r.ok) throw new Error('削除失敗: ' + r.status);
+}
 
-/* ===================== 弊社情報 ===================== */
+/* ══════════════════════════════
+   Screen switching
+══════════════════════════════ */
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+  if (name === 'home') loadAll();
+  if (name === 'report') resetReportForm();
+  window.scrollTo(0, 0);
+}
+
+/* ══════════════════════════════
+   Helpers
+══════════════════════════════ */
+function yen(n) {
+  const sign = n < 0 ? '-' : '';
+  return sign + '¥' + Math.abs(Math.round(n)).toLocaleString('ja-JP');
+}
+function fmtDate(v) {
+  if (!v) return '';
+  const [y, m, d] = v.split('-');
+  if (!y || !m || !d) return v;
+  return `${y}年${Number(m)}月${Number(d)}日`;
+}
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => { el.className = 'toast'; }, 3200);
+}
+
+/* ══════════════════════════════
+   HOME — load & render
+══════════════════════════════ */
+let allRecords = [];
+
+async function loadAll() {
+  document.getElementById('tableBody').innerHTML =
+    '<div class="empty-state"><div class="empty-icon">📋</div><p>読み込み中…</p></div>';
+  try {
+    const data = await fbGetAll();
+    allRecords = data
+      ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
+      : [];
+    allRecords.sort((a, b) => (b.data.returnDate || '').localeCompare(a.data.returnDate || ''));
+    updateStats(allRecords);
+    renderTable(allRecords);
+  } catch (e) {
+    document.getElementById('tableBody').innerHTML =
+      `<div class="empty-state"><p style="color:var(--danger)">読み込みに失敗しました: ${e.message}</p></div>`;
+  }
+}
+
+function updateStats(records) {
+  const now = new Date();
+  const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const thisMonth = records.filter(r => (r.data.returnDate || '').startsWith(ym));
+  const rev = thisMonth.reduce((s, r) => s + (r.data.total || 0), 0);
+  document.getElementById('statTotal').textContent = records.length;
+  document.getElementById('statMonth').textContent = thisMonth.length;
+  document.getElementById('statRevenue').textContent = rev ? yen(rev) : '¥0';
+}
+
+function renderTable(records) {
+  document.getElementById('resultCount').textContent = `${records.length}件`;
+  if (!records.length) {
+    document.getElementById('tableBody').innerHTML =
+      '<div class="empty-state"><div class="empty-icon">🔍</div><p>該当する報告書が見つかりませんでした。</p></div>';
+    return;
+  }
+  const rows = records.map(r => {
+    const d = r.data;
+    return `<tr>
+      <td class="td-mgmt">${esc(d.mgmtNo || '—')}</td>
+      <td class="td-customer">${esc(d.customerName || '—')}</td>
+      <td class="td-device">${esc(d.deviceNo || '—')}</td>
+      <td>${esc(fmtDate(d.returnDate || ''))}</td>
+      <td>${esc(d.failureContent || '—')}</td>
+      <td class="td-total">${d.total != null ? yen(d.total) : '—'}</td>
+      <td class="td-actions">
+        <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
+          onclick="openDetail('${r.id}')">詳細</button>
+        <button class="btn btn-sm btn-red"
+          onclick="askDelete('${r.id}')">削除</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tableBody').innerHTML = `
+    <table class="archive-table">
+      <thead><tr>
+        <th>管理No.</th><th>お客様名</th><th>機器No.</th>
+        <th>返却日</th><th>故障内容</th>
+        <th style="text-align:right">合計金額</th><th></th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+/* Search */
+function doSearch() {
+  const qc = document.getElementById('searchCustomer').value.trim().toLowerCase();
+  const qd = document.getElementById('searchDevice').value.trim().toLowerCase();
+  const qm = document.getElementById('searchMgmt').value.trim().toLowerCase();
+  const qf = document.getElementById('searchDateFrom').value;
+  const qt = document.getElementById('searchDateTo').value;
+  const filtered = allRecords.filter(r => {
+    const d = r.data;
+    if (qc && !(d.customerName || '').toLowerCase().includes(qc)) return false;
+    if (qd && !(d.deviceNo || '').toLowerCase().includes(qd)) return false;
+    if (qm && !(d.mgmtNo || '').toLowerCase().includes(qm)) return false;
+    if (qf && (d.returnDate || '') < qf) return false;
+    if (qt && (d.returnDate || '') > qt) return false;
+    return true;
+  });
+  renderTable(filtered);
+}
+document.getElementById('btnSearch').addEventListener('click', doSearch);
+document.getElementById('btnReset').addEventListener('click', () => {
+  ['searchCustomer','searchDevice','searchMgmt','searchDateFrom','searchDateTo']
+    .forEach(id => document.getElementById(id).value = '');
+  renderTable(allRecords);
+});
+['searchCustomer','searchDevice','searchMgmt'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+});
+
+/* Detail modal */
+function openDetail(id) {
+  const rec = allRecords.find(r => r.id === id);
+  if (!rec) return;
+  const d = rec.data;
+  document.getElementById('modalTitle').textContent = `修理報告書 #${d.mgmtNo || id}`;
+  const returnedItems = (d.returnedItems || []).filter(Boolean).join('・') || '—';
+  const bRows = (d.billingLines || []).filter(b => b && b.name).map(b =>
+    `<tr><td>${esc(b.name)}</td><td class="r">${b.qty}</td><td class="r">${yen(b.price)}</td><td class="r">${yen(b.amount)}</td></tr>`
+  ).join('');
+  document.getElementById('modalBody').innerHTML = `
+    <div class="detail-meta">
+      <div class="detail-meta-k">管理No.</div><div class="detail-meta-v">${esc(d.mgmtNo||'—')}</div>
+      <div class="detail-meta-k">返却日</div><div class="detail-meta-v">${fmtDate(d.returnDate||'')}</div>
+      <div class="detail-meta-k">お客様名</div><div class="detail-meta-v">${esc(d.customerName||'—')}</div>
+      <div class="detail-meta-k">機器No.</div><div class="detail-meta-v">${esc(d.deviceNo||'—')}</div>
+      <div class="detail-meta-k">機器購入日</div><div class="detail-meta-v">${esc(d.purchaseDate||'—')}</div>
+      <div class="detail-meta-k">返却品</div><div class="detail-meta-v">${esc(returnedItems)}</div>
+    </div>
+    <div class="detail-sec">故障内容</div>
+    <div class="detail-box">${esc(d.failureContent||'—')}</div>
+    <div class="detail-sec">修理内容</div>
+    <div class="detail-box">${esc(d.repairContent||'—')}</div>
+    <div class="detail-sec">備考</div>
+    <div class="detail-box sm">${esc(d.remarks||'—')}</div>
+    <div class="detail-sec">請求明細</div>
+    <table class="detail-billing">
+      <thead><tr><th>項目</th><th>数量</th><th>単価</th><th>金額</th></tr></thead>
+      <tbody>${bRows || '<tr><td colspan="4" style="text-align:center;color:#aaa">なし</td></tr>'}</tbody>
+      <tfoot>
+        <tr><td colspan="3">小計</td><td class="r">${yen(d.subtotal||0)}</td></tr>
+        <tr><td colspan="3">消費税（10%）</td><td class="r">${yen(d.tax||0)}</td></tr>
+        <tr class="total"><td colspan="3">総合計</td><td class="r">${yen(d.total||0)}</td></tr>
+      </tfoot>
+    </table>
+    <div style="margin-top:14px;text-align:right">
+      <button class="btn btn-red btn-sm" onclick="closeModal();askDelete('${id}')">この報告書を削除</button>
+    </div>`;
+  document.getElementById('detailModal').classList.add('open');
+}
+function closeModal() { document.getElementById('detailModal').classList.remove('open'); }
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('detailModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('detailModal')) closeModal();
+});
+
+/* Delete with confirm dialog */
+let pendingDeleteId = null;
+function askDelete(id) {
+  pendingDeleteId = id;
+  document.getElementById('confirmDialog').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', async () => {
+  document.getElementById('confirmDialog').classList.remove('open');
+  if (!pendingDeleteId) return;
+  try {
+    await fbDelete(pendingDeleteId);
+    allRecords = allRecords.filter(r => r.id !== pendingDeleteId);
+    pendingDeleteId = null;
+    closeModal();
+    updateStats(allRecords);
+    renderTable(allRecords);
+    toast('報告書を削除しました', 'success');
+  } catch (e) {
+    toast('削除に失敗しました: ' + e.message, 'error');
+  }
+});
+document.getElementById('confirmNo').addEventListener('click', () => {
+  document.getElementById('confirmDialog').classList.remove('open');
+  pendingDeleteId = null;
+});
+
+/* ══════════════════════════════
+   REPORT FORM
+══════════════════════════════ */
 const COMPANY_ADDRESS = `〒541-0042 大阪市中央区今橋1-7-19 北浜BLD 11F\n㈱マインドフィットネス\nTEL:06-6202-5401`;
 document.getElementById('p_companyAddress').textContent = COMPANY_ADDRESS;
 
-/* ===================== 費用項目マスタ ===================== */
 const CATEGORY_DATA = {
   "交換部品代": [
     { label:"ピン挿入部", price:3000 },{ label:"基盤", price:15000 },
@@ -480,9 +796,7 @@ const CATEGORY_DATA = {
     { label:"北陸・中部・関西・中国・四国", price:1590 },
     { label:"その他", price:null }
   ],
-  "送料（受）": [
-    { label:"その他（自由入力）", price:null }
-  ],
+  "送料（受）": [{ label:"その他（自由入力）", price:null }],
   "特別割引": [
     { label:"2年以内", price:-5000 },{ label:"2年越え", price:-3000 },
     { label:"その他", price:null }
@@ -490,321 +804,295 @@ const CATEGORY_DATA = {
 };
 const CATEGORY_NAMES = Object.keys(CATEGORY_DATA);
 const BILLING_ROWS = 7;
-const billingRowsEl = document.getElementById('billingRows');
-const pBillingBody = document.getElementById('p_billingBody');
 
-function buildCatOptionsHTML(){
+function buildCatHTML() {
   return '<option value="">項目を選択</option>' +
-    CATEGORY_NAMES.map(n=>`<option value="${n}">${n}</option>`).join('');
+    CATEGORY_NAMES.map(n => `<option value="${n}">${n}</option>`).join('');
 }
-function buildSubOptionsHTML(catName){
-  if(!catName||!CATEGORY_DATA[catName]) return '<option value="">-</option>';
-  return CATEGORY_DATA[catName].map((item,idx)=>
-    `<option value="${idx}">${item.label}${item.price!==null?'（'+yen(item.price)+'）':''}</option>`
+function buildSubHTML(cat) {
+  if (!cat || !CATEGORY_DATA[cat]) return '<option value="">-</option>';
+  return CATEGORY_DATA[cat].map((item, i) =>
+    `<option value="${i}">${item.label}${item.price !== null ? '（' + yen(item.price) + '）' : ''}</option>`
   ).join('');
 }
 
-for(let i=0;i<BILLING_ROWS;i++){
-  const card = document.createElement('div');
-  card.className = 'billing-card';
-  card.innerHTML = `
-    <div class="b-line1">
-      <select class="b-cat">${buildCatOptionsHTML()}</select>
-      <select class="b-sub" disabled><option value="">-</option></select>
-    </div>
-    <div class="b-line2">
-      <input type="text" class="b-freename" placeholder="項目名（その他選択時のみ入力可）" disabled>
-      <input type="number" class="b-qty" value="1" min="0">
-      <input type="number" class="b-price" value="0" min="0" step="1" readonly>
-      <input type="text" class="amount-readout b-amount" value="¥0" readonly>
-    </div>`;
-  billingRowsEl.appendChild(card);
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td class="p-b-name">&nbsp;</td><td class="num p-b-qty"></td><td class="num p-b-price"></td><td class="num p-b-amount">¥0</td>`;
-  pBillingBody.appendChild(tr);
+const billingRowsEl = document.getElementById('billingRows');
+const pBillingBody = document.getElementById('p_billingBody');
+
+function buildBillingRows() {
+  billingRowsEl.innerHTML = '';
+  pBillingBody.innerHTML = '';
+  for (let i = 0; i < BILLING_ROWS; i++) {
+    const card = document.createElement('div');
+    card.className = 'billing-card';
+    card.innerHTML = `
+      <div class="b-line1">
+        <select class="b-cat">${buildCatHTML()}</select>
+        <select class="b-sub" disabled><option value="">-</option></select>
+      </div>
+      <div class="b-line2">
+        <input type="text" class="b-freename" placeholder="項目名（その他選択時のみ入力可）" disabled>
+        <input type="number" class="b-qty" value="1" min="0">
+        <input type="number" class="b-price" value="0" min="0" step="1" readonly>
+        <input type="text" class="amount-readout b-amount" value="¥0" readonly>
+      </div>`;
+    billingRowsEl.appendChild(card);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="p-b-name">&nbsp;</td><td class="num p-b-qty"></td><td class="num p-b-price"></td><td class="num p-b-amount"></td>`;
+    pBillingBody.appendChild(tr);
+
+    const catSel = card.querySelector('.b-cat');
+    const subSel = card.querySelector('.b-sub');
+    const freeName = card.querySelector('.b-freename');
+    const priceInput = card.querySelector('.b-price');
+    const qtyInput = card.querySelector('.b-qty');
+
+    catSel.addEventListener('change', () => {
+      subSel.disabled = !catSel.value;
+      subSel.innerHTML = buildSubHTML(catSel.value);
+      subSel.dispatchEvent(new Event('change'));
+    });
+    subSel.addEventListener('change', () => {
+      const item = catSel.value && subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
+      if (item && item.price !== null) {
+        priceInput.value = item.price; priceInput.readOnly = true;
+        freeName.disabled = true; freeName.value = '';
+      } else if (item && item.price === null) {
+        priceInput.readOnly = false; freeName.disabled = false;
+        freeName.placeholder = '項目名を入力してください';
+      } else {
+        priceInput.value = 0; priceInput.readOnly = true;
+        freeName.disabled = true; freeName.value = '';
+      }
+      recalcBilling();
+    });
+    [freeName, priceInput, qtyInput].forEach(el => el.addEventListener('input', recalcBilling));
+  }
+}
+buildBillingRows();
+
+let currentSubtotal = 0, currentTax = 0, currentTotal = 0;
+
+function recalcBilling() {
+  const pRows = pBillingBody.querySelectorAll('tr');
+  let subtotal = 0;
+  billingRowsEl.querySelectorAll('.billing-card').forEach((card, i) => {
+    const catSel = card.querySelector('.b-cat');
+    const subSel = card.querySelector('.b-sub');
+    const freeName = card.querySelector('.b-freename');
+    const priceInput = card.querySelector('.b-price');
+    const qtyInput = card.querySelector('.b-qty');
+    const amountEl = card.querySelector('.b-amount');
+    const hasContent = !!catSel.value;
+    const item = hasContent && subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
+    const isOther = !!(item && item.price === null);
+    const qty = parseFloat(qtyInput.value) || 0;
+    const price = parseFloat(priceInput.value) || 0;
+    const amount = qty * price;
+    amountEl.value = hasContent ? yen(amount) : '';
+    const displayName = hasContent
+      ? (isOther && freeName.value.trim() ? freeName.value.trim() : catSel.value)
+      : '';
+    const pr = pRows[i];
+    pr.querySelector('.p-b-name').textContent = displayName || '\u00A0';
+    pr.querySelector('.p-b-qty').textContent = hasContent ? qty : '';
+    pr.querySelector('.p-b-price').textContent = hasContent ? yen(price) : '';
+    pr.querySelector('.p-b-amount').textContent = hasContent ? yen(amount) : '';
+    if (hasContent) subtotal += amount;
+  });
+  currentSubtotal = subtotal;
+  currentTax = Math.floor(subtotal * 0.10);
+  currentTotal = subtotal + currentTax;
+  document.getElementById('p_subtotal').textContent = yen(currentSubtotal);
+  document.getElementById('p_tax').textContent = yen(currentTax);
+  document.getElementById('p_total').textContent = yen(currentTotal);
 }
 
-function yen(n){
-  const sign=n<0?'-':'';
-  return sign+'¥'+Math.abs(Math.round(n)).toLocaleString('ja-JP');
-}
-function fmtDate(v){
-  if(!v)return'';
-  const[y,m,d]=v.split('-');
-  return`${y}年${Number(m)}月${Number(d)}日`;
-}
-
-function syncText(inputId,previewId,formatter){
-  const input=document.getElementById(inputId);
-  const preview=document.getElementById(previewId);
-  const update=()=>{
-    const val=formatter?formatter(input.value):input.value;
-    preview.textContent=val&&val.trim()!==''?val:'\u00A0';
+/* Preview sync */
+function syncText(inputId, previewId, formatter) {
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  const update = () => {
+    const val = formatter ? formatter(input.value) : input.value;
+    preview.textContent = val && val.trim() ? val : '\u00A0';
   };
-  input.addEventListener('input',update);
+  input.addEventListener('input', update);
   update();
 }
-syncText('mgmtNo','p_mgmtNo');
-syncText('returnDate','p_returnDate',fmtDate);
-syncText('customerName','p_customerName');
-syncText('deviceNo','p_deviceNo');
-syncText('failureContent','p_failureContent');
-syncText('repairContent','p_repairContent');
-syncText('remarks','p_remarks');
+syncText('mgmtNo', 'p_mgmtNo');
+syncText('returnDate', 'p_returnDate', fmtDate);
+syncText('customerName', 'p_customerName');
+syncText('deviceNo', 'p_deviceNo');
+syncText('failureContent', 'p_failureContent');
+syncText('repairContent', 'p_repairContent');
+syncText('remarks', 'p_remarks');
 
-document.getElementById('p_issueDate').textContent=fmtDate(new Date().toISOString().slice(0,10));
+document.getElementById('p_issueDate').textContent = fmtDate(new Date().toISOString().slice(0, 10));
 
-/* 機器購入日 */
-function syncPurchaseDate(){
-  const y=document.getElementById('purchaseYear').value;
-  const m=document.getElementById('purchaseMonth').value;
-  const d=document.getElementById('purchaseDay').value;
-  let text='';
-  if(y)text+=`${y}年`;
-  if(m)text+=`${Number(m)}月`;
-  if(d)text+=`${Number(d)}日`;
-  document.getElementById('p_purchaseDate').textContent=text||'\u00A0';
+function syncPurchaseDate() {
+  const y = document.getElementById('purchaseYear').value;
+  const m = document.getElementById('purchaseMonth').value;
+  const d = document.getElementById('purchaseDay').value;
+  let t = '';
+  if (y) t += `${y}年`;
+  if (m) t += `${Number(m)}月`;
+  if (d) t += `${Number(d)}日`;
+  document.getElementById('p_purchaseDate').textContent = t || '\u00A0';
 }
-['purchaseYear','purchaseMonth','purchaseDay'].forEach(id=>{
-  document.getElementById(id).addEventListener('input',syncPurchaseDate);
-  document.getElementById(id).addEventListener('change',syncPurchaseDate);
+['purchaseYear','purchaseMonth','purchaseDay'].forEach(id => {
+  document.getElementById(id).addEventListener('input', syncPurchaseDate);
+  document.getElementById(id).addEventListener('change', syncPurchaseDate);
 });
-syncPurchaseDate();
 
-/* 返却品チェック */
-function setupReturnCheck(){
-  const included=document.querySelectorAll('.ret-included');
-  function sync(){
-    included.forEach(cb=>{
-      const cell=document.querySelector(`.p-ret-included[data-item="${cb.dataset.item}"]`);
-      if(cell)cell.textContent=cb.checked?'✓':'□';
+function setupReturnCheck() {
+  const sync = () => {
+    document.querySelectorAll('.ret-included').forEach(cb => {
+      const cell = document.querySelector(`.p-ret-included[data-item="${cb.dataset.item}"]`);
+      if (cell) cell.textContent = cb.checked ? '✓' : '□';
     });
-  }
-  included.forEach(cb=>cb.addEventListener('change',sync));
+  };
+  document.querySelectorAll('.ret-included').forEach(cb => cb.addEventListener('change', sync));
   sync();
 }
 setupReturnCheck();
 
-/* 選択式フィールド */
-function setupSelectField(selId,textareaId){
-  const sel=document.getElementById(selId);
-  const ta=document.getElementById(textareaId);
-  sel.addEventListener('change',()=>{
-    if(sel.value==='__other__'){
-      ta.disabled=false; ta.value=''; ta.focus();
-    }else{
-      ta.disabled=true; ta.value=sel.value;
+function setupSelectField(selId, taId) {
+  const sel = document.getElementById(selId);
+  const ta = document.getElementById(taId);
+  sel.addEventListener('change', () => {
+    if (sel.value === '__other__') {
+      ta.disabled = false; ta.value = ''; ta.focus();
+    } else {
+      ta.disabled = true; ta.value = sel.value;
     }
     ta.dispatchEvent(new Event('input'));
   });
 }
-setupSelectField('failureContentSel','failureContent');
-setupSelectField('repairContentSel','repairContent');
-setupSelectField('remarksSel','remarks');
-
-/* ご返却日：本日自動 */
-const returnDateInput=document.getElementById('returnDate');
-if(!returnDateInput.value){
-  returnDateInput.value=new Date().toISOString().slice(0,10);
-  returnDateInput.dispatchEvent(new Event('input'));
-}
-
-/* 機器No.デフォルト */
-const deviceNoInput=document.getElementById('deviceNo');
-if(!deviceNoInput.value){
-  deviceNoInput.value='G';
-  deviceNoInput.dispatchEvent(new Event('input'));
-}
-
-/* 明細行 */
-const cards=billingRowsEl.querySelectorAll('.billing-card');
-let currentSubtotal=0, currentTax=0, currentTotal=0;
-
-cards.forEach(card=>{
-  const catSel=card.querySelector('.b-cat');
-  const subSel=card.querySelector('.b-sub');
-  const freeName=card.querySelector('.b-freename');
-  const priceInput=card.querySelector('.b-price');
-  const qtyInput=card.querySelector('.b-qty');
-
-  catSel.addEventListener('change',()=>{
-    const catName=catSel.value;
-    if(catName){
-      subSel.disabled=false;
-      subSel.innerHTML=buildSubOptionsHTML(catName);
-    }else{
-      subSel.disabled=true;
-      subSel.innerHTML='<option value="">-</option>';
-    }
-    subSel.dispatchEvent(new Event('change'));
-  });
-
-  subSel.addEventListener('change',()=>{
-    const catName=catSel.value;
-    const idx=subSel.value;
-    const item=(catName&&idx!=='')?CATEGORY_DATA[catName][idx]:null;
-    if(item&&item.price!==null){
-      priceInput.value=item.price; priceInput.readOnly=true;
-      freeName.disabled=true; freeName.value='';
-      freeName.placeholder='項目名（その他選択時のみ入力可）';
-    }else if(item&&item.price===null){
-      priceInput.value=priceInput.value==='0'?0:priceInput.value;
-      priceInput.readOnly=false;
-      freeName.disabled=false;
-      freeName.placeholder='項目名を入力してください';
-    }else{
-      priceInput.value=0; priceInput.readOnly=true;
-      freeName.disabled=true; freeName.value='';
-    }
-    recalcBilling();
-  });
-  [freeName,priceInput,qtyInput].forEach(el=>el.addEventListener('input',recalcBilling));
-});
-
-function recalcBilling(){
-  const pRows=pBillingBody.querySelectorAll('tr');
-  let subtotal=0;
-  cards.forEach((card,i)=>{
-    const catSel=card.querySelector('.b-cat');
-    const subSel=card.querySelector('.b-sub');
-    const freeName=card.querySelector('.b-freename');
-    const priceInput=card.querySelector('.b-price');
-    const qtyInput=card.querySelector('.b-qty');
-    const amountEl=card.querySelector('.b-amount');
-    const catName=catSel.value;
-    const idx=subSel.value;
-    const item=(catName&&idx!=='')?CATEGORY_DATA[catName][idx]:null;
-    const isOther=!!(item&&item.price===null);
-    const qty=parseFloat(qtyInput.value)||0;
-    const price=parseFloat(priceInput.value)||0;
-    const amount=qty*price;
-    const hasContent=!!catName;
-    amountEl.value=hasContent?yen(amount):'';
-    let displayName='';
-    if(hasContent) displayName=(isOther&&freeName.value.trim()!=='')?freeName.value.trim():catName;
-    const pRow=pRows[i];
-    pRow.querySelector('.p-b-name').textContent=hasContent?displayName:'\u00A0';
-    pRow.querySelector('.p-b-qty').textContent=hasContent?qty:'';
-    pRow.querySelector('.p-b-price').textContent=hasContent?yen(price):'';
-    pRow.querySelector('.p-b-amount').textContent=hasContent?yen(amount):'';
-    if(hasContent)subtotal+=amount;
-  });
-  const tax=Math.floor(subtotal*0.10);
-  const total=subtotal+tax;
-  currentSubtotal=subtotal; currentTax=tax; currentTotal=total;
-  document.getElementById('p_subtotal').textContent=yen(subtotal);
-  document.getElementById('p_tax').textContent=yen(tax);
-  document.getElementById('p_total').textContent=yen(total);
-}
-recalcBilling();
+setupSelectField('failureContentSel', 'failureContent');
+setupSelectField('repairContentSel', 'repairContent');
+setupSelectField('remarksSel', 'remarks');
 
 /* 管理番号自動採番 */
-const MGMT_STORAGE_KEY='godcleaner_last_mgmt_no';
-const mgmtNoInput=document.getElementById('mgmtNo');
-function getNextMgmtNo(){
-  const last=localStorage.getItem(MGMT_STORAGE_KEY);
-  if(!last)return'001';
-  const width=Math.max(last.length,3);
-  return String(parseInt(last,10)+1).padStart(width,'0');
+const MGMT_KEY = 'godcleaner_last_mgmt_no';
+function getNextMgmtNo() {
+  const last = localStorage.getItem(MGMT_KEY);
+  if (!last) return '001';
+  return String(parseInt(last, 10) + 1).padStart(Math.max(last.length, 3), '0');
 }
-mgmtNoInput.value=getNextMgmtNo();
-mgmtNoInput.dispatchEvent(new Event('input'));
-
-function saveMgmtNoIfNeeded(){
-  const digits=(mgmtNoInput.value.match(/\d+/)||[null])[0];
-  if(digits){
-    const width=Math.max(digits.length,3);
-    localStorage.setItem(MGMT_STORAGE_KEY,digits.padStart(width,'0'));
-  }
+function saveMgmtNo() {
+  const digits = (document.getElementById('mgmtNo').value.match(/\d+/) || [null])[0];
+  if (digits) localStorage.setItem(MGMT_KEY, digits.padStart(Math.max(digits.length, 3), '0'));
 }
 
-/* ===================== 保存ロジック ===================== */
-function collectBillingLines(){
-  const lines=[];
-  cards.forEach(card=>{
-    const catSel=card.querySelector('.b-cat');
-    const subSel=card.querySelector('.b-sub');
-    const freeName=card.querySelector('.b-freename');
-    const priceInput=card.querySelector('.b-price');
-    const qtyInput=card.querySelector('.b-qty');
-    const catName=catSel.value;
-    if(!catName)return;
-    const idx=subSel.value;
-    const item=(catName&&idx!=='')?CATEGORY_DATA[catName][idx]:null;
-    const isOther=!!(item&&item.price===null);
-    const qty=parseFloat(qtyInput.value)||0;
-    const price=parseFloat(priceInput.value)||0;
-    const displayName=(isOther&&freeName.value.trim()!=='')?freeName.value.trim():catName;
-    lines.push({ name:displayName, qty, price, amount:qty*price });
+function resetReportForm() {
+  /* 管理番号 */
+  const mgmtEl = document.getElementById('mgmtNo');
+  mgmtEl.value = getNextMgmtNo();
+  mgmtEl.dispatchEvent(new Event('input'));
+  /* 返却日 */
+  const rd = document.getElementById('returnDate');
+  rd.value = new Date().toISOString().slice(0, 10);
+  rd.dispatchEvent(new Event('input'));
+  /* 機器No. */
+  const dn = document.getElementById('deviceNo');
+  dn.value = 'G';
+  dn.dispatchEvent(new Event('input'));
+  /* テキスト系クリア */
+  ['customerName','purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
+    const el = document.getElementById(id);
+    el.value = ''; el.dispatchEvent(new Event('input'));
+  });
+  ['purchaseMonth','purchaseDay'].forEach(id => {
+    const el = document.getElementById(id);
+    el.value = ''; el.dispatchEvent(new Event('change'));
+  });
+  /* セレクト系リセット */
+  ['failureContentSel','repairContentSel','remarksSel'].forEach(id => {
+    const el = document.getElementById(id);
+    el.value = '';
+  });
+  ['failureContent','repairContent','remarks'].forEach(id => {
+    const el = document.getElementById(id);
+    el.disabled = true; el.value = '';
+    el.dispatchEvent(new Event('input'));
+  });
+  /* チェックボックス */
+  document.querySelectorAll('.ret-included').forEach(cb => { cb.checked = false; cb.dispatchEvent(new Event('change')); });
+  /* 明細リセット */
+  buildBillingRows();
+  recalcBilling();
+  syncPurchaseDate();
+  document.getElementById('p_issueDate').textContent = fmtDate(new Date().toISOString().slice(0, 10));
+}
+
+/* Save */
+function collectBillingLines() {
+  const lines = [];
+  billingRowsEl.querySelectorAll('.billing-card').forEach(card => {
+    const catSel = card.querySelector('.b-cat');
+    if (!catSel.value) return;
+    const subSel = card.querySelector('.b-sub');
+    const freeName = card.querySelector('.b-freename');
+    const priceInput = card.querySelector('.b-price');
+    const qtyInput = card.querySelector('.b-qty');
+    const item = subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
+    const isOther = !!(item && item.price === null);
+    const qty = parseFloat(qtyInput.value) || 0;
+    const price = parseFloat(priceInput.value) || 0;
+    const name = isOther && freeName.value.trim() ? freeName.value.trim() : catSel.value;
+    lines.push({ name, qty, price, amount: qty * price });
   });
   return lines;
 }
 
-function collectReturnedItems(){
-  return Array.from(document.querySelectorAll('.ret-included'))
-    .filter(cb=>cb.checked)
-    .map(cb=>cb.dataset.item);
-}
-
-function getPurchaseDateStr(){
-  const y=document.getElementById('purchaseYear').value;
-  const m=document.getElementById('purchaseMonth').value;
-  const d=document.getElementById('purchaseDay').value;
-  let t='';
-  if(y)t+=`${y}年`;
-  if(m)t+=`${Number(m)}月`;
-  if(d)t+=`${Number(d)}日`;
-  return t;
-}
-
-async function saveReport(){
-  const btn=document.getElementById('saveBtn');
-  btn.disabled=true;
-  btn.textContent='保存中…';
-
-  const payload = {
-    mgmtNo: mgmtNoInput.value.trim(),
-    returnDate: document.getElementById('returnDate').value,
-    customerName: document.getElementById('customerName').value.trim(),
-    deviceNo: document.getElementById('deviceNo').value.trim(),
-    purchaseDate: getPurchaseDateStr(),
-    returnedItems: collectReturnedItems(),
-    failureContent: document.getElementById('failureContent').value.trim(),
-    repairContent: document.getElementById('repairContent').value.trim(),
-    remarks: document.getElementById('remarks').value.trim(),
-    billingLines: collectBillingLines(),
-    subtotal: currentSubtotal,
-    tax: currentTax,
-    total: currentTotal,
-    issueDate: new Date().toISOString().slice(0,10),
-    savedAt: new Date().toISOString()
-  };
-
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true; btn.textContent = '保存中…';
   try {
-    await fbSave(payload);
-    saveMgmtNoIfNeeded();
-    showBanner('✓ アーカイブに保存しました');
-  } catch(e) {
-    showBanner('⚠ 保存に失敗しました: ' + e.message, true);
+    const y = document.getElementById('purchaseYear').value;
+    const m = document.getElementById('purchaseMonth').value;
+    const d = document.getElementById('purchaseDay').value;
+    let purchaseDate = '';
+    if (y) purchaseDate += `${y}年`;
+    if (m) purchaseDate += `${Number(m)}月`;
+    if (d) purchaseDate += `${Number(d)}日`;
+
+    await fbPost({
+      mgmtNo: document.getElementById('mgmtNo').value.trim(),
+      returnDate: document.getElementById('returnDate').value,
+      customerName: document.getElementById('customerName').value.trim(),
+      deviceNo: document.getElementById('deviceNo').value.trim(),
+      purchaseDate,
+      returnedItems: Array.from(document.querySelectorAll('.ret-included'))
+        .filter(cb => cb.checked).map(cb => cb.dataset.item),
+      failureContent: document.getElementById('failureContent').value.trim(),
+      repairContent: document.getElementById('repairContent').value.trim(),
+      remarks: document.getElementById('remarks').value.trim(),
+      billingLines: collectBillingLines(),
+      subtotal: currentSubtotal,
+      tax: currentTax,
+      total: currentTotal,
+      issueDate: new Date().toISOString().slice(0, 10),
+      savedAt: new Date().toISOString()
+    });
+    saveMgmtNo();
+    toast('✓ アーカイブに保存しました', 'success');
+  } catch (e) {
+    toast('保存に失敗しました: ' + e.message, 'error');
   } finally {
-    btn.disabled=false;
-    btn.textContent='💾 保存してアーカイブ';
+    btn.disabled = false; btn.textContent = '💾 保存してアーカイブ';
   }
-}
+});
 
-function showBanner(msg, isError=false){
-  const el=document.getElementById('saveBanner');
-  el.textContent=msg;
-  el.className='save-banner' + (isError?' error':'');
-  el.style.display='block';
-  setTimeout(()=>{ el.style.display='none'; }, 3500);
-}
-
-document.getElementById('saveBtn').addEventListener('click', saveReport);
-document.getElementById('printBtn').addEventListener('click',()=>{
-  saveMgmtNoIfNeeded();
+document.getElementById('printBtn').addEventListener('click', () => {
+  saveMgmtNo();
   window.print();
 });
+
+/* ══════════════════════════════
+   Init
+══════════════════════════════ */
+loadAll();
 </script>
 </body>
 </html>
