@@ -186,9 +186,9 @@
   .section-title.compact{ margin:10px 0 4px; }
 
   .block-box{
-    border:1px solid var(--line); padding:8px 10px; min-height:26px;
-    white-space:pre-wrap; margin-bottom:4px;
-  }
+  border:1px solid var(--line); padding:4px 8px; min-height:18px;
+  white-space:pre-wrap; margin-bottom:2px; font-size:10.5px;
+}
   /* 故障内容・修理内容：大きく見やすく */
   .block-box-lg{
     border:1px solid var(--line); padding:14px 16px; min-height:44px;
@@ -380,16 +380,22 @@
       </table>
 
       <div class="section-title compact">返却品</div>
-      <table class="billing compact">
-        <thead>
-          <tr><th style="width:60%">項目</th><th style="width:40%">同梱</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>GC本体</td><td class="num p-ret-included" data-item="GC本体">□</td></tr>
-          <tr><td>ACコード</td><td class="num p-ret-included" data-item="ACコード">□</td></tr>
-          <tr><td>カートリッジ</td><td class="num p-ret-included" data-item="カートリッジ">□</td></tr>
-        </tbody>
-      </table>
+      <table class="billing compact return-grid">
+  <thead>
+    <tr>
+      <th style="width:33%">GC本体</th>
+      <th style="width:33%">ACコード</th>
+      <th style="width:34%">カートリッジ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="num p-ret-included" data-item="GC本体">□</td>
+      <td class="num p-ret-included" data-item="ACコード">□</td>
+      <td class="num p-ret-included" data-item="カートリッジ">□</td>
+    </tr>
+  </tbody>
+</table>
 
       <div class="section-title">故障内容</div>
       <div class="block-box-lg" id="p_failureContent">&nbsp;</div>
@@ -401,7 +407,7 @@
       <div class="block-box" id="p_remarks">&nbsp;</div>
 
       <div class="section-title compact">修理費用ご請求明細</div>
-      <table class="billing compact">
+<table class="billing">
         <thead>
           <tr><th style="width:46%">項目</th><th style="width:14%">数量</th><th style="width:20%">単価</th><th style="width:20%">金額</th></tr>
         </thead>
