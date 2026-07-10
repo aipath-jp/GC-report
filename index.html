@@ -15,6 +15,8 @@
     --muted: #777;
     --success: #27ae60;
     --danger: #c0392b;
+    --warning: #e67e22;
+    --info: #2980b9;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -53,7 +55,27 @@
   .btn-green:disabled { background: #888; cursor: not-allowed; }
   .btn-red    { background: var(--danger); color: #fff; }
   .btn-red:hover { background: #a93226; }
+  .btn-orange { background: var(--warning); color: #fff; }
+  .btn-orange:hover { background: #d35400; }
   .btn-sm     { padding: 5px 12px; font-size: 12px; }
+
+  /* ══════════════════════════════
+     TABS（ホーム画面のタブ）
+  ══════════════════════════════ */
+  .home-tabs {
+    background: var(--ink);
+    padding: 0 24px;
+    display: flex; gap: 0;
+    border-bottom: none;
+  }
+  .home-tab {
+    padding: 12px 20px; font-size: 13px; font-weight: 600; font-family: inherit;
+    color: #888; background: none; border: none; cursor: pointer;
+    letter-spacing: .04em; border-bottom: 3px solid transparent;
+    transition: all .15s; white-space: nowrap;
+  }
+  .home-tab:hover { color: #fff; }
+  .home-tab.active { color: #fff; border-bottom-color: #fff; }
 
   /* ══════════════════════════════
      HOME SCREEN
@@ -67,6 +89,7 @@
   }
   .stat-card .stat-num { font-size: 32px; font-weight: 700; line-height: 1; }
   .stat-card .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: .05em; }
+  .stat-card.stat-warn .stat-num { color: var(--danger); }
 
   .search-bar {
     background: var(--white); border: 1px solid var(--border); border-radius: 4px;
@@ -75,11 +98,11 @@
   }
   .search-group { display: flex; flex-direction: column; gap: 4px; }
   .search-group label { font-size: 11px; color: var(--muted); letter-spacing: .05em; }
-  .search-group input {
+  .search-group input, .search-group select {
     padding: 8px 10px; font-size: 13px; border: 1px solid var(--border);
-    border-radius: 3px; font-family: inherit; min-width: 160px;
+    border-radius: 3px; font-family: inherit; min-width: 120px; background: #fff;
   }
-  .search-group input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .search-group input:focus, .search-group select:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
 
   .table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
   .table-head {
@@ -100,6 +123,25 @@
   .td-total { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
   .td-actions { text-align: right; white-space: nowrap; }
 
+  /* ── バッジ ── */
+  .badge {
+    display: inline-block; padding: 3px 8px; border-radius: 3px;
+    font-size: 11px; font-weight: 700; letter-spacing: .04em; white-space: nowrap;
+  }
+  .badge-green  { background: #e8f8f0; color: #1e8449; border: 1px solid #a9dfbf; }
+  .badge-red    { background: #fdecea; color: #c0392b; border: 1px solid #f1948a; }
+  .badge-orange { background: #fef5e7; color: #d35400; border: 1px solid #f8c471; }
+  .badge-gray   { background: #f2f2f2; color: #666;    border: 1px solid #ddd; }
+
+  /* ── アラートバナー ── */
+  .alert-banner {
+    background: #fdecea; border: 1px solid #f1948a; border-radius: 4px;
+    padding: 12px 18px; margin-bottom: 16px;
+    font-size: 13px; color: var(--danger);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .alert-banner.hidden { display: none; }
+
   .empty-state { padding: 60px 20px; text-align: center; color: var(--muted); }
   .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
   .empty-state p { font-size: 14px; }
@@ -112,7 +154,7 @@
   }
   .modal-overlay.open { display: flex; }
   .modal {
-    background: var(--white); border-radius: 4px; width: 100%; max-width: 740px;
+    background: var(--white); border-radius: 4px; width: 100%; max-width: 580px;
     box-shadow: 0 8px 40px rgba(0,0,0,.25); animation: slideIn .2s ease;
   }
   @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -123,6 +165,24 @@
   .modal-header h3 { font-size: 16px; font-weight: 700; }
   .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: #555; line-height: 1; }
   .modal-body { padding: 20px 24px 24px; }
+
+  .form-row { margin-bottom: 14px; }
+  .form-row label { display: block; font-size: 12px; color: #555; margin-bottom: 5px; font-weight: 600; }
+  .form-row input[type=text],
+  .form-row input[type=date],
+  .form-row input[type=number],
+  .form-row select,
+  .form-row textarea {
+    width: 100%; padding: 8px 10px; font-size: 13px;
+    border: 1px solid var(--line-light); border-radius: 3px;
+    font-family: inherit; background: #fff;
+  }
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+    outline: 2px solid var(--ink); outline-offset: 1px;
+  }
+  .form-row textarea { min-height: 72px; resize: vertical; }
+  .form-row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
 
   .detail-meta {
     display: grid; grid-template-columns: 1fr 1fr; gap: 0;
@@ -272,6 +332,7 @@
   .toast.show { opacity: 1; transform: none; }
   .toast.success { background: var(--success); }
   .toast.error { background: var(--danger); }
+  .toast.warning { background: var(--warning); }
 
   /* ── Print ── */
   @page { size: A4; margin: 0; }
@@ -295,11 +356,18 @@
   <div class="topbar">
     <div class="topbar-brand">GOD-CLEANER <span>修理管理システム</span></div>
     <div class="topbar-actions">
-      <button class="btn btn-white" onclick="showScreen('report')">＋ 新規報告書作成</button>
+      <button class="btn btn-white" id="topNewBtn">＋ 新規作成</button>
     </div>
   </div>
 
-  <div class="home-main">
+  <!-- タブ -->
+  <div class="home-tabs">
+    <button class="home-tab active" data-tab="repair" onclick="switchTab('repair',this)">修理報告書</button>
+    <button class="home-tab" data-tab="demo" onclick="switchTab('demo',this)">デモ機管理</button>
+  </div>
+
+  <!-- ─── 修理報告書タブ ─── -->
+  <div id="tabRepair" class="home-main">
     <div class="stats-bar">
       <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">総報告書数</div></div>
       <div class="stat-card"><div class="stat-num" id="statMonth">—</div><div class="stat-label">今月の件数</div></div>
@@ -341,7 +409,52 @@
       </div>
     </div>
   </div>
-</div>
+
+  <!-- ─── デモ機管理タブ ─── -->
+  <div id="tabDemo" class="home-main" style="display:none">
+    <div id="demoAlertBanner" class="alert-banner hidden"></div>
+
+    <div class="stats-bar">
+      <div class="stat-card"><div class="stat-num" id="demoStatTotal">—</div><div class="stat-label">総貸出数</div></div>
+      <div class="stat-card"><div class="stat-num" id="demoStatActive">—</div><div class="stat-label">貸出中（未返却）</div></div>
+      <div class="stat-card stat-warn"><div class="stat-num" id="demoStatOverdue">—</div><div class="stat-label">要確認（14日超過）</div></div>
+    </div>
+
+    <div class="search-bar">
+      <div class="search-group">
+        <label>お客様名</label>
+        <input type="text" id="demoSearchName" placeholder="例）山田">
+      </div>
+      <div class="search-group">
+        <label>デモ機番号</label>
+        <input type="text" id="demoSearchUnit" placeholder="例）13">
+      </div>
+      <div class="search-group">
+        <label>ステータス</label>
+        <select id="demoSearchStatus">
+          <option value="">すべて</option>
+          <option value="active">貸出中</option>
+          <option value="waiting">返却待ち</option>
+          <option value="returned">返却済</option>
+          <option value="overdue">超過</option>
+        </select>
+      </div>
+      <button class="btn btn-white" id="demoBtnSearch">検索</button>
+      <button class="btn btn-ghost" id="demoBtnReset">リセット</button>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-head">
+        <h2>デモ機貸出一覧</h2>
+        <span id="demoResultCount" style="font-size:12px;color:var(--muted)"></span>
+      </div>
+      <div id="demoTableBody">
+        <div class="empty-state"><div class="empty-icon">🔧</div><p>読み込み中…</p></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /screenHome -->
 
 <!-- ══════════════════════════════
      REPORT CREATE SCREEN
@@ -520,7 +633,7 @@
   </div>
 </div>
 
-<!-- Detail Modal -->
+<!-- Detail Modal（修理報告書） -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal">
     <div class="modal-header">
@@ -531,12 +644,65 @@
   </div>
 </div>
 
+<!-- Demo Modal（追加・編集） -->
+<div class="modal-overlay" id="demoModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="demoModalTitle">デモ機貸出 追加</h3>
+      <button class="modal-close" id="demoModalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <label>お客様名 <span style="color:var(--danger)">*</span></label>
+        <input type="text" id="df-name" placeholder="例）山田 太郎 様">
+      </div>
+      <div class="form-row">
+        <label>デモ機番号</label>
+        <input type="text" id="df-unitNo" placeholder="例）DEMO-001">
+      </div>
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>デモ機発送日</label>
+          <input type="date" id="df-shipDate">
+        </div>
+        <div class="form-row">
+          <label>修理品発送日</label>
+          <input type="date" id="df-repairShipDate">
+        </div>
+      </div>
+      <div class="form-row">
+        <label>デモ機返却日 <span style="font-size:11px;color:var(--muted)">（返却済みの場合のみ入力）</span></label>
+        <input type="date" id="df-returnDate">
+      </div>
+      <div class="form-row">
+        <label>メモ</label>
+        <textarea id="df-note" placeholder="備考・連絡事項など…"></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-ghost" id="demoModalCancel" style="color:var(--ink);border-color:var(--border)">キャンセル</button>
+        <button class="btn btn-green" id="demoModalSubmit">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Demo Detail Modal -->
+<div class="modal-overlay" id="demoDetailModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="demoDetailTitle">デモ機貸出 詳細</h3>
+      <button class="modal-close" id="demoDetailClose">✕</button>
+    </div>
+    <div class="modal-body" id="demoDetailBody"></div>
+  </div>
+</div>
+
 <!-- Delete Confirm Dialog -->
 <div class="confirm-dialog" id="confirmDialog">
   <div class="confirm-box">
-    <div class="confirm-icon">🗑️</div>
-    <h4>報告書を削除しますか？</h4>
-    <p>この操作は取り消すことができません。</p>
+    <div class="confirm-icon" id="confirmIcon">🗑️</div>
+    <h4 id="confirmTitle">削除しますか？</h4>
+    <p id="confirmMsg">この操作は取り消すことができません。</p>
     <div class="confirm-actions">
       <button class="btn btn-red" id="confirmYes">削除する</button>
       <button class="btn btn-white" id="confirmNo" style="border:1px solid #ccc">キャンセル</button>
@@ -550,36 +716,70 @@
 /* ══════════════════════════════
    Firebase
 ══════════════════════════════ */
-const DB_URL = 'https://trade-analysis-1474d-default-rtdb.asia-southeast1.firebasedatabase.app/repairReports';
+const DB_BASE = 'https://trade-analysis-1474d-default-rtdb.asia-southeast1.firebasedatabase.app';
+const REPAIR_URL = DB_BASE + '/repairReports';
+const DEMO_URL   = DB_BASE + '/demoUnits';
 
-async function fbGetAll() {
-  const r = await fetch(`${DB_URL}.json`);
+async function fbGet(url) {
+  const r = await fetch(`${url}.json`);
   if (!r.ok) throw new Error('読み込み失敗: ' + r.status);
   return r.json();
 }
-async function fbPost(data) {
-  const r = await fetch(`${DB_URL}.json`, {
+async function fbPost(url, data) {
+  const r = await fetch(`${url}.json`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   });
   if (!r.ok) throw new Error('保存失敗: ' + r.status);
   return r.json();
 }
-async function fbDelete(id) {
-  const r = await fetch(`${DB_URL}/${id}.json`, { method: 'DELETE' });
+async function fbPatch(url, id, data) {
+  const r = await fetch(`${url}/${id}.json`, {
+    method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if (!r.ok) throw new Error('更新失敗: ' + r.status);
+  return r.json();
+}
+async function fbDelete(url, id) {
+  const r = await fetch(`${url}/${id}.json`, { method: 'DELETE' });
   if (!r.ok) throw new Error('削除失敗: ' + r.status);
 }
 
 /* ══════════════════════════════
-   Screen switching
+   Screen / Tab switching
 ══════════════════════════════ */
+let currentTab = 'repair';
+
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
-  if (name === 'home') loadAll();
+  if (name === 'home') {
+    if (currentTab === 'repair') loadAllRepairs();
+    else loadAllDemo();
+  }
   if (name === 'report') resetReportForm();
   window.scrollTo(0, 0);
 }
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.home-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tabRepair').style.display = tab === 'repair' ? 'block' : 'none';
+  document.getElementById('tabDemo').style.display   = tab === 'demo'   ? 'block' : 'none';
+
+  // 新規ボタンのラベル変更
+  document.getElementById('topNewBtn').textContent = tab === 'repair' ? '＋ 新規報告書作成' : '＋ デモ機貸出を追加';
+
+  if (tab === 'repair') loadAllRepairs();
+  else loadAllDemo();
+}
+
+document.getElementById('topNewBtn').addEventListener('click', () => {
+  if (currentTab === 'repair') showScreen('report');
+  else openDemoModal();
+});
 
 /* ══════════════════════════════
    Helpers
@@ -594,10 +794,13 @@ function fmtDate(v) {
   if (!y || !m || !d) return v;
   return `${y}年${Number(m)}月${Number(d)}日`;
 }
+function fmtDateShort(v) {
+  if (!v) return '';
+  const [y, m, d] = v.split('-');
+  return `${Number(m)}/${Number(d)}`;
+}
 function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function toast(msg, type = '') {
   const el = document.getElementById('toast');
@@ -605,30 +808,61 @@ function toast(msg, type = '') {
   el.className = 'toast show' + (type ? ' ' + type : '');
   setTimeout(() => { el.className = 'toast'; }, 3200);
 }
+function daysBetween(dateStr1, dateStr2) {
+  const d1 = new Date(dateStr1);
+  const d2 = new Date(dateStr2);
+  return Math.floor((d2 - d1) / 86400000);
+}
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
 
 /* ══════════════════════════════
-   HOME — load & render
+   CONFIRM DIALOG（汎用）
+══════════════════════════════ */
+let _pendingConfirm = null;
+
+function openConfirm({ icon = '🗑️', title = '確認', msg = 'よろしいですか？', okLabel = '削除する', onOk }) {
+  document.getElementById('confirmIcon').textContent = icon;
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent = msg;
+  document.getElementById('confirmYes').textContent = okLabel;
+  _pendingConfirm = onOk;
+  document.getElementById('confirmDialog').classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', () => {
+  document.getElementById('confirmDialog').classList.remove('open');
+  if (_pendingConfirm) _pendingConfirm();
+  _pendingConfirm = null;
+});
+document.getElementById('confirmNo').addEventListener('click', () => {
+  document.getElementById('confirmDialog').classList.remove('open');
+  _pendingConfirm = null;
+});
+
+/* ══════════════════════════════
+   HOME — 修理報告書
 ══════════════════════════════ */
 let allRecords = [];
 
-async function loadAll() {
+async function loadAllRepairs() {
   document.getElementById('tableBody').innerHTML =
     '<div class="empty-state"><div class="empty-icon">📋</div><p>読み込み中…</p></div>';
   try {
-    const data = await fbGetAll();
+    const data = await fbGet(REPAIR_URL);
     allRecords = data
       ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
       : [];
     allRecords.sort((a, b) => (b.data.returnDate || '').localeCompare(a.data.returnDate || ''));
-    updateStats(allRecords);
-    renderTable(allRecords);
+    updateRepairStats(allRecords);
+    renderRepairTable(allRecords);
   } catch (e) {
     document.getElementById('tableBody').innerHTML =
       `<div class="empty-state"><p style="color:var(--danger)">読み込みに失敗しました: ${e.message}</p></div>`;
   }
 }
 
-function updateStats(records) {
+function updateRepairStats(records) {
   const now = new Date();
   const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   const thisMonth = records.filter(r => (r.data.returnDate || '').startsWith(ym));
@@ -638,7 +872,7 @@ function updateStats(records) {
   document.getElementById('statRevenue').textContent = rev ? yen(rev) : '¥0';
 }
 
-function renderTable(records) {
+function renderRepairTable(records) {
   document.getElementById('resultCount').textContent = `${records.length}件`;
   if (!records.length) {
     document.getElementById('tableBody').innerHTML =
@@ -656,9 +890,9 @@ function renderTable(records) {
       <td class="td-total">${d.total != null ? yen(d.total) : '—'}</td>
       <td class="td-actions">
         <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
-          onclick="openDetail('${r.id}')">詳細</button>
+          onclick="openRepairDetail('${r.id}')">詳細</button>
         <button class="btn btn-sm btn-red"
-          onclick="askDelete('${r.id}')">削除</button>
+          onclick="askDeleteRepair('${r.id}')">削除</button>
       </td>
     </tr>`;
   }).join('');
@@ -674,8 +908,17 @@ function renderTable(records) {
     </table>`;
 }
 
-/* Search */
-function doSearch() {
+/* Repair Search */
+document.getElementById('btnSearch').addEventListener('click', doRepairSearch);
+document.getElementById('btnReset').addEventListener('click', () => {
+  ['searchCustomer','searchDevice','searchMgmt','searchDateFrom','searchDateTo']
+    .forEach(id => document.getElementById(id).value = '');
+  renderRepairTable(allRecords);
+});
+['searchCustomer','searchDevice','searchMgmt'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doRepairSearch(); });
+});
+function doRepairSearch() {
   const qc = document.getElementById('searchCustomer').value.trim().toLowerCase();
   const qd = document.getElementById('searchDevice').value.trim().toLowerCase();
   const qm = document.getElementById('searchMgmt').value.trim().toLowerCase();
@@ -690,20 +933,11 @@ function doSearch() {
     if (qt && (d.returnDate || '') > qt) return false;
     return true;
   });
-  renderTable(filtered);
+  renderRepairTable(filtered);
 }
-document.getElementById('btnSearch').addEventListener('click', doSearch);
-document.getElementById('btnReset').addEventListener('click', () => {
-  ['searchCustomer','searchDevice','searchMgmt','searchDateFrom','searchDateTo']
-    .forEach(id => document.getElementById(id).value = '');
-  renderTable(allRecords);
-});
-['searchCustomer','searchDevice','searchMgmt'].forEach(id => {
-  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
-});
 
-/* Detail modal */
-function openDetail(id) {
+/* Repair Detail Modal */
+function openRepairDetail(id) {
   const rec = allRecords.find(r => r.id === id);
   if (!rec) return;
   const d = rec.data;
@@ -738,41 +972,297 @@ function openDetail(id) {
       </tfoot>
     </table>
     <div style="margin-top:14px;text-align:right">
-      <button class="btn btn-red btn-sm" onclick="closeModal();askDelete('${id}')">この報告書を削除</button>
+      <button class="btn btn-red btn-sm" onclick="closeRepairModal();askDeleteRepair('${id}')">この報告書を削除</button>
     </div>`;
   document.getElementById('detailModal').classList.add('open');
 }
-function closeModal() { document.getElementById('detailModal').classList.remove('open'); }
-document.getElementById('modalClose').addEventListener('click', closeModal);
+function closeRepairModal() { document.getElementById('detailModal').classList.remove('open'); }
+document.getElementById('modalClose').addEventListener('click', closeRepairModal);
 document.getElementById('detailModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('detailModal')) closeModal();
+  if (e.target === document.getElementById('detailModal')) closeRepairModal();
 });
 
-/* Delete with confirm dialog */
-let pendingDeleteId = null;
-function askDelete(id) {
-  pendingDeleteId = id;
-  document.getElementById('confirmDialog').classList.add('open');
+function askDeleteRepair(id) {
+  openConfirm({
+    icon: '🗑️', title: '報告書を削除しますか？',
+    msg: 'この操作は取り消すことができません。',
+    okLabel: '削除する',
+    onOk: async () => {
+      try {
+        await fbDelete(REPAIR_URL, id);
+        allRecords = allRecords.filter(r => r.id !== id);
+        closeRepairModal();
+        updateRepairStats(allRecords);
+        renderRepairTable(allRecords);
+        toast('報告書を削除しました', 'success');
+      } catch (e) {
+        toast('削除に失敗しました: ' + e.message, 'error');
+      }
+    }
+  });
 }
-document.getElementById('confirmYes').addEventListener('click', async () => {
-  document.getElementById('confirmDialog').classList.remove('open');
-  if (!pendingDeleteId) return;
+
+/* ══════════════════════════════
+   HOME — デモ機管理
+══════════════════════════════ */
+const OVERDUE_DAYS = 14; // 修理品発送日から何日で要確認
+let allDemoRecords = [];
+let _editingDemoId = null;
+
+async function loadAllDemo() {
+  document.getElementById('demoTableBody').innerHTML =
+    '<div class="empty-state"><div class="empty-icon">🔧</div><p>読み込み中…</p></div>';
   try {
-    await fbDelete(pendingDeleteId);
-    allRecords = allRecords.filter(r => r.id !== pendingDeleteId);
-    pendingDeleteId = null;
-    closeModal();
-    updateStats(allRecords);
-    renderTable(allRecords);
-    toast('報告書を削除しました', 'success');
+    const data = await fbGet(DEMO_URL);
+    allDemoRecords = data
+      ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
+      : [];
+    allDemoRecords.sort((a, b) => (b.data.createdAt || '').localeCompare(a.data.createdAt || ''));
+    updateDemoStats(allDemoRecords);
+    renderDemoAlertBanner(allDemoRecords);
+    renderDemoTable(allDemoRecords);
   } catch (e) {
-    toast('削除に失敗しました: ' + e.message, 'error');
+    document.getElementById('demoTableBody').innerHTML =
+      `<div class="empty-state"><p style="color:var(--danger)">読み込みに失敗しました: ${e.message}</p></div>`;
+  }
+}
+
+function getDemoStatus(d) {
+  // 返却済み
+  if (d.returnDate) return 'returned';
+  // 修理品発送済み → 返却待ち or 超過
+  if (d.repairShipDate) {
+    const days = daysBetween(d.repairShipDate, todayStr());
+    if (days >= OVERDUE_DAYS) return 'overdue';
+    return 'waiting';
+  }
+  // デモ機発送のみ
+  return 'active';
+}
+
+function getDemoStatusBadge(status) {
+  const map = {
+    returned: '<span class="badge badge-green">返却済</span>',
+    overdue:  '<span class="badge badge-red">要確認</span>',
+    waiting:  '<span class="badge badge-orange">返却待ち</span>',
+    active:   '<span class="badge badge-gray">貸出中</span>',
+  };
+  return map[status] || '';
+}
+
+function updateDemoStats(records) {
+  const total   = records.length;
+  const active  = records.filter(r => getDemoStatus(r.data) !== 'returned').length;
+  const overdue = records.filter(r => getDemoStatus(r.data) === 'overdue').length;
+  document.getElementById('demoStatTotal').textContent   = total;
+  document.getElementById('demoStatActive').textContent  = active;
+  document.getElementById('demoStatOverdue').textContent = overdue;
+}
+
+function renderDemoAlertBanner(records) {
+  const overdue = records.filter(r => getDemoStatus(r.data) === 'overdue');
+  const banner = document.getElementById('demoAlertBanner');
+  if (overdue.length) {
+    banner.textContent = `⚠️ 修理品発送から${OVERDUE_DAYS}日以上経過している未返却のデモ機が ${overdue.length} 件あります。お客様へご確認ください。`;
+    banner.classList.remove('hidden');
+  } else {
+    banner.classList.add('hidden');
+  }
+}
+
+function renderDemoTable(records) {
+  document.getElementById('demoResultCount').textContent = `${records.length}件`;
+  if (!records.length) {
+    document.getElementById('demoTableBody').innerHTML =
+      '<div class="empty-state"><div class="empty-icon">🔍</div><p>該当するデモ機貸出が見つかりませんでした。</p></div>';
+    return;
+  }
+  const rows = records.map(r => {
+    const d = r.data;
+    const status = getDemoStatus(d);
+    const days = d.repairShipDate && !d.returnDate
+      ? daysBetween(d.repairShipDate, todayStr()) : null;
+    const overdueNote = status === 'overdue' ? `<br><span style="font-size:11px;color:var(--danger)">${days}日経過</span>` : '';
+    return `<tr>
+      <td class="td-customer">${esc(d.name || '—')}</td>
+      <td class="td-device">${esc(d.unitNo || '—')}</td>
+      <td>${d.shipDate ? fmtDateShort(d.shipDate) : '—'}</td>
+      <td>${d.repairShipDate ? fmtDateShort(d.repairShipDate) : '—'}${overdueNote}</td>
+      <td>${d.returnDate ? fmtDateShort(d.returnDate) : '—'}</td>
+      <td>${getDemoStatusBadge(status)}</td>
+      <td class="td-actions">
+        <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
+          onclick="openDemoDetail('${r.id}')">詳細</button>
+        <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
+          onclick="openDemoEditModal('${r.id}')">編集</button>
+        <button class="btn btn-sm btn-red"
+          onclick="askDeleteDemo('${r.id}')">削除</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('demoTableBody').innerHTML = `
+    <table class="archive-table">
+      <thead><tr>
+        <th>お客様名</th>
+        <th>デモ機No.</th>
+        <th>デモ機発送日</th>
+        <th>修理品発送日</th>
+        <th>返却日</th>
+        <th>ステータス</th>
+        <th></th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+/* Demo Search */
+document.getElementById('demoBtnSearch').addEventListener('click', doDemoSearch);
+document.getElementById('demoBtnReset').addEventListener('click', () => {
+  document.getElementById('demoSearchName').value = '';
+  document.getElementById('demoSearchUnit').value = '';
+  document.getElementById('demoSearchStatus').value = '';
+  renderDemoTable(allDemoRecords);
+});
+document.getElementById('demoSearchName').addEventListener('keydown', e => { if (e.key === 'Enter') doDemoSearch(); });
+document.getElementById('demoSearchUnit').addEventListener('keydown', e => { if (e.key === 'Enter') doDemoSearch(); });
+
+function doDemoSearch() {
+  const qn = document.getElementById('demoSearchName').value.trim().toLowerCase();
+  const qu = document.getElementById('demoSearchUnit').value.trim().toLowerCase();
+  const qs = document.getElementById('demoSearchStatus').value;
+  const filtered = allDemoRecords.filter(r => {
+    const d = r.data;
+    if (qn && !(d.name || '').toLowerCase().includes(qn)) return false;
+    if (qu && !(d.unitNo || '').toLowerCase().includes(qu)) return false;
+    if (qs && getDemoStatus(d) !== qs) return false;
+    return true;
+  });
+  renderDemoTable(filtered);
+}
+
+/* Demo Detail Modal */
+function openDemoDetail(id) {
+  const rec = allDemoRecords.find(r => r.id === id);
+  if (!rec) return;
+  const d = rec.data;
+  const status = getDemoStatus(d);
+  const days = d.repairShipDate && !d.returnDate ? daysBetween(d.repairShipDate, todayStr()) : null;
+  document.getElementById('demoDetailTitle').textContent = `デモ機貸出 詳細 — ${d.name || id}`;
+  document.getElementById('demoDetailBody').innerHTML = `
+    <div class="detail-meta">
+      <div class="detail-meta-k">お客様名</div><div class="detail-meta-v">${esc(d.name||'—')}</div>
+      <div class="detail-meta-k">デモ機No.</div><div class="detail-meta-v">${esc(d.unitNo||'—')}</div>
+      <div class="detail-meta-k">デモ機発送日</div><div class="detail-meta-v">${fmtDate(d.shipDate||'')||'—'}</div>
+      <div class="detail-meta-k">修理品発送日</div><div class="detail-meta-v">${fmtDate(d.repairShipDate||'')||'—'}${days !== null ? `<span style="margin-left:8px;font-size:12px;color:${status==='overdue'?'var(--danger)':'var(--muted)'}">(${days}日経過)</span>` : ''}</div>
+      <div class="detail-meta-k">返却日</div><div class="detail-meta-v">${fmtDate(d.returnDate||'')||'未返却'}</div>
+      <div class="detail-meta-k">ステータス</div><div class="detail-meta-v">${getDemoStatusBadge(status)}</div>
+    </div>
+    ${d.note ? `<div class="detail-sec">メモ</div><div class="detail-box sm">${esc(d.note)}</div>` : ''}
+    <div class="detail-sec">登録日時</div>
+    <div class="detail-box sm">${d.createdAt ? new Date(d.createdAt).toLocaleString('ja-JP') : '—'}</div>
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
+        onclick="closeDemoDetail();openDemoEditModal('${id}')">編集</button>
+      <button class="btn btn-sm btn-red"
+        onclick="closeDemoDetail();askDeleteDemo('${id}')">削除</button>
+    </div>`;
+  document.getElementById('demoDetailModal').classList.add('open');
+}
+function closeDemoDetail() { document.getElementById('demoDetailModal').classList.remove('open'); }
+document.getElementById('demoDetailClose').addEventListener('click', closeDemoDetail);
+document.getElementById('demoDetailModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('demoDetailModal')) closeDemoDetail();
+});
+
+/* Demo Add/Edit Modal */
+function openDemoModal() {
+  _editingDemoId = null;
+  document.getElementById('demoModalTitle').textContent = 'デモ機貸出 追加';
+  document.getElementById('df-name').value = '';
+  document.getElementById('df-unitNo').value = '';
+  document.getElementById('df-shipDate').value = '';
+  document.getElementById('df-repairShipDate').value = '';
+  document.getElementById('df-returnDate').value = '';
+  document.getElementById('df-note').value = '';
+  document.getElementById('demoModal').classList.add('open');
+}
+function openDemoEditModal(id) {
+  const rec = allDemoRecords.find(r => r.id === id);
+  if (!rec) return;
+  const d = rec.data;
+  _editingDemoId = id;
+  document.getElementById('demoModalTitle').textContent = 'デモ機貸出 編集';
+  document.getElementById('df-name').value = d.name || '';
+  document.getElementById('df-unitNo').value = d.unitNo || '';
+  document.getElementById('df-shipDate').value = d.shipDate || '';
+  document.getElementById('df-repairShipDate').value = d.repairShipDate || '';
+  document.getElementById('df-returnDate').value = d.returnDate || '';
+  document.getElementById('df-note').value = d.note || '';
+  document.getElementById('demoModal').classList.add('open');
+}
+function closeDemoModal() {
+  document.getElementById('demoModal').classList.remove('open');
+  _editingDemoId = null;
+}
+document.getElementById('demoModalClose').addEventListener('click', closeDemoModal);
+document.getElementById('demoModalCancel').addEventListener('click', closeDemoModal);
+document.getElementById('demoModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('demoModal')) closeDemoModal();
+});
+
+document.getElementById('demoModalSubmit').addEventListener('click', async () => {
+  const name          = document.getElementById('df-name').value.trim();
+  const unitNo        = document.getElementById('df-unitNo').value.trim();
+  const shipDate      = document.getElementById('df-shipDate').value;
+  const repairShipDate = document.getElementById('df-repairShipDate').value;
+  const returnDate    = document.getElementById('df-returnDate').value;
+  const note          = document.getElementById('df-note').value.trim();
+
+  if (!name) { toast('お客様名を入力してください', 'error'); return; }
+
+  const btn = document.getElementById('demoModalSubmit');
+  btn.disabled = true; btn.textContent = '保存中…';
+
+  try {
+    const payload = { name, unitNo, shipDate, repairShipDate, returnDate, note };
+    if (_editingDemoId) {
+      await fbPatch(DEMO_URL, _editingDemoId, payload);
+      toast('更新しました', 'success');
+    } else {
+      payload.createdAt = new Date().toISOString();
+      await fbPost(DEMO_URL, payload);
+      toast('デモ機貸出を追加しました', 'success');
+    }
+    closeDemoModal();
+    await loadAllDemo();
+  } catch (e) {
+    toast('保存に失敗しました: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = '保存';
   }
 });
-document.getElementById('confirmNo').addEventListener('click', () => {
-  document.getElementById('confirmDialog').classList.remove('open');
-  pendingDeleteId = null;
-});
+
+function askDeleteDemo(id) {
+  const rec = allDemoRecords.find(r => r.id === id);
+  openConfirm({
+    icon: '🗑️', title: 'デモ機貸出データを削除しますか？',
+    msg: `「${rec?.data?.name || id}」のデータを削除します。この操作は取り消せません。`,
+    okLabel: '削除する',
+    onOk: async () => {
+      try {
+        await fbDelete(DEMO_URL, id);
+        allDemoRecords = allDemoRecords.filter(r => r.id !== id);
+        updateDemoStats(allDemoRecords);
+        renderDemoAlertBanner(allDemoRecords);
+        renderDemoTable(allDemoRecords);
+        toast('削除しました', 'success');
+      } catch (e) {
+        toast('削除に失敗しました: ' + e.message, 'error');
+      }
+    }
+  });
+}
 
 /* ══════════════════════════════
    REPORT FORM
@@ -985,19 +1475,15 @@ function saveMgmtNo() {
 }
 
 function resetReportForm() {
-  /* 管理番号 */
   const mgmtEl = document.getElementById('mgmtNo');
   mgmtEl.value = getNextMgmtNo();
   mgmtEl.dispatchEvent(new Event('input'));
-  /* 返却日 */
   const rd = document.getElementById('returnDate');
   rd.value = new Date().toISOString().slice(0, 10);
   rd.dispatchEvent(new Event('input'));
-  /* 機器No. */
   const dn = document.getElementById('deviceNo');
   dn.value = 'G';
   dn.dispatchEvent(new Event('input'));
-  /* テキスト系クリア */
   ['customerName','purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
     const el = document.getElementById(id);
     el.value = ''; el.dispatchEvent(new Event('input'));
@@ -1006,19 +1492,15 @@ function resetReportForm() {
     const el = document.getElementById(id);
     el.value = ''; el.dispatchEvent(new Event('change'));
   });
-  /* セレクト系リセット */
   ['failureContentSel','repairContentSel','remarksSel'].forEach(id => {
-    const el = document.getElementById(id);
-    el.value = '';
+    document.getElementById(id).value = '';
   });
   ['failureContent','repairContent','remarks'].forEach(id => {
     const el = document.getElementById(id);
     el.disabled = true; el.value = '';
     el.dispatchEvent(new Event('input'));
   });
-  /* チェックボックス */
   document.querySelectorAll('.ret-included').forEach(cb => { cb.checked = false; cb.dispatchEvent(new Event('change')); });
-  /* 明細リセット */
   buildBillingRows();
   recalcBilling();
   syncPurchaseDate();
@@ -1057,7 +1539,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     if (m) purchaseDate += `${Number(m)}月`;
     if (d) purchaseDate += `${Number(d)}日`;
 
-    await fbPost({
+    await fbPost(REPAIR_URL, {
       mgmtNo: document.getElementById('mgmtNo').value.trim(),
       returnDate: document.getElementById('returnDate').value,
       customerName: document.getElementById('customerName').value.trim(),
@@ -1092,7 +1574,7 @@ document.getElementById('printBtn').addEventListener('click', () => {
 /* ══════════════════════════════
    Init
 ══════════════════════════════ */
-loadAll();
+loadAllRepairs();
 </script>
 </body>
 </html>
