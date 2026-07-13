@@ -777,7 +777,8 @@ function showScreen(name) {
     if (currentTab === 'repair') loadAllRepairs();
     else loadAllDemo();
   }
-  if (name === 'report') resetReportForm();
+  // ↓ この if ブロックを丸ごと削除
+  // if (name === 'report') resetReportForm();
   if (name === 'home') {
     _editingRepairId = null;
     document.querySelector('.report-toolbar h1').textContent = '修理報告書 作成';
@@ -801,8 +802,12 @@ function switchTab(tab, btn) {
 }
 
 document.getElementById('topNewBtn').addEventListener('click', () => {
-  if (currentTab === 'repair') showScreen('report');
-  else openDemoModal();
+  if (currentTab === 'repair') {
+    resetReportForm(); // ← 新規のときだけ明示的にリセット
+    showScreen('report');
+  } else {
+    openDemoModal();
+  }
 });
 
 /* ══════════════════════════════
@@ -1557,7 +1562,8 @@ function collectBillingLines() {
 }
 
 /* ── 編集モード管理 ── */
-let _editingRepairId = null;  // null=新規, 文字列=編集中のFirebase ID
+/* ── 編集モード管理 ── */
+let _editingRepairId = null;
 
 function openRepairEdit(id) {
   const rec = allRecords.find(r => r.id === id);
@@ -1565,7 +1571,6 @@ function openRepairEdit(id) {
   const d = rec.data;
   _editingRepairId = id;
 
-  // フォームリセット後にデータを流し込む
   resetReportForm();
 
   // 基本情報
@@ -1584,9 +1589,9 @@ function openRepairEdit(id) {
     const my = (d.purchaseDate.match(/(\d+)年/) || [])[1];
     const mm = (d.purchaseDate.match(/(\d+)月/) || [])[1];
     const md = (d.purchaseDate.match(/(\d+)日/) || [])[1];
-    if (my) { document.getElementById('purchaseYear').value = my; }
-    if (mm) { document.getElementById('purchaseMonth').value = mm; }
-    if (md) { document.getElementById('purchaseDay').value = md; }
+    if (my) document.getElementById('purchaseYear').value = my;
+    if (mm) document.getElementById('purchaseMonth').value = mm;
+    if (md) document.getElementById('purchaseDay').value = md;
     syncPurchaseDate();
   }
 
@@ -1597,18 +1602,19 @@ function openRepairEdit(id) {
     cb.dispatchEvent(new Event('change'));
   });
 
-  // 故障・修理・備考（すべて「その他」扱いでテキスト流し込み）
+  // 故障・修理・備考
   const fillTextField = (selId, taId, val) => {
     const sel = document.getElementById(selId);
     const ta = document.getElementById(taId);
-    // 選択肢に一致するものがあればそれを選ぶ
     const opt = Array.from(sel.options).find(o => o.value === val && o.value !== '__other__' && o.value !== '');
     if (opt) {
       sel.value = val;
-      ta.disabled = true; ta.value = val;
+      ta.disabled = true;
+      ta.value = val;
     } else {
       sel.value = '__other__';
-      ta.disabled = false; ta.value = val || '';
+      ta.disabled = false;
+      ta.value = val || '';
     }
     ta.dispatchEvent(new Event('input'));
   };
@@ -1616,34 +1622,44 @@ function openRepairEdit(id) {
   fillTextField('repairContentSel',  'repairContent',  d.repairContent);
   fillTextField('remarksSel',        'remarks',        d.remarks);
 
-  // 請求明細
+  // ── 請求明細（修正箇所）──
   const lines = d.billingLines || [];
   billingRowsEl.querySelectorAll('.billing-card').forEach((card, i) => {
     const line = lines[i];
-    if (!line) return;
-    const catSel   = card.querySelector('.b-cat');
-    const subSel   = card.querySelector('.b-sub');
-    const freeName = card.querySelector('.b-freename');
+    if (!line || !line.name) return;
+
+    const catSel    = card.querySelector('.b-cat');
+    const subSel    = card.querySelector('.b-sub');
+    const freeName  = card.querySelector('.b-freename');
     const priceInput = card.querySelector('.b-price');
     const qtyInput   = card.querySelector('.b-qty');
-    // カテゴリを推定（項目名がカテゴリ名と一致すれば使い、なければ「交換部品代」に「その他」で流し込む）
+
+    // ① カテゴリを決定：line.name がカテゴリ名と一致するか確認
+    //    一致しない場合は全カテゴリの「その他」で流し込む → 「交換部品代」をデフォルトに
     const matchedCat = CATEGORY_NAMES.find(c => c === line.name) || '交換部品代';
     catSel.value = matchedCat;
-    catSel.dispatchEvent(new Event('change'));
-    // subを「その他」に設定して自由入力
+
+    // ② subSelect の選択肢を手動で更新（dispatchEvent を使わず直接操作）
+    subSel.innerHTML = buildSubHTML(matchedCat);
+    subSel.disabled = false;
+
+    // ③ カテゴリ内の「その他」インデックスを見つけて選択
     const otherIdx = CATEGORY_DATA[matchedCat].findIndex(it => it.price === null);
-    if (otherIdx >= 0) subSel.value = String(otherIdx);
-    subSel.dispatchEvent(new Event('change'));
+    if (otherIdx >= 0) {
+      subSel.value = String(otherIdx);
+    }
+
+    // ④ 自由入力欄・単価・数量を直接セット（dispatchEvent の連鎖に頼らない）
     freeName.disabled = false;
     freeName.value = line.name;
     priceInput.readOnly = false;
-    priceInput.value = line.price;
-    qtyInput.value = line.qty;
-    priceInput.dispatchEvent(new Event('input'));
+    priceInput.value = line.price != null ? line.price : 0;
+    qtyInput.value = line.qty != null ? line.qty : 1;
   });
+
+  // ⑤ 全行セット後に一括で再計算
   recalcBilling();
 
-  // ツールバー表示を「更新」モードに切り替え
   document.querySelector('.report-toolbar h1').textContent = '修理報告書 編集';
   document.getElementById('saveBtn').textContent = '💾 更新して保存';
 
