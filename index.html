@@ -1497,21 +1497,28 @@ setupSelectField('repairContentSel', 'repairContent');
 setupSelectField('remarksSel', 'remarks');
 
 /* 管理番号自動採番 */
-const MGMT_KEY = 'godcleaner_last_mgmt_no';
-function getNextMgmtNo() {
-  const last = localStorage.getItem(MGMT_KEY);
-  if (!last) return '001';
-  return String(parseInt(last, 10) + 1).padStart(Math.max(last.length, 3), '0');
+async function getNextMgmtNo() {
+  try {
+    const data = await fbGet(REPAIR_URL);
+    if (!data) return '001';
+    const max = Object.values(data)
+      .map(d => parseInt((d.mgmtNo || '').match(/\d+/)?.[0] || '0', 10))
+      .reduce((a, b) => Math.max(a, b), 0);
+    return String(max + 1).padStart(3, '0');
+  } catch {
+    return '001';
+  }
 }
-function saveMgmtNo() {
-  const digits = (document.getElementById('mgmtNo').value.match(/\d+/) || [null])[0];
-  if (digits) localStorage.setItem(MGMT_KEY, digits.padStart(Math.max(digits.length, 3), '0'));
-}
+function saveMgmtNo() {} // DB参照方式に変更したため不要（互換性のため空関数として残す）
 
 function resetReportForm() {
   const mgmtEl = document.getElementById('mgmtNo');
-  mgmtEl.value = getNextMgmtNo();
+  mgmtEl.value = '採番中…';
   mgmtEl.dispatchEvent(new Event('input'));
+  getNextMgmtNo().then(no => {
+    mgmtEl.value = no;
+    mgmtEl.dispatchEvent(new Event('input'));
+  });
   const rd = document.getElementById('returnDate');
   rd.value = new Date().toISOString().slice(0, 10);
   rd.dispatchEvent(new Event('input'));
