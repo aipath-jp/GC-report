@@ -882,7 +882,11 @@ async function loadAllRepairs() {
     allRecords = data
       ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
       : [];
-    allRecords.sort((a, b) => (b.data.returnDate || '').localeCompare(a.data.returnDate || ''));
+    allRecords.sort((a, b) => {
+  const na = parseInt((a.data.mgmtNo || '').match(/\d+/)?.[0] || '0', 10);
+  const nb = parseInt((b.data.mgmtNo || '').match(/\d+/)?.[0] || '0', 10);
+  return nb - na;
+});
     updateRepairStats(allRecords);
     renderRepairTable(allRecords);
   } catch (e) {
