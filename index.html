@@ -1515,14 +1515,16 @@ async function getNextMgmtNo() {
 }
 function saveMgmtNo() {} // DB参照方式に変更したため不要（互換性のため空関数として残す）
 
-function resetReportForm() {
+function resetReportForm(skipMgmtNo = false) {
   const mgmtEl = document.getElementById('mgmtNo');
-  mgmtEl.value = '採番中…';
-  mgmtEl.dispatchEvent(new Event('input'));
-  getNextMgmtNo().then(no => {
-    mgmtEl.value = no;
+  if (!skipMgmtNo) {
+    mgmtEl.value = '採番中…';
     mgmtEl.dispatchEvent(new Event('input'));
-  });
+    getNextMgmtNo().then(no => {
+      mgmtEl.value = no;
+      mgmtEl.dispatchEvent(new Event('input'));
+    });
+  }
   const rd = document.getElementById('returnDate');
   rd.value = new Date().toISOString().slice(0, 10);
   rd.dispatchEvent(new Event('input'));
@@ -1582,7 +1584,7 @@ function openRepairEdit(id) {
   const d = rec.data;
   _editingRepairId = id;
 
-  resetReportForm();
+  resetReportForm(true);  // 編集時は自動採番をスキップ
 
   // 基本情報
   const setVal = (elId, val) => {
