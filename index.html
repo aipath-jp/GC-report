@@ -1449,7 +1449,13 @@ function syncText(inputId, previewId, formatter) {
 }
 syncText('mgmtNo', 'p_mgmtNo');
 syncText('returnDate', 'p_returnDate', fmtDate);
-syncText('customerName', 'p_customerName');
+const cnInput = document.getElementById('customerName');
+const cnPreview = document.getElementById('p_customerName');
+cnInput.addEventListener('input', () => {
+  const val = cnInput.value.trim();
+  cnPreview.textContent = val ? val + '\u3000\u3000様/御中' : '\u00A0';
+});
+cnPreview.textContent = '\u00A0';
 syncText('deviceNo', 'p_deviceNo');
 syncText('failureContent', 'p_failureContent');
 syncText('repairContent', 'p_repairContent');
@@ -1531,13 +1537,10 @@ function resetReportForm(skipMgmtNo = false) {
   const dn = document.getElementById('deviceNo');
   dn.value = 'G';
   dn.dispatchEvent(new Event('input'));
-  ['purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
+  ['customerName','purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
   const el = document.getElementById(id);
   el.value = ''; el.dispatchEvent(new Event('input'));
 });
-const cnEl = document.getElementById('customerName');
-cnEl.value = ' 様/御中';
-cnEl.dispatchEvent(new Event('input'));
   ['purchaseMonth','purchaseDay'].forEach(id => {
     const el = document.getElementById(id);
     el.value = ''; el.dispatchEvent(new Event('change'));
@@ -1698,7 +1701,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     const payload = {
       mgmtNo:       document.getElementById('mgmtNo').value.trim(),
       returnDate:   document.getElementById('returnDate').value,
-      customerName: document.getElementById('customerName').value.trim(),
+      customerName: (document.getElementById('customerName').value.trim() || '') + '\u3000\u3000様/御中',
       deviceNo:     document.getElementById('deviceNo').value.trim(),
       purchaseDate,
       returnedItems: Array.from(document.querySelectorAll('.ret-included'))
