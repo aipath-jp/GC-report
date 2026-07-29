@@ -1531,10 +1531,13 @@ function resetReportForm(skipMgmtNo = false) {
   const dn = document.getElementById('deviceNo');
   dn.value = 'G';
   dn.dispatchEvent(new Event('input'));
-  ['customerName','purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
-    const el = document.getElementById(id);
-    el.value = ''; el.dispatchEvent(new Event('input'));
-  });
+  ['purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
+  const el = document.getElementById(id);
+  el.value = ''; el.dispatchEvent(new Event('input'));
+});
+const cnEl = document.getElementById('customerName');
+cnEl.value = ' 様/御中';
+cnEl.dispatchEvent(new Event('input'));
   ['purchaseMonth','purchaseDay'].forEach(id => {
     const el = document.getElementById(id);
     el.value = ''; el.dispatchEvent(new Event('change'));
