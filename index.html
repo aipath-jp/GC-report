@@ -1600,7 +1600,7 @@ function openRepairEdit(id) {
   };
   setVal('mgmtNo', d.mgmtNo);
   setVal('returnDate', d.returnDate);
-  setVal('customerName', d.customerName);
+  setVal('customerName', (d.customerName || '').replace(/\u3000\u3000様\/御中$/, '').trim());
   setVal('deviceNo', d.deviceNo);
 
   // 機器購入日
@@ -1701,7 +1701,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     const payload = {
       mgmtNo:       document.getElementById('mgmtNo').value.trim(),
       returnDate:   document.getElementById('returnDate').value,
-      customerName: (document.getElementById('customerName').value.trim() || '') + '\u3000\u3000様/御中',
+      customerName: document.getElementById('customerName').value.trim(),
       deviceNo:     document.getElementById('deviceNo').value.trim(),
       purchaseDate,
       returnedItems: Array.from(document.querySelectorAll('.ret-included'))
