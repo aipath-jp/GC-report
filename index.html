@@ -20,31 +20,28 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-  font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;
-  color: var(--ink); background: var(--bg); min-height: 100vh;
-  -webkit-text-size-adjust: 100%; /* スマホ回転時の自動拡大を防ぐ */
-}
+    font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;
+    color: var(--ink); background: var(--bg); min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
 
-  /* ── Screens ── */
   .screen { display: none; }
   .screen.active { display: block; }
 
-  /* ══════════════════════════════
-     TOPBAR
-  ══════════════════════════════ */
+  /* ══ TOPBAR ══ */
   .topbar {
-  position: sticky; top: 0; z-index: 20;
-  background: var(--ink); color: #fff;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px; height: 56px; gap: 8px;
-}
-.topbar-brand { font-size: 15px; font-weight: 700; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.topbar-brand span { font-size: 11px; font-weight: 400; color: #aaa; margin-left: 8px; letter-spacing: .1em; display: none; } /* スマホでは副題を隠す */
-@media (min-width: 480px) {
-  .topbar { padding: 0 24px; }
-  .topbar-brand { font-size: 17px; }
-  .topbar-brand span { display: inline; }
-}
+    position: sticky; top: 0; z-index: 20;
+    background: var(--ink); color: #fff;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; height: 56px; gap: 8px;
+  }
+  .topbar-brand { font-size: 15px; font-weight: 700; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .topbar-brand span { font-size: 11px; font-weight: 400; color: #aaa; margin-left: 8px; letter-spacing: .1em; display: none; }
+  @media (min-width: 480px) {
+    .topbar { padding: 0 24px; }
+    .topbar-brand { font-size: 17px; }
+    .topbar-brand span { display: inline; }
+  }
   .topbar-actions { display: flex; gap: 10px; align-items: center; }
   .btn {
     display: inline-flex; align-items: center; gap: 6px;
@@ -65,9 +62,7 @@
   .btn-orange:hover { background: #d35400; }
   .btn-sm     { padding: 5px 12px; font-size: 12px; }
 
-  /* ══════════════════════════════
-     TABS（ホーム画面のタブ）
-  ══════════════════════════════ */
+  /* ══ TABS ══ */
   .home-tabs {
     background: var(--ink);
     padding: 0 24px;
@@ -83,13 +78,11 @@
   .home-tab:hover { color: #fff; }
   .home-tab.active { color: #fff; border-bottom-color: #fff; }
 
-  /* ══════════════════════════════
-     HOME SCREEN
-  ══════════════════════════════ */
+  /* ══ HOME SCREEN ══ */
   .home-main { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
 
   .stats-bar { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
-　.stat-card { min-width: 120px; flex: 1 1 120px; } /* 追記：flex-grow で均等に広がる */
+  .stat-card { min-width: 120px; flex: 1 1 120px; }
   .stat-card {
     background: var(--white); border: 1px solid var(--border); border-radius: 4px;
     padding: 16px 24px; min-width: 140px;
@@ -99,12 +92,12 @@
   .stat-card.stat-warn .stat-num { color: var(--danger); }
 
   .search-bar {
-  background: var(--white); border: 1px solid var(--border); border-radius: 4px;
-  padding: 12px 16px; margin-bottom: 20px;
-  display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;
-}
-.search-group { flex: 1 1 140px; min-width: 0; } /* 追記：折り返し対応 */
-.search-group input, .search-group select { min-width: 0; width: 100%; } /* 追記 */
+    background: var(--white); border: 1px solid var(--border); border-radius: 4px;
+    padding: 12px 16px; margin-bottom: 20px;
+    display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;
+  }
+  .search-group { flex: 1 1 140px; min-width: 0; }
+  .search-group input, .search-group select { min-width: 0; width: 100%; }
   .search-group { display: flex; flex-direction: column; gap: 4px; }
   .search-group label { font-size: 11px; color: var(--muted); letter-spacing: .05em; }
   .search-group input, .search-group select {
@@ -114,8 +107,8 @@
   .search-group input:focus, .search-group select:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
 
   .table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-.table-wrap > div { overflow-x: auto; -webkit-overflow-scrolling: touch; } /* ← 追記 */
-table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
+  .table-wrap > div { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.archive-table { min-width: 620px; }
   .table-head {
     display: flex; justify-content: space-between; align-items: center;
     padding: 14px 20px 10px; border-bottom: 2px solid var(--line);
@@ -134,7 +127,6 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
   .td-total { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
   .td-actions { text-align: right; white-space: nowrap; }
 
-  /* ── バッジ ── */
   .badge {
     display: inline-block; padding: 3px 8px; border-radius: 3px;
     font-size: 11px; font-weight: 700; letter-spacing: .04em; white-space: nowrap;
@@ -144,7 +136,6 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
   .badge-orange { background: #fef5e7; color: #d35400; border: 1px solid #f8c471; }
   .badge-gray   { background: #f2f2f2; color: #666;    border: 1px solid #ddd; }
 
-  /* ── アラートバナー ── */
   .alert-banner {
     background: #fdecea; border: 1px solid #f1948a; border-radius: 4px;
     padding: 12px 18px; margin-bottom: 16px;
@@ -211,7 +202,7 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
   table.detail-billing tfoot td { font-weight: 700; }
   table.detail-billing tfoot tr.total td { background: #eee; }
 
-  /* ── Delete confirm dialog ── */
+  /* ── Delete confirm ── */
   .confirm-dialog {
     display: none; position: fixed; inset: 0; z-index: 60;
     background: rgba(0,0,0,.6); align-items: center; justify-content: center;
@@ -226,9 +217,7 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
   .confirm-box p { font-size: 13px; color: #555; margin-bottom: 20px; }
   .confirm-box .confirm-actions { display: flex; gap: 10px; justify-content: center; }
 
-  /* ══════════════════════════════
-     REPORT CREATE SCREEN
-  ══════════════════════════════ */
+  /* ══ REPORT SCREEN ══ */
   .report-toolbar {
     position: sticky; top: 0; z-index: 10;
     background: var(--ink); color: #fff;
@@ -246,23 +235,23 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
   .report-toolbar-actions { display: flex; gap: 10px; }
 
   .report-layout {
-  display: flex; flex-direction: column; gap: 20px; /* ← スマホは縦積み */
-  padding: 16px; max-width: 1600px; margin: 0 auto;
-}
-.editor {
-  width: 100%; background: #fff; /* ← 横幅いっぱい */
-  border: 1px solid var(--border); border-radius: 4px;
-  padding: 16px 16px 22px;
-  max-height: none; overflow-y: visible; /* ← スクロール解除 */
-}
-@media (min-width: 900px) {
-  .report-layout { flex-direction: row; padding: 20px; } /* PC: 横並びに戻す */
-  .editor {
-    flex: 0 0 430px;
-    max-height: calc(100vh - 76px); overflow-y: auto;
-    padding: 20px 22px 26px;
+    display: flex; flex-direction: column; gap: 20px;
+    padding: 16px; max-width: 1600px; margin: 0 auto;
   }
-}
+  .editor {
+    width: 100%; background: #fff;
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 16px 16px 22px;
+    max-height: none; overflow-y: visible;
+  }
+  @media (min-width: 900px) {
+    .report-layout { flex-direction: row; padding: 20px; }
+    .editor {
+      flex: 0 0 460px;
+      max-height: calc(100vh - 76px); overflow-y: auto;
+      padding: 20px 22px 26px;
+    }
+  }
   .editor h2 {
     font-size: 13px; letter-spacing: .08em; color: #555;
     border-bottom: 2px solid var(--line);
@@ -285,6 +274,21 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
     border: 1px solid var(--line-light); border-radius: 3px;
     font-family: inherit; background: #fff;
   }
+
+  /* 郵便番号入力 */
+  .zip-row { display: flex; gap: 6px; align-items: flex-end; }
+  .zip-row input { flex: 0 0 120px; }
+  .zip-row button {
+    padding: 7px 10px; font-size: 12px; font-weight: 600; font-family: inherit;
+    background: var(--ink); color: #fff; border: none; border-radius: 3px;
+    cursor: pointer; white-space: nowrap; transition: background .15s;
+  }
+  .zip-row button:hover { background: #333; }
+  .zip-row button:disabled { background: #aaa; cursor: not-allowed; }
+  .zip-msg { font-size: 11px; margin-top: 3px; }
+  .zip-msg.ok { color: var(--success); }
+  .zip-msg.err { color: var(--danger); }
+
   table.return-check-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   table.return-check-table th, table.return-check-table td {
     border: 1px solid var(--line-light); padding: 6px 8px; text-align: center;
@@ -314,31 +318,42 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
   .page {
     width: 210mm; min-height: 297mm; background: #fff;
     box-shadow: 0 0 0 1px #ccc, 0 4px 18px rgba(0,0,0,.12);
-    padding: 16mm 16mm 14mm; font-size: 11.5px; line-height: 1.6;
+    padding: 12mm 16mm 14mm; font-size: 11px; line-height: 1.55;
   }
   .doc-header {
     display: flex; justify-content: space-between; align-items: flex-end;
-    border-bottom: 3px solid var(--line); padding-bottom: 8px; margin-bottom: 14px;
+    border-bottom: 3px solid var(--line); padding-bottom: 7px; margin-bottom: 10px;
   }
-  .doc-header .brand { font-size: 20px; font-weight: 700; letter-spacing: .04em; }
-  .doc-header .brand span { display: block; font-size: 11px; font-weight: 400; letter-spacing: .1em; color: #555; margin-top: 2px; }
-  .doc-header .doc-title { font-size: 22px; font-weight: 700; letter-spacing: .15em; }
-  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-  .meta-table td { border: 1px solid var(--line); padding: 6px 8px; vertical-align: top; }
-  .meta-table td.k { width: 26%; background: #f2f2f2; font-weight: 600; white-space: nowrap; }
-  .section-title { font-size: 12px; font-weight: 700; letter-spacing: .05em; border-left: 5px solid var(--line); padding-left: 8px; margin: 16px 0 6px; }
-  .section-title.compact { margin: 10px 0 4px; }
-  .block-box { border: 1px solid var(--line); padding: 4px 8px; min-height: 18px; white-space: pre-wrap; margin-bottom: 2px; font-size: 10.5px; }
-  .block-box-lg { border: 1px solid var(--line); padding: 14px 16px; min-height: 44px; white-space: pre-wrap; margin-bottom: 4px; font-size: 18px; line-height: 1.8; font-weight: 600; }
-  table.billing { width: 100%; border-collapse: collapse; margin-top: 6px; }
-  table.billing th, table.billing td { border: 1px solid var(--line); padding: 6px 8px; }
-  table.billing th { background: #f2f2f2; font-size: 11px; font-weight: 700; text-align: left; }
+  .doc-header .brand { font-size: 19px; font-weight: 700; letter-spacing: .04em; }
+  .doc-header .brand span { display: block; font-size: 10px; font-weight: 400; letter-spacing: .1em; color: #555; margin-top: 2px; }
+  .doc-header .doc-title { font-size: 21px; font-weight: 700; letter-spacing: .15em; }
+
+  /* ── コンパクトなメタテーブル ── */
+  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+  .meta-table td { border: 1px solid var(--line); padding: 4px 7px; vertical-align: top; font-size: 10.5px; }
+  .meta-table td.k { background: #f2f2f2; font-weight: 600; white-space: nowrap; width: 18%; }
+  .meta-table td.v { width: 32%; }
+
+  .section-title { font-size: 11.5px; font-weight: 700; letter-spacing: .05em; border-left: 5px solid var(--line); padding-left: 8px; margin: 12px 0 5px; }
+  .section-title.compact { margin: 8px 0 4px; }
+  .block-box { border: 1px solid var(--line); padding: 4px 8px; min-height: 18px; white-space: pre-wrap; margin-bottom: 2px; font-size: 10px; }
+  .block-box-lg { border: 1px solid var(--line); padding: 10px 14px; min-height: 38px; white-space: pre-wrap; margin-bottom: 3px; font-size: 16px; line-height: 1.7; font-weight: 600; }
+  table.billing { width: 100%; border-collapse: collapse; margin-top: 5px; }
+  table.billing th, table.billing td { border: 1px solid var(--line); padding: 5px 7px; }
+  table.billing th { background: #f2f2f2; font-size: 10.5px; font-weight: 700; text-align: left; }
   table.billing td.num { text-align: right; font-variant-numeric: tabular-nums; }
   table.billing tfoot td { font-weight: 700; }
-  table.billing tfoot tr.total td { font-size: 13px; background: #eee; }
-  table.billing.compact th, table.billing.compact td { padding: 3px 7px; font-size: 10px; }
-  table.billing.compact tfoot tr.total td { font-size: 11px; }
-  .footer-note { margin-top: 18px; padding-top: 8px; border-top: 1px solid var(--line-light); font-size: 10.5px; color: #444; text-align: center; }
+  table.billing tfoot tr.total td { font-size: 12px; background: #eee; }
+  table.billing.compact th, table.billing.compact td { padding: 3px 6px; font-size: 10px; }
+  table.billing.compact tfoot tr.total td { font-size: 10.5px; }
+
+  /* 送料情報テーブル（印刷用） */
+  .shipping-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
+  .shipping-table td { border: 1px solid var(--line); padding: 4px 7px; font-size: 10.5px; vertical-align: middle; }
+  .shipping-table td.k { background: #f2f2f2; font-weight: 600; white-space: nowrap; width: 26%; }
+  .shipping-table td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+  .footer-note { margin-top: 14px; padding-top: 7px; border-top: 1px solid var(--line-light); font-size: 10px; color: #444; text-align: center; }
 
   /* ── Toast ── */
   .toast {
@@ -361,15 +376,13 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
     .report-layout { padding: 0; max-width: none; }
     .editor { display: none !important; }
     .preview-wrap { display: block; }
-    .page { box-shadow: none; width: 210mm; min-height: 297mm; margin: 0; padding: 16mm 16mm 14mm; }
+    .page { box-shadow: none; width: 210mm; min-height: 297mm; margin: 0; padding: 12mm 16mm 14mm; }
   }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════
-     HOME SCREEN
-══════════════════════════════ -->
+<!-- ══ HOME SCREEN ══ -->
 <div id="screenHome" class="screen active">
 
   <div class="topbar">
@@ -379,13 +392,12 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
     </div>
   </div>
 
-  <!-- タブ -->
   <div class="home-tabs">
     <button class="home-tab active" data-tab="repair" onclick="switchTab('repair',this)">修理報告書</button>
     <button class="home-tab" data-tab="demo" onclick="switchTab('demo',this)">デモ機管理</button>
   </div>
 
-  <!-- ─── 修理報告書タブ ─── -->
+  <!-- 修理報告書タブ -->
   <div id="tabRepair" class="home-main">
     <div class="stats-bar">
       <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">総報告書数</div></div>
@@ -429,7 +441,7 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
     </div>
   </div>
 
-  <!-- ─── デモ機管理タブ ─── -->
+  <!-- デモ機管理タブ -->
   <div id="tabDemo" class="home-main" style="display:none">
     <div id="demoAlertBanner" class="alert-banner hidden"></div>
 
@@ -475,9 +487,7 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
 
 </div><!-- /screenHome -->
 
-<!-- ══════════════════════════════
-     REPORT CREATE SCREEN
-══════════════════════════════ -->
+<!-- ══ REPORT CREATE SCREEN ══ -->
 <div id="screenReport" class="screen">
 
   <div class="report-toolbar">
@@ -510,6 +520,27 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
         <label>お客様名</label>
         <input type="text" id="customerName" placeholder="例）山田 太郎 様">
       </div>
+
+      <!-- 郵便番号・住所 -->
+      <div class="field">
+        <label>郵便番号</label>
+        <div class="zip-row">
+          <input type="text" id="zipCode" placeholder="例）1234567" maxlength="8">
+          <button type="button" id="zipSearchBtn">住所を検索</button>
+        </div>
+        <div class="zip-msg" id="zipMsg"></div>
+      </div>
+      <div class="field">
+        <label>住所</label>
+        <input type="text" id="address" placeholder="住所が自動入力されます">
+      </div>
+
+      <!-- 電話番号 -->
+      <div class="field">
+        <label>電話番号</label>
+        <input type="text" id="phoneNo" placeholder="例）06-1234-5678">
+      </div>
+
       <div class="row2">
         <div class="field">
           <label>機器購入日</label>
@@ -531,6 +562,26 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
         <div class="field">
           <label>機器No.</label>
           <input type="text" id="deviceNo" placeholder="例）G0001">
+        </div>
+      </div>
+
+      <!-- 荷物サイズ・送料 -->
+      <div class="row2">
+        <div class="field">
+          <label>荷物サイズ</label>
+          <select id="packageSize">
+            <option value="">選択してください</option>
+            <option value="60サイズ">60サイズ</option>
+            <option value="80サイズ">80サイズ</option>
+            <option value="100サイズ">100サイズ</option>
+            <option value="120サイズ">120サイズ</option>
+            <option value="140サイズ">140サイズ</option>
+            <option value="160サイズ">160サイズ</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>着払い送料</label>
+          <input type="number" id="shippingFee" placeholder="例）1590" min="0" step="1">
         </div>
       </div>
 
@@ -592,26 +643,43 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
 
     </div><!-- /editor -->
 
+    <!-- A4プレビュー -->
     <div class="preview-wrap">
       <div class="page" id="printArea">
         <div class="doc-header">
           <div class="brand">GOD-CLEANER<span>株式会社マインドフィットネス</span></div>
           <div class="doc-title">修理報告書</div>
         </div>
+
+        <!-- コンパクトなメタ情報（3行構成・発行日なし） -->
         <table class="meta-table">
           <tr>
-            <td class="k">管理No.</td><td id="p_mgmtNo">&nbsp;</td>
-            <td class="k">ご返却日</td><td id="p_returnDate">&nbsp;</td>
+            <td class="k">管理No.</td><td class="v" id="p_mgmtNo">&nbsp;</td>
+            <td class="k">ご返却日</td><td class="v" id="p_returnDate">&nbsp;</td>
           </tr>
           <tr>
-            <td class="k">お客様名</td><td id="p_customerName">&nbsp;</td>
-            <td class="k">機器No.</td><td id="p_deviceNo">&nbsp;</td>
+            <td class="k">お客様名</td><td class="v" id="p_customerName">&nbsp;</td>
+            <td class="k">機器No.</td><td class="v" id="p_deviceNo">&nbsp;</td>
           </tr>
           <tr>
-            <td class="k">機器購入日</td><td id="p_purchaseDate">&nbsp;</td>
-            <td class="k">発行日</td><td id="p_issueDate">&nbsp;</td>
+            <td class="k">機器購入日</td><td class="v" id="p_purchaseDate">&nbsp;</td>
+            <td class="k">TEL</td><td class="v" id="p_phoneNo">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="k">住所</td><td colspan="3" id="p_address">&nbsp;</td>
           </tr>
         </table>
+
+        <!-- 送料・荷物サイズ情報 -->
+        <table class="shipping-table">
+          <tr>
+            <td class="k">荷物サイズ</td>
+            <td id="p_packageSize">&nbsp;</td>
+            <td class="k">着払い送料</td>
+            <td class="num" id="p_shippingFee">&nbsp;</td>
+          </tr>
+        </table>
+
         <div class="section-title compact">返却品</div>
         <table class="billing compact">
           <thead>
@@ -629,12 +697,14 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
             </tr>
           </tbody>
         </table>
+
         <div class="section-title">故障内容</div>
         <div class="block-box-lg" id="p_failureContent">&nbsp;</div>
         <div class="section-title">修理内容</div>
         <div class="block-box-lg" id="p_repairContent">&nbsp;</div>
         <div class="section-title">備考</div>
         <div class="block-box" id="p_remarks">&nbsp;</div>
+
         <div class="section-title compact">修理費用ご請求明細</div>
         <table class="billing">
           <thead>
@@ -647,6 +717,7 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
             <tr class="total"><td colspan="3">総合計金額</td><td class="num" id="p_total">¥0</td></tr>
           </tfoot>
         </table>
+
         <div class="footer-note" id="p_companyAddress"></div>
       </div>
     </div>
@@ -736,7 +807,7 @@ table.archive-table { min-width: 620px; } /* ← 追記：つぶれ防止 */
 /* ══════════════════════════════
    Firebase
 ══════════════════════════════ */
-const DB_BASE = 'https://trade-analysis-1474d-default-rtdb.asia-southeast1.firebasedatabase.app';
+const DB_BASE    = 'https://trade-analysis-1474d-default-rtdb.asia-southeast1.firebasedatabase.app';
 const REPAIR_URL = DB_BASE + '/repairReports';
 const DEMO_URL   = DB_BASE + '/demoUnits';
 
@@ -767,6 +838,54 @@ async function fbDelete(url, id) {
 }
 
 /* ══════════════════════════════
+   郵便番号 → 住所 自動入力
+   API: zipcloud (key不要) + フォールバック
+══════════════════════════════ */
+async function lookupZip(zip) {
+  const clean = zip.replace(/[^0-9]/g, '');
+  if (clean.length !== 7) throw new Error('郵便番号は7桁で入力してください');
+
+  // zipcloud（無料・keyなし）
+  const url = `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${clean}`;
+  const res  = await fetch(url);
+  if (!res.ok) throw new Error('ネットワークエラー');
+  const json = await res.json();
+  if (json.status !== 200 || !json.results || !json.results.length) {
+    throw new Error('住所が見つかりませんでした');
+  }
+  const r = json.results[0];
+  return `${r.address1}${r.address2}${r.address3}`;
+}
+
+document.getElementById('zipSearchBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('zipSearchBtn');
+  const msg = document.getElementById('zipMsg');
+  const zip = document.getElementById('zipCode').value.trim();
+  msg.textContent = ''; msg.className = 'zip-msg';
+  btn.disabled = true; btn.textContent = '検索中…';
+  try {
+    // After
+const addr = await lookupZip(zip);
+const cleanZip = zip.replace(/[^0-9]/g, '');
+const formatted = `〒${cleanZip.slice(0,3)}-${cleanZip.slice(3)} ${addr}`;
+document.getElementById('address').value = formatted;
+document.getElementById('address').dispatchEvent(new Event('input'));
+    msg.textContent = '✓ 住所を取得しました';
+    msg.className = 'zip-msg ok';
+  } catch(e) {
+    msg.textContent = '⚠ ' + e.message;
+    msg.className = 'zip-msg err';
+  } finally {
+    btn.disabled = false; btn.textContent = '住所を検索';
+  }
+});
+
+// Enterキーで検索
+document.getElementById('zipCode').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('zipSearchBtn').click();
+});
+
+/* ══════════════════════════════
    Screen / Tab switching
 ══════════════════════════════ */
 let currentTab = 'repair';
@@ -777,10 +896,6 @@ function showScreen(name) {
   if (name === 'home') {
     if (currentTab === 'repair') loadAllRepairs();
     else loadAllDemo();
-  }
-  // ↓ この if ブロックを丸ごと削除
-  // if (name === 'report') resetReportForm();
-  if (name === 'home') {
     _editingRepairId = null;
     document.querySelector('.report-toolbar h1').textContent = '修理報告書 作成';
     document.getElementById('saveBtn').textContent = '💾 保存してアーカイブ';
@@ -794,17 +909,14 @@ function switchTab(tab, btn) {
   btn.classList.add('active');
   document.getElementById('tabRepair').style.display = tab === 'repair' ? 'block' : 'none';
   document.getElementById('tabDemo').style.display   = tab === 'demo'   ? 'block' : 'none';
-
-  // 新規ボタンのラベル変更
-  document.getElementById('topNewBtn').textContent = tab === 'repair' ? '＋ 新規報告書作成' : '＋ デモ機貸出を追加';
-
+  document.getElementById('topNewBtn').textContent   = tab === 'repair' ? '＋ 新規報告書作成' : '＋ デモ機貸出を追加';
   if (tab === 'repair') loadAllRepairs();
   else loadAllDemo();
 }
 
 document.getElementById('topNewBtn').addEventListener('click', () => {
   if (currentTab === 'repair') {
-    resetReportForm(); // ← 新規のときだけ明示的にリセット
+    resetReportForm();
     showScreen('report');
   } else {
     openDemoModal();
@@ -839,24 +951,22 @@ function toast(msg, type = '') {
   setTimeout(() => { el.className = 'toast'; }, 3200);
 }
 function daysBetween(dateStr1, dateStr2) {
-  const d1 = new Date(dateStr1);
-  const d2 = new Date(dateStr2);
-  return Math.floor((d2 - d1) / 86400000);
+  return Math.floor((new Date(dateStr2) - new Date(dateStr1)) / 86400000);
 }
 function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
 /* ══════════════════════════════
-   CONFIRM DIALOG（汎用）
+   CONFIRM DIALOG
 ══════════════════════════════ */
 let _pendingConfirm = null;
 
 function openConfirm({ icon = '🗑️', title = '確認', msg = 'よろしいですか？', okLabel = '削除する', onOk }) {
-  document.getElementById('confirmIcon').textContent = icon;
+  document.getElementById('confirmIcon').textContent  = icon;
   document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmMsg').textContent = msg;
-  document.getElementById('confirmYes').textContent = okLabel;
+  document.getElementById('confirmMsg').textContent   = msg;
+  document.getElementById('confirmYes').textContent   = okLabel;
   _pendingConfirm = onOk;
   document.getElementById('confirmDialog').classList.add('open');
 }
@@ -884,10 +994,10 @@ async function loadAllRepairs() {
       ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
       : [];
     allRecords.sort((a, b) => {
-  const na = parseInt((a.data.mgmtNo || '').match(/\d+/)?.[0] || '0', 10);
-  const nb = parseInt((b.data.mgmtNo || '').match(/\d+/)?.[0] || '0', 10);
-  return nb - na;
-});
+      const na = parseInt((a.data.mgmtNo || '').match(/\d+/)?.[0] || '0', 10);
+      const nb = parseInt((b.data.mgmtNo || '').match(/\d+/)?.[0] || '0', 10);
+      return nb - na;
+    });
     updateRepairStats(allRecords);
     renderRepairTable(allRecords);
   } catch (e) {
@@ -898,11 +1008,11 @@ async function loadAllRepairs() {
 
 function updateRepairStats(records) {
   const now = new Date();
-  const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const ym  = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   const thisMonth = records.filter(r => (r.data.returnDate || '').startsWith(ym));
   const rev = thisMonth.reduce((s, r) => s + (r.data.total || 0), 0);
-  document.getElementById('statTotal').textContent = records.length;
-  document.getElementById('statMonth').textContent = thisMonth.length;
+  document.getElementById('statTotal').textContent   = records.length;
+  document.getElementById('statMonth').textContent   = thisMonth.length;
   document.getElementById('statRevenue').textContent = rev ? yen(rev) : '¥0';
 }
 
@@ -924,11 +1034,11 @@ function renderRepairTable(records) {
       <td class="td-total">${d.total != null ? yen(d.total) : '—'}</td>
       <td class="td-actions">
         <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
-  onclick="openRepairDetail('${r.id}')">詳細</button>
-<button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
-  onclick="openRepairEdit('${r.id}')">編集</button>
-<button class="btn btn-sm btn-red"
-  onclick="askDeleteRepair('${r.id}')">削除</button>
+          onclick="openRepairDetail('${r.id}')">詳細</button>
+        <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
+          onclick="openRepairEdit('${r.id}')">編集</button>
+        <button class="btn btn-sm btn-red"
+          onclick="askDeleteRepair('${r.id}')">削除</button>
       </td>
     </tr>`;
   }).join('');
@@ -989,6 +1099,10 @@ function openRepairDetail(id) {
       <div class="detail-meta-k">お客様名</div><div class="detail-meta-v">${esc(d.customerName||'—')}</div>
       <div class="detail-meta-k">機器No.</div><div class="detail-meta-v">${esc(d.deviceNo||'—')}</div>
       <div class="detail-meta-k">機器購入日</div><div class="detail-meta-v">${esc(d.purchaseDate||'—')}</div>
+      <div class="detail-meta-k">TEL</div><div class="detail-meta-v">${esc(d.phoneNo||'—')}</div>
+      <div class="detail-meta-k">住所</div><div class="detail-meta-v" style="grid-column:span 3">${esc(d.address||'—')}</div>
+      <div class="detail-meta-k">荷物サイズ</div><div class="detail-meta-v">${esc(d.packageSize||'—')}</div>
+      <div class="detail-meta-k">送料</div><div class="detail-meta-v">${d.shippingFee != null && d.shippingFee !== '' ? yen(d.shippingFee) : '—'}</div>
       <div class="detail-meta-k">返却品</div><div class="detail-meta-v">${esc(returnedItems)}</div>
     </div>
     <div class="detail-sec">故障内容</div>
@@ -1008,11 +1122,11 @@ function openRepairDetail(id) {
       </tfoot>
     </table>
     <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
-  <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
-    onclick="closeRepairModal();openRepairEdit('${id}')">この報告書を編集</button>
-  <button class="btn btn-red btn-sm"
-    onclick="closeRepairModal();askDeleteRepair('${id}')">この報告書を削除</button>
-</div>`;
+      <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
+        onclick="closeRepairModal();openRepairEdit('${id}')">この報告書を編集</button>
+      <button class="btn btn-red btn-sm"
+        onclick="closeRepairModal();askDeleteRepair('${id}')">この報告書を削除</button>
+    </div>`;
   document.getElementById('detailModal').classList.add('open');
 }
 function closeRepairModal() { document.getElementById('detailModal').classList.remove('open'); }
@@ -1044,7 +1158,7 @@ function askDeleteRepair(id) {
 /* ══════════════════════════════
    HOME — デモ機管理
 ══════════════════════════════ */
-const OVERDUE_DAYS = 14; // 修理品発送日から何日で要確認
+const OVERDUE_DAYS = 14;
 let allDemoRecords = [];
 let _editingDemoId = null;
 
@@ -1067,15 +1181,12 @@ async function loadAllDemo() {
 }
 
 function getDemoStatus(d) {
-  // 返却済み
   if (d.returnDate) return 'returned';
-  // 修理品発送済み → 返却待ち or 超過
   if (d.repairShipDate) {
     const days = daysBetween(d.repairShipDate, todayStr());
     if (days >= OVERDUE_DAYS) return 'overdue';
     return 'waiting';
   }
-  // デモ機発送のみ
   return 'active';
 }
 
@@ -1090,17 +1201,14 @@ function getDemoStatusBadge(status) {
 }
 
 function updateDemoStats(records) {
-  const total   = records.length;
-  const active  = records.filter(r => getDemoStatus(r.data) !== 'returned').length;
-  const overdue = records.filter(r => getDemoStatus(r.data) === 'overdue').length;
-  document.getElementById('demoStatTotal').textContent   = total;
-  document.getElementById('demoStatActive').textContent  = active;
-  document.getElementById('demoStatOverdue').textContent = overdue;
+  document.getElementById('demoStatTotal').textContent   = records.length;
+  document.getElementById('demoStatActive').textContent  = records.filter(r => getDemoStatus(r.data) !== 'returned').length;
+  document.getElementById('demoStatOverdue').textContent = records.filter(r => getDemoStatus(r.data) === 'overdue').length;
 }
 
 function renderDemoAlertBanner(records) {
   const overdue = records.filter(r => getDemoStatus(r.data) === 'overdue');
-  const banner = document.getElementById('demoAlertBanner');
+  const banner  = document.getElementById('demoAlertBanner');
   if (overdue.length) {
     banner.textContent = `⚠️ 修理品発送から${OVERDUE_DAYS}日以上経過している未返却のデモ機が ${overdue.length} 件あります。お客様へご確認ください。`;
     banner.classList.remove('hidden');
@@ -1119,8 +1227,7 @@ function renderDemoTable(records) {
   const rows = records.map(r => {
     const d = r.data;
     const status = getDemoStatus(d);
-    const days = d.repairShipDate && !d.returnDate
-      ? daysBetween(d.repairShipDate, todayStr()) : null;
+    const days   = d.repairShipDate && !d.returnDate ? daysBetween(d.repairShipDate, todayStr()) : null;
     const overdueNote = status === 'overdue' ? `<br><span style="font-size:11px;color:var(--danger)">${days}日経過</span>` : '';
     return `<tr>
       <td class="td-customer">${esc(d.name || '—')}</td>
@@ -1143,13 +1250,9 @@ function renderDemoTable(records) {
   document.getElementById('demoTableBody').innerHTML = `
     <table class="archive-table">
       <thead><tr>
-        <th>お客様名</th>
-        <th>デモ機No.</th>
-        <th>デモ機発送日</th>
-        <th>修理品発送日</th>
-        <th>返却日</th>
-        <th>ステータス</th>
-        <th></th>
+        <th>お客様名</th><th>デモ機No.</th>
+        <th>デモ機発送日</th><th>修理品発送日</th>
+        <th>返却日</th><th>ステータス</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
@@ -1158,8 +1261,8 @@ function renderDemoTable(records) {
 /* Demo Search */
 document.getElementById('demoBtnSearch').addEventListener('click', doDemoSearch);
 document.getElementById('demoBtnReset').addEventListener('click', () => {
-  document.getElementById('demoSearchName').value = '';
-  document.getElementById('demoSearchUnit').value = '';
+  document.getElementById('demoSearchName').value   = '';
+  document.getElementById('demoSearchUnit').value   = '';
   document.getElementById('demoSearchStatus').value = '';
   renderDemoTable(allDemoRecords);
 });
@@ -1172,7 +1275,7 @@ function doDemoSearch() {
   const qs = document.getElementById('demoSearchStatus').value;
   const filtered = allDemoRecords.filter(r => {
     const d = r.data;
-    if (qn && !(d.name || '').toLowerCase().includes(qn)) return false;
+    if (qn && !(d.name   || '').toLowerCase().includes(qn)) return false;
     if (qu && !(d.unitNo || '').toLowerCase().includes(qu)) return false;
     if (qs && getDemoStatus(d) !== qs) return false;
     return true;
@@ -1186,7 +1289,7 @@ function openDemoDetail(id) {
   if (!rec) return;
   const d = rec.data;
   const status = getDemoStatus(d);
-  const days = d.repairShipDate && !d.returnDate ? daysBetween(d.repairShipDate, todayStr()) : null;
+  const days   = d.repairShipDate && !d.returnDate ? daysBetween(d.repairShipDate, todayStr()) : null;
   document.getElementById('demoDetailTitle').textContent = `デモ機貸出 詳細 — ${d.name || id}`;
   document.getElementById('demoDetailBody').innerHTML = `
     <div class="detail-meta">
@@ -1218,12 +1321,8 @@ document.getElementById('demoDetailModal').addEventListener('click', e => {
 function openDemoModal() {
   _editingDemoId = null;
   document.getElementById('demoModalTitle').textContent = 'デモ機貸出 追加';
-  document.getElementById('df-name').value = '';
-  document.getElementById('df-unitNo').value = '';
-  document.getElementById('df-shipDate').value = '';
-  document.getElementById('df-repairShipDate').value = '';
-  document.getElementById('df-returnDate').value = '';
-  document.getElementById('df-note').value = '';
+  ['df-name','df-unitNo','df-shipDate','df-repairShipDate','df-returnDate','df-note']
+    .forEach(id => document.getElementById(id).value = '');
   document.getElementById('demoModal').classList.add('open');
 }
 function openDemoEditModal(id) {
@@ -1231,13 +1330,13 @@ function openDemoEditModal(id) {
   if (!rec) return;
   const d = rec.data;
   _editingDemoId = id;
-  document.getElementById('demoModalTitle').textContent = 'デモ機貸出 編集';
-  document.getElementById('df-name').value = d.name || '';
-  document.getElementById('df-unitNo').value = d.unitNo || '';
-  document.getElementById('df-shipDate').value = d.shipDate || '';
-  document.getElementById('df-repairShipDate').value = d.repairShipDate || '';
-  document.getElementById('df-returnDate').value = d.returnDate || '';
-  document.getElementById('df-note').value = d.note || '';
+  document.getElementById('demoModalTitle').textContent       = 'デモ機貸出 編集';
+  document.getElementById('df-name').value                    = d.name || '';
+  document.getElementById('df-unitNo').value                  = d.unitNo || '';
+  document.getElementById('df-shipDate').value                = d.shipDate || '';
+  document.getElementById('df-repairShipDate').value          = d.repairShipDate || '';
+  document.getElementById('df-returnDate').value              = d.returnDate || '';
+  document.getElementById('df-note').value                    = d.note || '';
   document.getElementById('demoModal').classList.add('open');
 }
 function closeDemoModal() {
@@ -1251,18 +1350,17 @@ document.getElementById('demoModal').addEventListener('click', e => {
 });
 
 document.getElementById('demoModalSubmit').addEventListener('click', async () => {
-  const name          = document.getElementById('df-name').value.trim();
-  const unitNo        = document.getElementById('df-unitNo').value.trim();
-  const shipDate      = document.getElementById('df-shipDate').value;
+  const name           = document.getElementById('df-name').value.trim();
+  const unitNo         = document.getElementById('df-unitNo').value.trim();
+  const shipDate       = document.getElementById('df-shipDate').value;
   const repairShipDate = document.getElementById('df-repairShipDate').value;
-  const returnDate    = document.getElementById('df-returnDate').value;
-  const note          = document.getElementById('df-note').value.trim();
+  const returnDate     = document.getElementById('df-returnDate').value;
+  const note           = document.getElementById('df-note').value.trim();
 
   if (!name) { toast('お客様名を入力してください', 'error'); return; }
 
   const btn = document.getElementById('demoModalSubmit');
   btn.disabled = true; btn.textContent = '保存中…';
-
   try {
     const payload = { name, unitNo, shipDate, repairShipDate, returnDate, note };
     if (_editingDemoId) {
@@ -1306,7 +1404,7 @@ function askDeleteDemo(id) {
 /* ══════════════════════════════
    REPORT FORM
 ══════════════════════════════ */
-const COMPANY_ADDRESS = `〒541-0042 大阪市中央区今橋1-7-19 北浜BLD 11F\n㈱マインドフィットネス\nTEL:06-6202-5401`;
+const COMPANY_ADDRESS = `〒541-0042 大阪市中央区今橋1-7-19 北浜BLD 11F\n㈱マインドフィットネス  TEL:06-6202-5401`;
 document.getElementById('p_companyAddress').textContent = COMPANY_ADDRESS;
 
 const CATEGORY_DATA = {
@@ -1332,7 +1430,7 @@ const CATEGORY_DATA = {
   ]
 };
 const CATEGORY_NAMES = Object.keys(CATEGORY_DATA);
-const BILLING_ROWS = 7;
+const BILLING_ROWS   = 7;
 
 function buildCatHTML() {
   return '<option value="">項目を選択</option>' +
@@ -1346,11 +1444,11 @@ function buildSubHTML(cat) {
 }
 
 const billingRowsEl = document.getElementById('billingRows');
-const pBillingBody = document.getElementById('p_billingBody');
+const pBillingBody  = document.getElementById('p_billingBody');
 
 function buildBillingRows() {
   billingRowsEl.innerHTML = '';
-  pBillingBody.innerHTML = '';
+  pBillingBody.innerHTML  = '';
   for (let i = 0; i < BILLING_ROWS; i++) {
     const card = document.createElement('div');
     card.className = 'billing-card';
@@ -1370,11 +1468,11 @@ function buildBillingRows() {
     tr.innerHTML = `<td class="p-b-name">&nbsp;</td><td class="num p-b-qty"></td><td class="num p-b-price"></td><td class="num p-b-amount"></td>`;
     pBillingBody.appendChild(tr);
 
-    const catSel = card.querySelector('.b-cat');
-    const subSel = card.querySelector('.b-sub');
-    const freeName = card.querySelector('.b-freename');
+    const catSel    = card.querySelector('.b-cat');
+    const subSel    = card.querySelector('.b-sub');
+    const freeName  = card.querySelector('.b-freename');
     const priceInput = card.querySelector('.b-price');
-    const qtyInput = card.querySelector('.b-qty');
+    const qtyInput   = card.querySelector('.b-qty');
 
     catSel.addEventListener('change', () => {
       subSel.disabled = !catSel.value;
@@ -1406,63 +1504,77 @@ function recalcBilling() {
   const pRows = pBillingBody.querySelectorAll('tr');
   let subtotal = 0;
   billingRowsEl.querySelectorAll('.billing-card').forEach((card, i) => {
-    const catSel = card.querySelector('.b-cat');
-    const subSel = card.querySelector('.b-sub');
-    const freeName = card.querySelector('.b-freename');
+    const catSel    = card.querySelector('.b-cat');
+    const subSel    = card.querySelector('.b-sub');
+    const freeName  = card.querySelector('.b-freename');
     const priceInput = card.querySelector('.b-price');
-    const qtyInput = card.querySelector('.b-qty');
-    const amountEl = card.querySelector('.b-amount');
+    const qtyInput   = card.querySelector('.b-qty');
+    const amountEl   = card.querySelector('.b-amount');
     const hasContent = !!catSel.value;
-    const item = hasContent && subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
-    const isOther = !!(item && item.price === null);
-    const qty = parseFloat(qtyInput.value) || 0;
-    const price = parseFloat(priceInput.value) || 0;
-    const amount = qty * price;
-    amountEl.value = hasContent ? yen(amount) : '';
+    const item       = hasContent && subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
+    const isOther    = !!(item && item.price === null);
+    const qty        = parseFloat(qtyInput.value) || 0;
+    const price      = parseFloat(priceInput.value) || 0;
+    const amount     = qty * price;
+    amountEl.value   = hasContent ? yen(amount) : '';
     const displayName = hasContent
       ? (isOther && freeName.value.trim() ? freeName.value.trim() : catSel.value)
       : '';
     const pr = pRows[i];
-    pr.querySelector('.p-b-name').textContent = displayName || '\u00A0';
-    pr.querySelector('.p-b-qty').textContent = hasContent ? qty : '';
-    pr.querySelector('.p-b-price').textContent = hasContent ? yen(price) : '';
+    pr.querySelector('.p-b-name').textContent   = displayName || '\u00A0';
+    pr.querySelector('.p-b-qty').textContent    = hasContent ? qty : '';
+    pr.querySelector('.p-b-price').textContent  = hasContent ? yen(price) : '';
     pr.querySelector('.p-b-amount').textContent = hasContent ? yen(amount) : '';
     if (hasContent) subtotal += amount;
   });
   currentSubtotal = subtotal;
-  currentTax = Math.floor(subtotal * 0.10);
-  currentTotal = subtotal + currentTax;
+  currentTax      = Math.floor(subtotal * 0.10);
+  currentTotal    = subtotal + currentTax;
   document.getElementById('p_subtotal').textContent = yen(currentSubtotal);
-  document.getElementById('p_tax').textContent = yen(currentTax);
-  document.getElementById('p_total').textContent = yen(currentTotal);
+  document.getElementById('p_tax').textContent      = yen(currentTax);
+  document.getElementById('p_total').textContent    = yen(currentTotal);
 }
 
 /* Preview sync */
 function syncText(inputId, previewId, formatter) {
-  const input = document.getElementById(inputId);
+  const input   = document.getElementById(inputId);
   const preview = document.getElementById(previewId);
-  const update = () => {
+  const update  = () => {
     const val = formatter ? formatter(input.value) : input.value;
     preview.textContent = val && val.trim() ? val : '\u00A0';
   };
   input.addEventListener('input', update);
   update();
 }
-syncText('mgmtNo', 'p_mgmtNo');
-syncText('returnDate', 'p_returnDate', fmtDate);
-const cnInput = document.getElementById('customerName');
+syncText('mgmtNo',    'p_mgmtNo');
+syncText('returnDate','p_returnDate', fmtDate);
+syncText('deviceNo',  'p_deviceNo');
+syncText('failureContent','p_failureContent');
+syncText('repairContent', 'p_repairContent');
+syncText('remarks',       'p_remarks');
+syncText('phoneNo',  'p_phoneNo');
+syncText('address',  'p_address');
+
+// 荷物サイズ
+document.getElementById('packageSize').addEventListener('change', () => {
+  const v = document.getElementById('packageSize').value;
+  document.getElementById('p_packageSize').textContent = v || '\u00A0';
+});
+
+// 送料
+document.getElementById('shippingFee').addEventListener('input', () => {
+  const v = document.getElementById('shippingFee').value;
+  document.getElementById('p_shippingFee').textContent = v !== '' ? yen(parseFloat(v) || 0) : '\u00A0';
+});
+
+// お客様名（「様/御中」付き）
+const cnInput   = document.getElementById('customerName');
 const cnPreview = document.getElementById('p_customerName');
 cnInput.addEventListener('input', () => {
   const val = cnInput.value.trim();
   cnPreview.textContent = val ? val + '\u3000\u3000様/御中' : '\u00A0';
 });
 cnPreview.textContent = '\u00A0';
-syncText('deviceNo', 'p_deviceNo');
-syncText('failureContent', 'p_failureContent');
-syncText('repairContent', 'p_repairContent');
-syncText('remarks', 'p_remarks');
-
-document.getElementById('p_issueDate').textContent = fmtDate(new Date().toISOString().slice(0, 10));
 
 function syncPurchaseDate() {
   const y = document.getElementById('purchaseYear').value;
@@ -1475,7 +1587,7 @@ function syncPurchaseDate() {
   document.getElementById('p_purchaseDate').textContent = t || '\u00A0';
 }
 ['purchaseYear','purchaseMonth','purchaseDay'].forEach(id => {
-  document.getElementById(id).addEventListener('input', syncPurchaseDate);
+  document.getElementById(id).addEventListener('input',  syncPurchaseDate);
   document.getElementById(id).addEventListener('change', syncPurchaseDate);
 });
 
@@ -1493,7 +1605,7 @@ setupReturnCheck();
 
 function setupSelectField(selId, taId) {
   const sel = document.getElementById(selId);
-  const ta = document.getElementById(taId);
+  const ta  = document.getElementById(taId);
   sel.addEventListener('change', () => {
     if (sel.value === '__other__') {
       ta.disabled = false; ta.value = ''; ta.focus();
@@ -1504,8 +1616,8 @@ function setupSelectField(selId, taId) {
   });
 }
 setupSelectField('failureContentSel', 'failureContent');
-setupSelectField('repairContentSel', 'repairContent');
-setupSelectField('remarksSel', 'remarks');
+setupSelectField('repairContentSel',  'repairContent');
+setupSelectField('remarksSel',        'remarks');
 
 /* 管理番号自動採番 */
 async function getNextMgmtNo() {
@@ -1520,11 +1632,11 @@ async function getNextMgmtNo() {
     return '001';
   }
 }
-function saveMgmtNo() {} // DB参照方式に変更したため不要（互換性のため空関数として残す）
+function saveMgmtNo() {}
 
 function resetReportForm(skipMgmtNo = false) {
-  const mgmtEl = document.getElementById('mgmtNo');
   if (!skipMgmtNo) {
+    const mgmtEl = document.getElementById('mgmtNo');
     mgmtEl.value = '採番中…';
     mgmtEl.dispatchEvent(new Event('input'));
     getNextMgmtNo().then(no => {
@@ -1535,13 +1647,24 @@ function resetReportForm(skipMgmtNo = false) {
   const rd = document.getElementById('returnDate');
   rd.value = new Date().toISOString().slice(0, 10);
   rd.dispatchEvent(new Event('input'));
+
   const dn = document.getElementById('deviceNo');
   dn.value = 'G';
   dn.dispatchEvent(new Event('input'));
-  ['customerName','purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
-  const el = document.getElementById(id);
-  el.value = ''; el.dispatchEvent(new Event('input'));
-});
+
+  ['customerName','phoneNo','address','zipCode','purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
+    const el = document.getElementById(id);
+    el.value = ''; el.dispatchEvent(new Event('input'));
+  });
+  document.getElementById('zipMsg').textContent = '';
+  document.getElementById('zipMsg').className   = 'zip-msg';
+
+  // 荷物サイズ・送料
+  document.getElementById('packageSize').value = '';
+  document.getElementById('p_packageSize').textContent = '\u00A0';
+  document.getElementById('shippingFee').value = '';
+  document.getElementById('p_shippingFee').textContent = '\u00A0';
+
   ['purchaseMonth','purchaseDay'].forEach(id => {
     const el = document.getElementById(id);
     el.value = ''; el.dispatchEvent(new Event('change'));
@@ -1554,35 +1677,35 @@ function resetReportForm(skipMgmtNo = false) {
     el.disabled = true; el.value = '';
     el.dispatchEvent(new Event('input'));
   });
-  document.querySelectorAll('.ret-included').forEach(cb => { cb.checked = false; cb.dispatchEvent(new Event('change')); });
+  document.querySelectorAll('.ret-included').forEach(cb => {
+    cb.checked = false; cb.dispatchEvent(new Event('change'));
+  });
   buildBillingRows();
   recalcBilling();
   syncPurchaseDate();
-  document.getElementById('p_issueDate').textContent = fmtDate(new Date().toISOString().slice(0, 10));
 }
 
-/* Save */
+/* collect billingLines */
 function collectBillingLines() {
   const lines = [];
   billingRowsEl.querySelectorAll('.billing-card').forEach(card => {
-    const catSel = card.querySelector('.b-cat');
+    const catSel    = card.querySelector('.b-cat');
     if (!catSel.value) return;
-    const subSel = card.querySelector('.b-sub');
-    const freeName = card.querySelector('.b-freename');
+    const subSel    = card.querySelector('.b-sub');
+    const freeName  = card.querySelector('.b-freename');
     const priceInput = card.querySelector('.b-price');
-    const qtyInput = card.querySelector('.b-qty');
-    const item = subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
-    const isOther = !!(item && item.price === null);
-    const qty = parseFloat(qtyInput.value) || 0;
-    const price = parseFloat(priceInput.value) || 0;
-    const name = isOther && freeName.value.trim() ? freeName.value.trim() : catSel.value;
+    const qtyInput   = card.querySelector('.b-qty');
+    const item       = subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
+    const isOther    = !!(item && item.price === null);
+    const qty        = parseFloat(qtyInput.value) || 0;
+    const price      = parseFloat(priceInput.value) || 0;
+    const name       = isOther && freeName.value.trim() ? freeName.value.trim() : catSel.value;
     lines.push({ name, qty, price, amount: qty * price });
   });
   return lines;
 }
 
-/* ── 編集モード管理 ── */
-/* ── 編集モード管理 ── */
+/* ── 編集モード ── */
 let _editingRepairId = null;
 
 function openRepairEdit(id) {
@@ -1591,27 +1714,36 @@ function openRepairEdit(id) {
   const d = rec.data;
   _editingRepairId = id;
 
-  resetReportForm(true);  // 編集時は自動採番をスキップ
+  resetReportForm(true);
 
-  // 基本情報
   const setVal = (elId, val) => {
     const el = document.getElementById(elId);
     el.value = val || '';
     el.dispatchEvent(new Event('input'));
   };
-  setVal('mgmtNo', d.mgmtNo);
-  setVal('returnDate', d.returnDate);
+  setVal('mgmtNo',       d.mgmtNo);
+  setVal('returnDate',   d.returnDate);
   setVal('customerName', (d.customerName || '').replace(/\u3000\u3000様\/御中$/, '').trim());
-  setVal('deviceNo', d.deviceNo);
+  setVal('deviceNo',     d.deviceNo);
+  setVal('phoneNo',      d.phoneNo);
+  setVal('address',      d.address);
+  setVal('zipCode',      d.zipCode || '');
+
+  // 荷物サイズ・送料
+  document.getElementById('packageSize').value = d.packageSize || '';
+  document.getElementById('p_packageSize').textContent = d.packageSize || '\u00A0';
+  document.getElementById('shippingFee').value = d.shippingFee != null ? d.shippingFee : '';
+  document.getElementById('p_shippingFee').textContent =
+    d.shippingFee != null && d.shippingFee !== '' ? yen(d.shippingFee) : '\u00A0';
 
   // 機器購入日
   if (d.purchaseDate) {
     const my = (d.purchaseDate.match(/(\d+)年/) || [])[1];
     const mm = (d.purchaseDate.match(/(\d+)月/) || [])[1];
     const md = (d.purchaseDate.match(/(\d+)日/) || [])[1];
-    if (my) document.getElementById('purchaseYear').value = my;
+    if (my) document.getElementById('purchaseYear').value  = my;
     if (mm) document.getElementById('purchaseMonth').value = mm;
-    if (md) document.getElementById('purchaseDay').value = md;
+    if (md) document.getElementById('purchaseDay').value   = md;
     syncPurchaseDate();
   }
 
@@ -1625,16 +1757,12 @@ function openRepairEdit(id) {
   // 故障・修理・備考
   const fillTextField = (selId, taId, val) => {
     const sel = document.getElementById(selId);
-    const ta = document.getElementById(taId);
+    const ta  = document.getElementById(taId);
     const opt = Array.from(sel.options).find(o => o.value === val && o.value !== '__other__' && o.value !== '');
     if (opt) {
-      sel.value = val;
-      ta.disabled = true;
-      ta.value = val;
+      sel.value = val; ta.disabled = true; ta.value = val;
     } else {
-      sel.value = '__other__';
-      ta.disabled = false;
-      ta.value = val || '';
+      sel.value = '__other__'; ta.disabled = false; ta.value = val || '';
     }
     ta.dispatchEvent(new Event('input'));
   };
@@ -1642,51 +1770,36 @@ function openRepairEdit(id) {
   fillTextField('repairContentSel',  'repairContent',  d.repairContent);
   fillTextField('remarksSel',        'remarks',        d.remarks);
 
-  // ── 請求明細（修正箇所）──
+  // 請求明細
   const lines = d.billingLines || [];
   billingRowsEl.querySelectorAll('.billing-card').forEach((card, i) => {
     const line = lines[i];
     if (!line || !line.name) return;
-
-    const catSel    = card.querySelector('.b-cat');
-    const subSel    = card.querySelector('.b-sub');
-    const freeName  = card.querySelector('.b-freename');
+    const catSel     = card.querySelector('.b-cat');
+    const subSel     = card.querySelector('.b-sub');
+    const freeName   = card.querySelector('.b-freename');
     const priceInput = card.querySelector('.b-price');
     const qtyInput   = card.querySelector('.b-qty');
-
-    // ① カテゴリを決定：line.name がカテゴリ名と一致するか確認
-    //    一致しない場合は全カテゴリの「その他」で流し込む → 「交換部品代」をデフォルトに
     const matchedCat = CATEGORY_NAMES.find(c => c === line.name) || '交換部品代';
-    catSel.value = matchedCat;
-
-    // ② subSelect の選択肢を手動で更新（dispatchEvent を使わず直接操作）
+    catSel.value     = matchedCat;
     subSel.innerHTML = buildSubHTML(matchedCat);
-    subSel.disabled = false;
-
-    // ③ カテゴリ内の「その他」インデックスを見つけて選択
-    const otherIdx = CATEGORY_DATA[matchedCat].findIndex(it => it.price === null);
-    if (otherIdx >= 0) {
-      subSel.value = String(otherIdx);
-    }
-
-    // ④ 自由入力欄・単価・数量を直接セット（dispatchEvent の連鎖に頼らない）
-    freeName.disabled = false;
-    freeName.value = line.name;
+    subSel.disabled  = false;
+    const otherIdx   = CATEGORY_DATA[matchedCat].findIndex(it => it.price === null);
+    if (otherIdx >= 0) subSel.value = String(otherIdx);
+    freeName.disabled  = false;
+    freeName.value     = line.name;
     priceInput.readOnly = false;
-    priceInput.value = line.price != null ? line.price : 0;
-    qtyInput.value = line.qty != null ? line.qty : 1;
+    priceInput.value   = line.price != null ? line.price : 0;
+    qtyInput.value     = line.qty   != null ? line.qty   : 1;
   });
-
-  // ⑤ 全行セット後に一括で再計算
   recalcBilling();
 
   document.querySelector('.report-toolbar h1').textContent = '修理報告書 編集';
   document.getElementById('saveBtn').textContent = '💾 更新して保存';
-
   showScreen('report');
 }
 
-/* ── 保存ボタン（新規 & 更新 両対応） ── */
+/* ── 保存ボタン ── */
 document.getElementById('saveBtn').addEventListener('click', async () => {
   const btn = document.getElementById('saveBtn');
   btn.disabled = true; btn.textContent = '保存中…';
@@ -1699,11 +1812,17 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     if (m) purchaseDate += `${Number(m)}月`;
     if (d) purchaseDate += `${Number(d)}日`;
 
+    const shippingFeeRaw = document.getElementById('shippingFee').value;
     const payload = {
       mgmtNo:       document.getElementById('mgmtNo').value.trim(),
       returnDate:   document.getElementById('returnDate').value,
       customerName: document.getElementById('customerName').value.trim(),
       deviceNo:     document.getElementById('deviceNo').value.trim(),
+      phoneNo:      document.getElementById('phoneNo').value.trim(),
+      zipCode:      document.getElementById('zipCode').value.trim(),
+      address:      document.getElementById('address').value.trim(),
+      packageSize:  document.getElementById('packageSize').value,
+      shippingFee:  shippingFeeRaw !== '' ? parseFloat(shippingFeeRaw) : '',
       purchaseDate,
       returnedItems: Array.from(document.querySelectorAll('.ret-included'))
         .filter(cb => cb.checked).map(cb => cb.dataset.item),
@@ -1718,15 +1837,12 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     };
 
     if (_editingRepairId) {
-      // ── 更新 ──
       payload.updatedAt = new Date().toISOString();
       await fbPatch(REPAIR_URL, _editingRepairId, payload);
-      // ローカルキャッシュも更新
       const rec = allRecords.find(r => r.id === _editingRepairId);
       if (rec) rec.data = { ...rec.data, ...payload };
       toast('✓ 報告書を更新しました', 'success');
     } else {
-      // ── 新規 ──
       payload.savedAt = new Date().toISOString();
       await fbPost(REPAIR_URL, payload);
       saveMgmtNo();
@@ -1745,9 +1861,7 @@ document.getElementById('printBtn').addEventListener('click', () => {
   window.print();
 });
 
-/* ══════════════════════════════
-   Init
-══════════════════════════════ */
+/* Init */
 loadAllRepairs();
 </script>
 </body>
