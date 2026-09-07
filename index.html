@@ -1564,7 +1564,7 @@ document.getElementById('packageSize').addEventListener('change', () => {
 // 送料
 document.getElementById('shippingFee').addEventListener('input', () => {
   const v = document.getElementById('shippingFee').value;
-  document.getElementById('p_shippingFee').textContent = v !== '' ? yen(parseFloat(v) || 0) : '\u00A0';
+  document.getElementById('p_shippingFee').textContent = v !== '' ? yen(parseFloat(v) || 0) : yen(0);
 });
 
 // お客様名（「様/御中」付き）
@@ -1659,11 +1659,11 @@ function resetReportForm(skipMgmtNo = false) {
   document.getElementById('zipMsg').textContent = '';
   document.getElementById('zipMsg').className   = 'zip-msg';
 
-  // 荷物サイズ・送料
-  document.getElementById('packageSize').value = '';
-  document.getElementById('p_packageSize').textContent = '\u00A0';
-  document.getElementById('shippingFee').value = '';
-  document.getElementById('p_shippingFee').textContent = '\u00A0';
+    // 荷物サイズ・送料
+  document.getElementById('packageSize').value = '140サイズ';
+  document.getElementById('p_packageSize').textContent = '140サイズ';
+  document.getElementById('shippingFee').value = '0';
+  document.getElementById('p_shippingFee').textContent = yen(0);
 
   ['purchaseMonth','purchaseDay'].forEach(id => {
     const el = document.getElementById(id);
