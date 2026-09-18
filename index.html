@@ -313,47 +313,261 @@
   .amount-readout { text-align: right; font-size: 12px; padding: 6px; }
   .mgmt-hint { font-size: 11px; color: #888; margin-top: 4px; }
 
-  /* ── A4 Preview ── */
+  /* ══════════════════════════════════════════
+     A4 印刷プレビュー — 高齢者向けリデザイン
+  ══════════════════════════════════════════ */
   .preview-wrap { flex: 1; display: flex; justify-content: center; }
+
   .page {
-    width: 210mm; min-height: 297mm; background: #fff;
-    box-shadow: 0 0 0 1px #ccc, 0 4px 18px rgba(0,0,0,.12);
-    padding: 12mm 16mm 14mm; font-size: 11px; line-height: 1.55;
-  }
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  box-shadow: 0 0 0 1px #bbb, 0 6px 24px rgba(0,0,0,.14);
+  padding: 8mm 14mm 10mm;
+  font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #111;
+}
+
+  /* ── ヘッダー ── */
   .doc-header {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    border-bottom: 3px solid var(--line); padding-bottom: 7px; margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 3.5px solid #111;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
   }
-  .doc-header .brand { font-size: 19px; font-weight: 700; letter-spacing: .04em; }
-  .doc-header .brand span { display: block; font-size: 10px; font-weight: 400; letter-spacing: .1em; color: #555; margin-top: 2px; }
-  .doc-header .doc-title { font-size: 21px; font-weight: 700; letter-spacing: .15em; }
+  .doc-header .brand {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    color: #111;
+    line-height: 1.2;
+  }
+  .doc-header .brand span {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: #444;
+    letter-spacing: .12em;
+    margin-top: 3px;
+  }
+  .doc-header-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .doc-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: .18em;
+    color: #111;
+    line-height: 1;
+  }
+  /* 管理No.バッジ（右上） */
+  .mgmt-badge {
+    display: inline-block;
+    border: 2px solid #111;
+    border-radius: 3px;
+    padding: 3px 12px 3px 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: .05em;
+    background: #f5f5f5;
+  }
+  .mgmt-badge .mgmt-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: .08em;
+    margin-right: 6px;
+  }
 
-  /* ── コンパクトなメタテーブル ── */
-  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-  .meta-table td { border: 1px solid var(--line); padding: 4px 7px; vertical-align: top; font-size: 10.5px; }
-  .meta-table td.k { background: #f2f2f2; font-weight: 600; white-space: nowrap; width: 18%; }
-  .meta-table td.v { width: 32%; }
+  /* ── メタテーブル（お客様情報） ── */
+  .meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+  }
+  .meta-table td {
+    border: 1.5px solid #555;
+    padding: 6px 9px;
+    vertical-align: middle;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .meta-table td.k {
+    background: #ececec;
+    font-weight: 700;
+    color: #111;
+    white-space: nowrap;
+    width: 17%;
+    font-size: 11.5px;
+    letter-spacing: .04em;
+  }
+  .meta-table td.v {
+    width: 33%;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+  }
+  .meta-table td.v-wide {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+  }
 
-  .section-title { font-size: 11.5px; font-weight: 700; letter-spacing: .05em; border-left: 5px solid var(--line); padding-left: 8px; margin: 12px 0 5px; }
-  .section-title.compact { margin: 8px 0 4px; }
-  .block-box { border: 1px solid var(--line); padding: 4px 8px; min-height: 18px; white-space: pre-wrap; margin-bottom: 2px; font-size: 13px; font-weight: 700; }
-  .block-box-lg { border: 1px solid var(--line); padding: 10px 14px; min-height: 38px; white-space: pre-wrap; margin-bottom: 3px; font-size: 16px; line-height: 1.7; font-weight: 600; }
-  table.billing { width: 100%; border-collapse: collapse; margin-top: 5px; }
-  table.billing th, table.billing td { border: 1px solid var(--line); padding: 5px 7px; }
-  table.billing th { background: #f2f2f2; font-size: 10.5px; font-weight: 700; text-align: left; }
-  table.billing td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  table.billing tfoot td { font-weight: 700; }
-  table.billing tfoot tr.total td { font-size: 12px; background: #eee; }
-  table.billing.compact th, table.billing.compact td { padding: 3px 6px; font-size: 10px; }
-  table.billing.compact tfoot tr.total td { font-size: 10.5px; }
+  /* ── 送料テーブル ── */
+  .shipping-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  .shipping-table td {
+    border: 1.5px solid #555;
+    padding: 6px 9px;
+    font-size: 12.5px;
+    vertical-align: middle;
+  }
+  .shipping-table td.k {
+    background: #ececec;
+    font-weight: 700;
+    color: #111;
+    white-space: nowrap;
+    width: 22%;
+    font-size: 11.5px;
+    letter-spacing: .04em;
+  }
+  .shipping-table td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    font-size: 13px;
+    color: #111;
+  }
 
-  /* 送料情報テーブル（印刷用） */
-  .shipping-table { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
-  .shipping-table td { border: 1px solid var(--line); padding: 4px 7px; font-size: 10.5px; vertical-align: middle; }
-  .shipping-table td.k { background: #f2f2f2; font-weight: 600; white-space: nowrap; width: 26%; }
-  .shipping-table td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  /* ── セクション見出し ── */
+  .block-content {
+  border: 1.5px solid #555;
+  border-radius: 2px;
+  padding: 8px 12px;
+  min-height: 40px;
+  white-space: pre-wrap;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.7;
+  background: #fff;
+  margin-bottom: 2px;
+}
+.block-content.sm {
+  font-size: 13.5px;
+  font-weight: 500;
+  min-height: 28px;
+}
 
-  .footer-note { margin-top: 14px; padding-top: 7px; border-top: 1px solid var(--line-light); font-size: 10px; color: #444; text-align: center; }
+  /* ── 返却品チェックテーブル（縮小版） ── */
+table.check-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2px;
+}
+table.check-table th {
+  border: 1px solid #666;
+  padding: 2px 4px;
+  background: #ececec;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #111;
+  text-align: center;
+  width: 33.3%;
+}
+table.check-table td {
+  border: 1px solid #666;
+  padding: 2px 4px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.3;
+}
+  /* ── 本文ブロック（故障・修理・備考） ── */
+  .block-content {
+    border: 1.5px solid #555;
+    border-radius: 2px;
+    padding: 8px 12px;
+    min-height: 40px;
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.7;
+    background: #fff;
+    margin-bottom: 2px;
+  }
+  .block-content.sm {
+    font-size: 13.5px;
+    font-weight: 500;
+    min-height: 28px;
+  }
+
+  /* ── 請求明細テーブル ── */
+  table.billing {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+  table.billing th {
+    border: 1.5px solid #555;
+    padding: 7px 9px;
+    background: #ececec;
+    font-size: 12px;
+    font-weight: 700;
+    color: #111;
+    text-align: left;
+  }
+  table.billing td {
+    border: 1.5px solid #555;
+    padding: 7px 9px;
+    font-size: 13px;
+    color: #111;
+  }
+  table.billing td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  table.billing tfoot td {
+    font-weight: 700;
+    font-size: 13px;
+    background: #f5f5f5;
+  }
+  table.billing tfoot tr.total td {
+    font-size: 15px;
+    font-weight: 800;
+    background: #e0e0e0;
+    color: #111;
+  }
+  table.billing tfoot td.num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── フッター ── */
+  .footer-note {
+    margin-top: 14px;
+    padding-top: 8px;
+    border-top: 1.5px solid #888;
+    font-size: 11px;
+    color: #444;
+    text-align: center;
+    line-height: 1.7;
+    letter-spacing: .04em;
+  }
 
   /* ── Toast ── */
   .toast {
@@ -376,7 +590,11 @@
     .report-layout { padding: 0; max-width: none; }
     .editor { display: none !important; }
     .preview-wrap { display: block; }
-    .page { box-shadow: none; width: 210mm; min-height: 297mm; margin: 0; padding: 12mm 16mm 14mm; }
+    .page {
+      box-shadow: none;
+      width: 210mm; min-height: 297mm;
+      margin: 0; padding: 14mm 16mm 16mm;
+    }
   }
 </style>
 </head>
@@ -646,31 +864,48 @@
     <!-- A4プレビュー -->
     <div class="preview-wrap">
       <div class="page" id="printArea">
+
+        <!-- ヘッダー：ブランド左・タイトル＋管理No.右 -->
         <div class="doc-header">
-          <div class="brand">GOD-CLEANER<span>株式会社マインドフィットネス</span></div>
-          <div class="doc-title">修理報告書</div>
+          <div class="brand">
+            GOD-CLEANER
+            <span>株式会社マインドフィットネス</span>
+          </div>
+          <div class="doc-header-right">
+            <div class="doc-title">修理報告書</div>
+            <div class="mgmt-badge">
+              <span class="mgmt-label">管理No.</span><span id="p_mgmtNo">&nbsp;</span>
+            </div>
+          </div>
         </div>
 
-        <!-- コンパクトなメタ情報（3行構成・発行日なし） -->
+        <!-- お客様情報テーブル -->
         <table class="meta-table">
           <tr>
-            <td class="k">管理No.</td><td class="v" id="p_mgmtNo">&nbsp;</td>
-            <td class="k">ご返却日</td><td class="v" id="p_returnDate">&nbsp;</td>
+            <td class="k">ご返却日</td>
+            <td class="v" id="p_returnDate">&nbsp;</td>
+            <td class="k">機器No.</td>
+            <td class="v" id="p_deviceNo">&nbsp;</td>
           </tr>
           <tr>
-            <td class="k">お客様名</td><td class="v" id="p_customerName">&nbsp;</td>
-            <td class="k">機器No.</td><td class="v" id="p_deviceNo">&nbsp;</td>
+            <td class="k">お客様名</td>
+            <td class="v" id="p_customerName">&nbsp;</td>
+            <td class="k">TEL</td>
+            <td class="v" id="p_phoneNo">&nbsp;</td>
           </tr>
           <tr>
-            <td class="k">機器購入日</td><td class="v" id="p_purchaseDate">&nbsp;</td>
-            <td class="k">TEL</td><td class="v" id="p_phoneNo">&nbsp;</td>
+            <td class="k">機器購入日</td>
+            <td class="v" id="p_purchaseDate">&nbsp;</td>
+            <td class="k">&nbsp;</td>
+            <td class="v">&nbsp;</td>
           </tr>
           <tr>
-            <td class="k">住所</td><td colspan="3" id="p_address">&nbsp;</td>
+            <td class="k">ご住所</td>
+            <td colspan="3" class="v-wide" id="p_address">&nbsp;</td>
           </tr>
         </table>
 
-        <!-- 送料・荷物サイズ情報 -->
+        <!-- 送料情報 -->
         <table class="shipping-table">
           <tr>
             <td class="k">荷物サイズ</td>
@@ -680,41 +915,62 @@
           </tr>
         </table>
 
+        <!-- 返却品 -->
         <div class="section-title compact">返却品</div>
-        <table class="billing compact">
+        <table class="check-table">
           <thead>
             <tr>
-              <th style="width:33%">GC本体</th>
-              <th style="width:33%">ACコード</th>
-              <th style="width:34%">カートリッジ</th>
+              <th>GC本体</th>
+              <th>ACコード</th>
+              <th>カートリッジ</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="num p-ret-included" data-item="GC本体">□</td>
-              <td class="num p-ret-included" data-item="ACコード">□</td>
-              <td class="num p-ret-included" data-item="カートリッジ">□</td>
+              <td class="p-ret-included" data-item="GC本体">□</td>
+              <td class="p-ret-included" data-item="ACコード">□</td>
+              <td class="p-ret-included" data-item="カートリッジ">□</td>
             </tr>
           </tbody>
         </table>
 
+        <!-- 故障内容 -->
         <div class="section-title">故障内容</div>
-        <div class="block-box-lg" id="p_failureContent">&nbsp;</div>
-        <div class="section-title">修理内容</div>
-        <div class="block-box-lg" id="p_repairContent">&nbsp;</div>
-        <div class="section-title">備考</div>
-        <div class="block-box" id="p_remarks">&nbsp;</div>
+        <div class="block-content" id="p_failureContent">&nbsp;</div>
 
+        <!-- 修理内容 -->
+        <div class="section-title">修理内容</div>
+        <div class="block-content" id="p_repairContent">&nbsp;</div>
+
+        <!-- 備考 -->
+        <div class="section-title">備考</div>
+        <div class="block-content sm" id="p_remarks">&nbsp;</div>
+
+        <!-- 請求明細 -->
         <div class="section-title compact">修理費用ご請求明細</div>
         <table class="billing">
           <thead>
-            <tr><th style="width:46%">項目</th><th style="width:14%">数量</th><th style="width:20%">単価</th><th style="width:20%">金額</th></tr>
+            <tr>
+              <th style="width:46%">項目</th>
+              <th style="width:13%">数量</th>
+              <th style="width:20%">単価</th>
+              <th style="width:21%">金額</th>
+            </tr>
           </thead>
           <tbody id="p_billingBody"></tbody>
           <tfoot>
-            <tr><td colspan="3">小計</td><td class="num" id="p_subtotal">¥0</td></tr>
-            <tr><td colspan="3">消費税（10％）</td><td class="num" id="p_tax">¥0</td></tr>
-            <tr class="total"><td colspan="3">総合計金額</td><td class="num" id="p_total">¥0</td></tr>
+            <tr>
+              <td colspan="3">小計</td>
+              <td class="num" id="p_subtotal">¥0</td>
+            </tr>
+            <tr>
+              <td colspan="3">消費税（10％）</td>
+              <td class="num" id="p_tax">¥0</td>
+            </tr>
+            <tr class="total">
+              <td colspan="3">総合計金額</td>
+              <td class="num" id="p_total">¥0</td>
+            </tr>
           </tfoot>
         </table>
 
@@ -839,13 +1095,10 @@ async function fbDelete(url, id) {
 
 /* ══════════════════════════════
    郵便番号 → 住所 自動入力
-   API: zipcloud (key不要) + フォールバック
 ══════════════════════════════ */
 async function lookupZip(zip) {
   const clean = zip.replace(/[^0-9]/g, '');
   if (clean.length !== 7) throw new Error('郵便番号は7桁で入力してください');
-
-  // zipcloud（無料・keyなし）
   const url = `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${clean}`;
   const res  = await fetch(url);
   if (!res.ok) throw new Error('ネットワークエラー');
@@ -864,12 +1117,11 @@ document.getElementById('zipSearchBtn').addEventListener('click', async () => {
   msg.textContent = ''; msg.className = 'zip-msg';
   btn.disabled = true; btn.textContent = '検索中…';
   try {
-    // After
-const addr = await lookupZip(zip);
-const cleanZip = zip.replace(/[^0-9]/g, '');
-const formatted = `〒${cleanZip.slice(0,3)}-${cleanZip.slice(3)} ${addr}`;
-document.getElementById('address').value = formatted;
-document.getElementById('address').dispatchEvent(new Event('input'));
+    const addr = await lookupZip(zip);
+    const cleanZip = zip.replace(/[^0-9]/g, '');
+    const formatted = `〒${cleanZip.slice(0,3)}-${cleanZip.slice(3)} ${addr}`;
+    document.getElementById('address').value = formatted;
+    document.getElementById('address').dispatchEvent(new Event('input'));
     msg.textContent = '✓ 住所を取得しました';
     msg.className = 'zip-msg ok';
   } catch(e) {
@@ -880,7 +1132,6 @@ document.getElementById('address').dispatchEvent(new Event('input'));
   }
 });
 
-// Enterキーで検索
 document.getElementById('zipCode').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('zipSearchBtn').click();
 });
@@ -1404,7 +1655,7 @@ function askDeleteDemo(id) {
 /* ══════════════════════════════
    REPORT FORM
 ══════════════════════════════ */
-const COMPANY_ADDRESS = `〒541-0042 大阪市中央区今橋1-7-19 北浜BLD 11F\n㈱マインドフィットネス  TEL:06-6202-5401`;
+const COMPANY_ADDRESS = `〒541-0042 大阪市中央区今橋1-7-19 北浜BLD 11F　㈱マインドフィットネス　TEL:06-6202-5401`;
 document.getElementById('p_companyAddress').textContent = COMPANY_ADDRESS;
 
 const CATEGORY_DATA = {
@@ -1546,28 +1797,25 @@ function syncText(inputId, previewId, formatter) {
   input.addEventListener('input', update);
   update();
 }
-syncText('mgmtNo',    'p_mgmtNo');
-syncText('returnDate','p_returnDate', fmtDate);
-syncText('deviceNo',  'p_deviceNo');
+syncText('mgmtNo',        'p_mgmtNo');
+syncText('returnDate',    'p_returnDate', fmtDate);
+syncText('deviceNo',      'p_deviceNo');
 syncText('failureContent','p_failureContent');
 syncText('repairContent', 'p_repairContent');
 syncText('remarks',       'p_remarks');
-syncText('phoneNo',  'p_phoneNo');
-syncText('address',  'p_address');
+syncText('phoneNo',       'p_phoneNo');
+syncText('address',       'p_address');
 
-// 荷物サイズ
 document.getElementById('packageSize').addEventListener('change', () => {
   const v = document.getElementById('packageSize').value;
   document.getElementById('p_packageSize').textContent = v || '\u00A0';
 });
 
-// 送料
 document.getElementById('shippingFee').addEventListener('input', () => {
   const v = document.getElementById('shippingFee').value;
   document.getElementById('p_shippingFee').textContent = v !== '' ? yen(parseFloat(v) || 0) : yen(0);
 });
 
-// お客様名（「様/御中」付き）
 const cnInput   = document.getElementById('customerName');
 const cnPreview = document.getElementById('p_customerName');
 cnInput.addEventListener('input', () => {
@@ -1659,7 +1907,6 @@ function resetReportForm(skipMgmtNo = false) {
   document.getElementById('zipMsg').textContent = '';
   document.getElementById('zipMsg').className   = 'zip-msg';
 
-    // 荷物サイズ・送料
   document.getElementById('packageSize').value = '140サイズ';
   document.getElementById('p_packageSize').textContent = '140サイズ';
   document.getElementById('shippingFee').value = '0';
@@ -1729,14 +1976,12 @@ function openRepairEdit(id) {
   setVal('address',      d.address);
   setVal('zipCode',      d.zipCode || '');
 
-  // 荷物サイズ・送料
   document.getElementById('packageSize').value = d.packageSize || '';
   document.getElementById('p_packageSize').textContent = d.packageSize || '\u00A0';
   document.getElementById('shippingFee').value = d.shippingFee != null ? d.shippingFee : '';
   document.getElementById('p_shippingFee').textContent =
     d.shippingFee != null && d.shippingFee !== '' ? yen(d.shippingFee) : '\u00A0';
 
-  // 機器購入日
   if (d.purchaseDate) {
     const my = (d.purchaseDate.match(/(\d+)年/) || [])[1];
     const mm = (d.purchaseDate.match(/(\d+)月/) || [])[1];
@@ -1747,14 +1992,12 @@ function openRepairEdit(id) {
     syncPurchaseDate();
   }
 
-  // 返却品チェック
   const items = d.returnedItems || [];
   document.querySelectorAll('.ret-included').forEach(cb => {
     cb.checked = items.includes(cb.dataset.item);
     cb.dispatchEvent(new Event('change'));
   });
 
-  // 故障・修理・備考
   const fillTextField = (selId, taId, val) => {
     const sel = document.getElementById(selId);
     const ta  = document.getElementById(taId);
@@ -1770,7 +2013,6 @@ function openRepairEdit(id) {
   fillTextField('repairContentSel',  'repairContent',  d.repairContent);
   fillTextField('remarksSel',        'remarks',        d.remarks);
 
-  // 請求明細
   const lines = d.billingLines || [];
   billingRowsEl.querySelectorAll('.billing-card').forEach((card, i) => {
     const line = lines[i];
