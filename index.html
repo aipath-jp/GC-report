@@ -644,6 +644,10 @@ table.check-table td {
         <label>返却日（まで）</label>
         <input type="date" id="searchDateTo">
       </div>
+      <div class="search-group">
+  <label>電話番号</label>
+  <input type="text" id="searchPhone" placeholder="例）06-1234">
+</div>
       <button class="btn btn-white" id="btnSearch">検索</button>
       <button class="btn btn-ghost" id="btnReset">リセット</button>
     </div>
@@ -1308,17 +1312,18 @@ function renderRepairTable(records) {
 /* Repair Search */
 document.getElementById('btnSearch').addEventListener('click', doRepairSearch);
 document.getElementById('btnReset').addEventListener('click', () => {
-  ['searchCustomer','searchDevice','searchMgmt','searchDateFrom','searchDateTo']
-    .forEach(id => document.getElementById(id).value = '');
+  ['searchCustomer','searchDevice','searchMgmt','searchPhone','searchDateFrom','searchDateTo']
+  .forEach(id => document.getElementById(id).value = '');
   renderRepairTable(allRecords);
 });
-['searchCustomer','searchDevice','searchMgmt'].forEach(id => {
+['searchCustomer','searchDevice','searchMgmt','searchPhone'].forEach(id => {
   document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doRepairSearch(); });
 });
 function doRepairSearch() {
   const qc = document.getElementById('searchCustomer').value.trim().toLowerCase();
   const qd = document.getElementById('searchDevice').value.trim().toLowerCase();
   const qm = document.getElementById('searchMgmt').value.trim().toLowerCase();
+  const qp = document.getElementById('searchPhone').value.trim().replace(/[^0-9]/g, '');
   const qf = document.getElementById('searchDateFrom').value;
   const qt = document.getElementById('searchDateTo').value;
   const filtered = allRecords.filter(r => {
@@ -1326,6 +1331,7 @@ function doRepairSearch() {
     if (qc && !(d.customerName || '').toLowerCase().includes(qc)) return false;
     if (qd && !(d.deviceNo || '').toLowerCase().includes(qd)) return false;
     if (qm && !(d.mgmtNo || '').toLowerCase().includes(qm)) return false;
+    if (qp && !(d.phoneNo || '').replace(/[^0-9]/g, '').includes(qp)) return false;
     if (qf && (d.returnDate || '') < qf) return false;
     if (qt && (d.returnDate || '') > qt) return false;
     return true;
