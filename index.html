@@ -2115,16 +2115,23 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
       issueDate: new Date().toISOString().slice(0, 10),
     };
 
-    if (_editingRepairId) {
+        const mgmtNo = payload.mgmtNo;
+    const existing = mgmtNo
+      ? allRecords.find(r => r.data.mgmtNo === mgmtNo)
+      : null;
+
+    if (existing) {
       payload.updatedAt = new Date().toISOString();
-      await fbPatch(REPAIR_URL, _editingRepairId, payload);
-      const rec = allRecords.find(r => r.id === _editingRepairId);
-      if (rec) rec.data = { ...rec.data, ...payload };
-      toast('✓ 報告書を更新しました', 'success');
+      await fbPatch(REPAIR_URL, existing.id, payload);
+      existing.data = { ...existing.data, ...payload };
+      toast('✓ 既存の報告書を上書き保存しました（管理No.' + mgmtNo + '）', 'success');
     } else {
       payload.savedAt = new Date().toISOString();
       await fbPost(REPAIR_URL, payload);
-      saveMgmtNo();
+      const data = await fbGet(REPAIR_URL);
+      allRecords = data
+        ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
+        : [];
       toast('✓ アーカイブに保存しました', 'success');
     }
   } catch (e) {
