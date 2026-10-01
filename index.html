@@ -1378,7 +1378,9 @@ function openRepairDetail(id) {
         <tr class="total"><td colspan="3">総合計</td><td class="r">${yen(d.total||0)}</td></tr>
       </tfoot>
     </table>
-    <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
+        <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn btn-sm btn-green"
+        onclick="closeRepairModal();copyRepairAsNew('${id}')">📋 コピーして新規作成</button>
       <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
         onclick="closeRepairModal();openRepairEdit('${id}')">この報告書を編集</button>
       <button class="btn btn-red btn-sm"
@@ -1956,6 +1958,35 @@ function collectBillingLines() {
     lines.push({ name, qty, price, amount: qty * price });
   });
   return lines;
+}
+
+/* ── コピーして新規作成 ── */
+async function copyRepairAsNew(id) {
+  const rec = allRecords.find(r => r.id === id);
+  if (!rec) return;
+  const d = rec.data;
+
+  // フォームをリセット（管理No.は最新番号で自動採番）
+  resetReportForm(false);
+
+  // 住所・名前・機器番号・電話番号だけコピー
+  const setVal = (elId, val) => {
+    const el = document.getElementById(elId);
+    el.value = val || '';
+    el.dispatchEvent(new Event('input'));
+  };
+  // customerNameはプレビュー表示用サフィックスを除去して復元
+  setVal('customerName', (d.customerName || '').replace(/\u3000\u3000様\/御中$/, '').trim());
+  setVal('deviceNo',     d.deviceNo);
+  setVal('phoneNo',      d.phoneNo);
+  setVal('address',      d.address);
+  setVal('zipCode',      d.zipCode || '');
+
+  _editingRepairId = null;
+  document.querySelector('.report-toolbar h1').textContent = '修理報告書 作成（コピー）';
+  document.getElementById('saveBtn').textContent = '💾 保存してアーカイブ';
+  showScreen('report');
+  toast('お客様情報をコピーしました。修理内容・明細を入力してください。', 'success');
 }
 
 /* ── 編集モード ── */
