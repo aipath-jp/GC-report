@@ -1209,7 +1209,8 @@ function daysBetween(dateStr1, dateStr2) {
   return Math.floor((new Date(dateStr2) - new Date(dateStr1)) / 86400000);
 }
 function todayStr() {
-  return new Date().toISOString().slice(0, 10);
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 /* ══════════════════════════════
@@ -1495,7 +1496,11 @@ function renderDemoTable(records) {
       <td>${d.repairShipDate ? fmtDateShort(d.repairShipDate) : '—'}${overdueNote}</td>
       <td>${d.returnDate ? fmtDateShort(d.returnDate) : '—'}</td>
       <td>${getDemoStatusBadge(status)}</td>
-      <td class="td-actions">
+           <td class="td-actions">
+        ${!d.repairShipDate && !d.returnDate ? `<button class="btn btn-sm btn-orange"
+          onclick="markDemoDate('${r.id}','repairShipDate')">修理品発送</button>` : ''}
+        ${!d.returnDate ? `<button class="btn btn-sm btn-green"
+          onclick="markDemoDate('${r.id}','returnDate')">返却</button>` : ''}
         <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
           onclick="openDemoDetail('${r.id}')">詳細</button>
         <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
@@ -1582,6 +1587,8 @@ function openDemoModal() {
   document.getElementById('demoModalTitle').textContent = 'デモ機貸出 追加';
   ['df-name','df-unitNo','df-shipDate','df-repairShipDate','df-returnDate','df-note']
     .forEach(id => document.getElementById(id).value = '');
+  // デモ機発送日は今日をプリセット（変更可能）
+  document.getElementById('df-shipDate').value = todayStr();
   document.getElementById('demoModal').classList.add('open');
 }
 function openDemoEditModal(id) {
@@ -1638,6 +1645,32 @@ document.getElementById('demoModalSubmit').addEventListener('click', async () =>
     btn.disabled = false; btn.textContent = '保存';
   }
 });
+
+/* 修理品発送日 / 返却日 をワンクリックで今日の日付に記録 */
+function markDemoDate(id, field) {
+  const rec = allDemoRecords.find(r => r.id === id);
+  if (!rec) return;
+  const label = field === 'repairShipDate' ? '修理品発送日' : 'デモ機返却日';
+  const today = todayStr();
+  openConfirm({
+    icon: field === 'repairShipDate' ? '📦' : '✅',
+    title: `${label}を記録しますか？`,
+    msg: `「${rec.data.name || id}」の${label}を ${fmtDate(today)} で記録します。`,
+    okLabel: '記録する',
+    onOk: async () => {
+      try {
+        await fbPatch(DEMO_URL, id, { [field]: today });
+        rec.data[field] = today;
+        updateDemoStats(allDemoRecords);
+        renderDemoAlertBanner(allDemoRecords);
+        doDemoSearch();   // 検索条件を保ったまま一覧を再描画
+        toast(`${label}を記録しました`, 'success');
+      } catch (e) {
+        toast('記録に失敗しました: ' + e.message, 'error');
+      }
+    }
+  });
+}
 
 function askDeleteDemo(id) {
   const rec = allDemoRecords.find(r => r.id === id);
