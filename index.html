@@ -107,7 +107,7 @@
   .search-group input:focus, .search-group select:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
 
   .table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-  .table-wrap > div { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-wrap > div { overflow-x: auto; overflow-y: auto; max-height: calc(100vh - 280px); -webkit-overflow-scrolling: touch; }
   table.archive-table { min-width: 620px; }
   .table-head {
     display: flex; justify-content: space-between; align-items: center;
