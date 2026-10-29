@@ -599,6 +599,33 @@ table.check-table td {
 </style>
 </head>
 <body>
+    
+<!-- ══ LOGIN SCREEN ══ -->
+<div id="screenLogin" style="
+  position:fixed;inset:0;z-index:999;
+  background:#1a1a1a;
+  display:flex;align-items:center;justify-content:center;
+">
+  <div style="
+    background:#fff;border-radius:6px;padding:40px 36px 32px;
+    width:100%;max-width:340px;text-align:center;
+    box-shadow:0 12px 48px rgba(0,0,0,.4);
+  ">
+    <div style="font-size:20px;font-weight:800;letter-spacing:.05em;margin-bottom:4px;">GOD-CLEANER</div>
+    <div style="font-size:12px;color:#777;letter-spacing:.1em;margin-bottom:28px;">修理管理システム</div>
+    <input id="loginPw" type="password" placeholder="パスワードを入力"
+      style="width:100%;padding:10px 12px;font-size:15px;
+        border:1.5px solid #ccc;border-radius:4px;font-family:inherit;
+        text-align:center;letter-spacing:.2em;margin-bottom:12px;"
+    >
+    <div id="loginErr" style="font-size:12px;color:#c0392b;min-height:18px;margin-bottom:8px;"></div>
+    <button id="loginBtn" style="
+      width:100%;padding:10px;font-size:14px;font-weight:700;
+      background:#1a1a1a;color:#fff;border:none;border-radius:4px;
+      cursor:pointer;font-family:inherit;letter-spacing:.05em;
+    ">ログイン</button>
+  </div>
+</div>
 
 <!-- ══ HOME SCREEN ══ -->
 <div id="screenHome" class="screen active">
@@ -2179,6 +2206,34 @@ document.getElementById('printBtn').addEventListener('click', () => {
   saveMgmtNo();
   window.print();
 });
+
+/* ══════════════════════════════
+   LOGIN
+══════════════════════════════ */
+(function() {
+  const _a = '09';
+  const _b = '01';
+  const _pw = _a + _b;
+
+  const overlay = document.getElementById('screenLogin');
+  const input   = document.getElementById('loginPw');
+  const errEl   = document.getElementById('loginErr');
+  const btn     = document.getElementById('loginBtn');
+
+  function tryLogin() {
+    if (input.value === _pw) {
+      overlay.style.display = 'none';
+    } else {
+      errEl.textContent = 'パスワードが違います';
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  btn.addEventListener('click', tryLogin);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+  input.focus();
+})();
 
 /* Init */
 loadAllRepairs();
