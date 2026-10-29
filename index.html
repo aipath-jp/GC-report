@@ -632,8 +632,11 @@ table.check-table td {
 
   <div class="topbar">
     <div class="topbar-brand">GOD-CLEANER <span>修理管理システム</span></div>
-    <div class="topbar-actions">
-      <button class="btn btn-white" id="topNewBtn">＋ 新規作成</button>
+        <div class="topbar-actions">
+      <button class="btn btn-ghost" id="exportBtn">📥 DL</button>
+      <button class="btn btn-ghost" id="importBtn">🔄 復元</button>
+      <input type="file" id="importFile" accept=".json" style="display:none">
+      <button class="btn btn-white" id="topNewBtn">＋ 新規</button>
     </div>
   </div>
 
@@ -2234,6 +2237,82 @@ document.getElementById('printBtn').addEventListener('click', () => {
   input.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
   input.focus();
 })();
+
+/* ══════════════════════════════
+   BACKUP / RESTORE
+══════════════════════════════ */
+document.getElementById('exportBtn').addEventListener('click', async () => {
+  try {
+    const [repairs, demos] = await Promise.all([
+      fbGet(REPAIR_URL),
+      fbGet(DEMO_URL)
+    ]);
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      repairReports: repairs || {},
+      demoUnits: demos || {}
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const d = new Date();
+    a.download = `godcleaner_backup_${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('バックアップを保存しました', 'success');
+  } catch(e) {
+    toast('バックアップ失敗: ' + e.message, 'error');
+  }
+});
+
+document.getElementById('importBtn').addEventListener('click', () => {
+  document.getElementById('importFile').value = '';
+  document.getElementById('importFile').click();
+});
+
+document.getElementById('importFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  openConfirm({
+    icon: '📤',
+    title: 'データを復元しますか？',
+    msg: '現在のデータにバックアップを上書きします。この操作は取り消せません。',
+    okLabel: '復元する',
+    onOk: async () => {
+      try {
+        const text = await file.text();
+        const payload = JSON.parse(text);
+        const repairs = payload.repairReports || {};
+        const demos   = payload.demoUnits || {};
+
+        const repairEntries = Object.entries(repairs);
+        const demoEntries   = Object.entries(demos);
+
+        await Promise.all([
+          ...repairEntries.map(([id, data]) =>
+            fetch(`${REPAIR_URL}/${id}.json`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+            })
+          ),
+          ...demoEntries.map(([id, data]) =>
+            fetch(`${DEMO_URL}/${id}.json`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+            })
+          )
+        ]);
+
+        toast(`復元完了：報告書 ${repairEntries.length}件・デモ機 ${demoEntries.length}件`, 'success');
+        await loadAllRepairs();
+      } catch(e) {
+        toast('復元失敗: ' + e.message, 'error');
+      }
+    }
+  });
+});
 
 /* Init */
 loadAllRepairs();
