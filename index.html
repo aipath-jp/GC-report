@@ -1188,6 +1188,21 @@ function showScreen(name) {
   window.scrollTo(0, 0);
 }
 
+function copyToClip(text, label) {
+  if (!text || !text.trim()) { toast(label + 'が空です', 'warning'); return; }
+  navigator.clipboard.writeText(text).then(() => {
+    toast('✓ ' + label + 'をコピーしました', 'success');
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('✓ ' + label + 'をコピーしました', 'success');
+  });
+}
+
 function switchTab(tab, btn) {
   currentTab = tab;
   document.querySelectorAll('.home-tab').forEach(b => b.classList.remove('active'));
@@ -1409,7 +1424,18 @@ function openRepairDetail(id) {
         <tr class="total"><td colspan="3">総合計</td><td class="r">${yen(d.total||0)}</td></tr>
       </tfoot>
     </table>
-        <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;padding:10px;background:#f7f7f7;border-radius:4px;border:1px solid #e0e0e0">
+      <div style="width:100%;font-size:11px;color:#888;margin-bottom:4px;letter-spacing:.05em">📋 クリップボードにコピー</div>
+      <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
+        onclick="copyToClip('${(d.zipCode||'').replace(/[^0-9]/g,'')}','郵便番号')">〒</button>
+      <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
+        onclick="copyToClip('${esc(d.address||'')}','住所')">住所</button>
+      <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
+        onclick="copyToClip('${esc((d.customerName||'').replace(/\u3000\u3000様\/御中$/,'').trim())}','お客様名')">名前</button>
+      <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
+        onclick="copyToClip('${esc(d.phoneNo||'')}','電話番号')">電話番号</button>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
       <button class="btn btn-sm btn-green"
         onclick="closeRepairModal();copyRepairAsNew('${id}')">📋 コピーして新規作成</button>
       <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
