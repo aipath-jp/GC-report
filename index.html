@@ -1771,9 +1771,9 @@ const CATEGORY_DATA = {
     { label:"北陸・中部・関西・中国・四国", price:1590 },
     { label:"その他", price:null }
   ],
-  "送料（受）": [{ label:"その他（自由入力）", price:null }],
+    "送料（受）": [{ label:"着払い送料を参照", price:null }],
   "特別割引": [
-    { label:"2年以内", price:-5000 },{ label:"2年越え", price:-3000 },
+    { label:"2年越え", price:-3000 },{ label:"2年以内", price:-5000 },
     { label:"その他", price:null }
   ]
 };
@@ -1851,6 +1851,8 @@ let currentSubtotal = 0, currentTax = 0, currentTotal = 0;
 function recalcBilling() {
   const pRows = pBillingBody.querySelectorAll('tr');
   let subtotal = 0;
+  // 着払い送料を取得（shippingFeeフィールドから）
+  const shippingFeeVal = parseFloat(document.getElementById('shippingFee').value) || 0;
   billingRowsEl.querySelectorAll('.billing-card').forEach((card, i) => {
     const catSel    = card.querySelector('.b-cat');
     const subSel    = card.querySelector('.b-sub');
@@ -1861,6 +1863,11 @@ function recalcBilling() {
     const hasContent = !!catSel.value;
     const item       = hasContent && subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
     const isOther    = !!(item && item.price === null);
+    // 送料（受け）の場合は着払い送料を自動セット
+    if (hasContent && catSel.value === '送料（受）' && isOther) {
+      priceInput.value = shippingFeeVal;
+      priceInput.readOnly = true;
+    }
     const qty        = parseFloat(qtyInput.value) || 0;
     const price      = parseFloat(priceInput.value) || 0;
     const amount     = qty * price;
@@ -1911,6 +1918,8 @@ document.getElementById('packageSize').addEventListener('change', () => {
 document.getElementById('shippingFee').addEventListener('input', () => {
   const v = document.getElementById('shippingFee').value;
   document.getElementById('p_shippingFee').textContent = v !== '' ? yen(parseFloat(v) || 0) : yen(0);
+  // 送料（受け）行が存在する場合は自動で再計算
+  recalcBilling();
 });
 
 const cnInput   = document.getElementById('customerName');
