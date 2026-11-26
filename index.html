@@ -17,6 +17,7 @@
     --danger: #c0392b;
     --warning: #e67e22;
     --info: #2980b9;
+    --mobile-mode: 0;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -24,6 +25,120 @@
     color: var(--ink); background: var(--bg); min-height: 100vh;
     -webkit-text-size-adjust: 100%;
   }
+
+  /* ══ MOBILE MODE ══ */
+  body.mobile-mode {
+    --mobile-mode: 1;
+    font-size: 15px;
+  }
+  body.mobile-mode .topbar { height: 52px; }
+  body.mobile-mode .topbar-brand { font-size: 14px; }
+  body.mobile-mode .home-tab { font-size: 14px; padding: 14px 16px; }
+
+  /* モバイルモード：ボタン大型化 */
+  body.mobile-mode .btn { padding: 12px 20px; font-size: 15px; border-radius: 6px; }
+  body.mobile-mode .btn-sm { padding: 10px 16px; font-size: 14px; border-radius: 6px; }
+
+  /* モバイルモード：統計カード */
+  body.mobile-mode .stat-card { padding: 18px 20px; }
+  body.mobile-mode .stat-card .stat-num { font-size: 36px; }
+  body.mobile-mode .stat-card .stat-label { font-size: 13px; }
+
+  /* モバイルモード：検索バー縦積み */
+  body.mobile-mode .search-bar { flex-direction: column; gap: 12px; }
+  body.mobile-mode .search-group { flex: 1 1 100%; }
+  body.mobile-mode .search-group input,
+  body.mobile-mode .search-group select { padding: 12px 14px; font-size: 16px; border-radius: 6px; }
+  body.mobile-mode #btnSearch, body.mobile-mode #btnReset,
+  body.mobile-mode #demoBtnSearch, body.mobile-mode #demoBtnReset { width: 100%; justify-content: center; padding: 13px; font-size: 16px; }
+
+  /* モバイルモード：テーブル → カード形式 */
+  body.mobile-mode table.archive-table { display: none; }
+  body.mobile-mode .mobile-card-list { display: block !important; }
+
+  .mobile-card-list { display: none; }
+  .m-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px; margin-bottom: 10px;
+  }
+  .m-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .m-card-name { font-size: 17px; font-weight: 700; }
+  .m-card-mgmt { font-size: 12px; color: var(--muted); background: #f2f2f2; padding: 2px 8px; border-radius: 3px; }
+  .m-card-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
+  .m-card-row:last-of-type { border-bottom: none; }
+  .m-card-label { color: var(--muted); flex: 0 0 80px; font-size: 13px; }
+  .m-card-value { font-weight: 600; flex: 1; text-align: right; }
+  .m-card-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .m-card-actions .btn { flex: 1; justify-content: center; min-width: 0; }
+
+  /* モバイルモード：フォーム */
+  body.mobile-mode .form-row input,
+  body.mobile-mode .form-row select,
+  body.mobile-mode .form-row textarea { padding: 12px 14px; font-size: 16px; border-radius: 6px; }
+  body.mobile-mode .form-row label { font-size: 14px; }
+  body.mobile-mode .form-actions .btn { padding: 14px 20px; font-size: 16px; }
+
+  /* モバイルモード：report screen */
+  body.mobile-mode .editor .field input,
+  body.mobile-mode .editor .field select,
+  body.mobile-mode .editor .field textarea { padding: 12px; font-size: 16px; border-radius: 6px; }
+  body.mobile-mode .editor .field label { font-size: 14px; margin-bottom: 6px; }
+  body.mobile-mode .editor h2 { font-size: 15px; padding: 10px 0 8px; }
+
+  /* モバイルモード：billing card */
+  body.mobile-mode .billing-card { padding: 14px; border-radius: 8px; }
+  body.mobile-mode .billing-card .b-line1 select { font-size: 15px; padding: 10px 8px; }
+  body.mobile-mode .billing-card .b-line2 { grid-template-columns: 1fr 56px 90px 90px; }
+  body.mobile-mode .billing-card .b-line2 input { font-size: 15px; padding: 10px 8px; }
+
+  /* モバイルモード：report toolbar */
+  body.mobile-mode .report-toolbar { height: 56px; padding: 0 12px; }
+  body.mobile-mode .report-toolbar h1 { font-size: 14px; }
+  body.mobile-mode .report-toolbar-actions .btn { padding: 10px 14px; font-size: 14px; }
+
+  /* モバイルモード：modal */
+  body.mobile-mode .modal { margin: 10px; }
+  body.mobile-mode .modal-header { padding: 16px 20px; }
+  body.mobile-mode .modal-header h3 { font-size: 18px; }
+  body.mobile-mode .modal-body { padding: 16px 20px 24px; }
+
+  /* モバイルモード：zip row */
+  body.mobile-mode .zip-row input { flex: 0 0 140px; }
+  body.mobile-mode .zip-row button { padding: 12px 14px; font-size: 14px; }
+
+  /* モバイルモード：return check table */
+  body.mobile-mode table.return-check-table th,
+  body.mobile-mode table.return-check-table td { padding: 10px; font-size: 15px; }
+  body.mobile-mode table.return-check-table input[type=checkbox] { width: 22px; height: 22px; }
+
+  /* モバイルモード：stats bar縦 */
+  body.mobile-mode .stats-bar { flex-direction: column; }
+  body.mobile-mode .stat-card { flex: 1 1 100%; }
+
+  /* モバイルモード：デモ表もカード形式 */
+  body.mobile-mode .demo-card-list { display: block !important; }
+  .demo-card-list { display: none; }
+
+  /* スマホモードトグルボタン */
+  .mobile-toggle-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; font-size: 12px; font-weight: 600; font-family: inherit;
+    border: 1px solid #555; border-radius: 20px; cursor: pointer;
+    background: transparent; color: #ccc; transition: all .2s;
+    white-space: nowrap;
+  }
+  .mobile-toggle-btn .toggle-icon { font-size: 14px; }
+  .mobile-toggle-btn.active { background: #fff; color: var(--ink); border-color: #fff; }
+  .mobile-toggle-btn .toggle-label-off { display: inline; }
+  .mobile-toggle-btn .toggle-label-on { display: none; }
+  .mobile-toggle-btn.active .toggle-label-off { display: none; }
+  .mobile-toggle-btn.active .toggle-label-on { display: inline; }
+
+  /* ══ MOBILE MODE — 確認ダイアログも大型化 ══ */
+  body.mobile-mode .confirm-box { padding: 32px 28px; }
+  body.mobile-mode .confirm-box h4 { font-size: 20px; margin-bottom: 10px; }
+  body.mobile-mode .confirm-box p { font-size: 15px; margin-bottom: 24px; }
+  body.mobile-mode .confirm-box .confirm-actions .btn { padding: 14px 24px; font-size: 16px; }
 
   .screen { display: none; }
   .screen.active { display: block; }
@@ -42,7 +157,7 @@
     .topbar-brand { font-size: 17px; }
     .topbar-brand span { display: inline; }
   }
-  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+  .topbar-actions { display: flex; gap: 8px; align-items: center; flex-wrap: nowrap; }
   .btn {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 18px; font-size: 13px; font-weight: 600; font-family: inherit;
@@ -107,7 +222,7 @@
   .search-group input:focus, .search-group select:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
 
   .table-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-    .table-wrap > div { overflow-x: auto; overflow-y: auto; max-height: calc(100vh - 280px); -webkit-overflow-scrolling: touch; }
+  .table-wrap > div:not(.table-head) { overflow-x: auto; overflow-y: auto; max-height: calc(100vh - 280px); -webkit-overflow-scrolling: touch; }
   table.archive-table { min-width: 620px; }
   .table-head {
     display: flex; justify-content: space-between; align-items: center;
@@ -165,7 +280,7 @@
     padding: 18px 24px; border-bottom: 2px solid var(--line);
   }
   .modal-header h3 { font-size: 16px; font-weight: 700; }
-  .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: #555; line-height: 1; }
+  .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: #555; line-height: 1; padding: 4px 8px; }
   .modal-body { padding: 20px 24px 24px; }
 
   .form-row { margin-bottom: 14px; }
@@ -209,7 +324,7 @@
   }
   .confirm-dialog.open { display: flex; }
   .confirm-box {
-    background: #fff; border-radius: 4px; padding: 28px 32px; max-width: 360px; width: 100%;
+    background: #fff; border-radius: 4px; padding: 28px 32px; max-width: 360px; width: 90%;
     box-shadow: 0 8px 40px rgba(0,0,0,.3); text-align: center;
   }
   .confirm-box .confirm-icon { font-size: 36px; margin-bottom: 12px; }
@@ -314,260 +429,73 @@
   .mgmt-hint { font-size: 11px; color: #888; margin-top: 4px; }
 
   /* ══════════════════════════════════════════
-     A4 印刷プレビュー — 高齢者向けリデザイン
+     A4 印刷プレビュー
   ══════════════════════════════════════════ */
   .preview-wrap { flex: 1; display: flex; justify-content: center; }
 
   .page {
-  width: 210mm;
-  min-height: 297mm;
-  background: #fff;
-  box-shadow: 0 0 0 1px #bbb, 0 6px 24px rgba(0,0,0,.14);
-  padding: 8mm 14mm 10mm;
-  font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;
-  font-size: 12px;
-  line-height: 1.5;
-  color: #111;
-}
-
-  /* ── ヘッダー ── */
-  .doc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 3.5px solid #111;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
-  }
-  .doc-header .brand {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: .05em;
-    color: #111;
-    line-height: 1.2;
-  }
-  .doc-header .brand span {
-    display: block;
-    font-size: 11px;
-    font-weight: 500;
-    color: #444;
-    letter-spacing: .12em;
-    margin-top: 3px;
-  }
-  .doc-header-right {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-  }
-  .doc-title {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: .18em;
-    color: #111;
-    line-height: 1;
-  }
-  /* 管理No.バッジ（右上） */
-  .mgmt-badge {
-    display: inline-block;
-    border: 2px solid #111;
-    border-radius: 3px;
-    padding: 3px 12px 3px 8px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #111;
-    letter-spacing: .05em;
-    background: #f5f5f5;
-  }
-  .mgmt-badge .mgmt-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: #555;
-    letter-spacing: .08em;
-    margin-right: 6px;
-  }
-
-  /* ── メタテーブル（お客様情報） ── */
-  .meta-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 8px;
-  }
-  .meta-table td {
-    border: 1.5px solid #555;
-    padding: 6px 9px;
-    vertical-align: middle;
-    font-size: 12.5px;
-    line-height: 1.5;
-  }
-  .meta-table td.k {
-    background: #ececec;
-    font-weight: 700;
-    color: #111;
-    white-space: nowrap;
-    width: 17%;
-    font-size: 11.5px;
-    letter-spacing: .04em;
-  }
-  .meta-table td.v {
-    width: 33%;
-    font-size: 13px;
-    font-weight: 600;
-    color: #111;
-  }
-  .meta-table td.v-wide {
-    font-size: 13px;
-    font-weight: 600;
-    color: #111;
-  }
-
-  /* ── 送料テーブル ── */
-  .shipping-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 10px;
-  }
-  .shipping-table td {
-    border: 1.5px solid #555;
-    padding: 6px 9px;
-    font-size: 12.5px;
-    vertical-align: middle;
-  }
-  .shipping-table td.k {
-    background: #ececec;
-    font-weight: 700;
-    color: #111;
-    white-space: nowrap;
-    width: 22%;
-    font-size: 11.5px;
-    letter-spacing: .04em;
-  }
-  .shipping-table td.num {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-    font-weight: 700;
-    font-size: 13px;
-    color: #111;
-  }
-
-  /* ── セクション見出し ── */
-  .block-content {
-  border: 1.5px solid #555;
-  border-radius: 2px;
-  padding: 8px 12px;
-  min-height: 40px;
-  white-space: pre-wrap;
-  font-size: 16px;
-  font-weight: 700;
-  color: #111;
-  line-height: 1.7;
-  background: #fff;
-  margin-bottom: 2px;
-}
-.block-content.sm {
-  font-size: 13.5px;
-  font-weight: 500;
-  min-height: 28px;
-}
-
-  /* ── 返却品チェックテーブル（縮小版） ── */
-table.check-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2px;
-}
-table.check-table th {
-  border: 1px solid #666;
-  padding: 2px 4px;
-  background: #ececec;
-  font-size: 9.5px;
-  font-weight: 700;
-  color: #111;
-  text-align: center;
-  width: 33.3%;
-}
-table.check-table td {
-  border: 1px solid #666;
-  padding: 2px 4px;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: #111;
-  line-height: 1.3;
-}
-  /* ── 本文ブロック（故障・修理・備考） ── */
-  .block-content {
-    border: 1.5px solid #555;
-    border-radius: 2px;
-    padding: 8px 12px;
-    min-height: 40px;
-    white-space: pre-wrap;
-    font-size: 16px;
-    font-weight: 700;
-    color: #111;
-    line-height: 1.7;
+    width: 210mm;
+    min-height: 297mm;
     background: #fff;
-    margin-bottom: 2px;
-  }
-  .block-content.sm {
-    font-size: 13.5px;
-    font-weight: 500;
-    min-height: 28px;
-  }
-
-  /* ── 請求明細テーブル ── */
-  table.billing {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 4px;
-  }
-  table.billing th {
-    border: 1.5px solid #555;
-    padding: 7px 9px;
-    background: #ececec;
+    box-shadow: 0 0 0 1px #bbb, 0 6px 24px rgba(0,0,0,.14);
+    padding: 8mm 14mm 10mm;
+    font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP","Meiryo",sans-serif;
     font-size: 12px;
-    font-weight: 700;
+    line-height: 1.5;
     color: #111;
-    text-align: left;
-  }
-  table.billing td {
-    border: 1.5px solid #555;
-    padding: 7px 9px;
-    font-size: 13px;
-    color: #111;
-  }
-  table.billing td.num {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-    font-weight: 600;
-  }
-  table.billing tfoot td {
-    font-weight: 700;
-    font-size: 13px;
-    background: #f5f5f5;
-  }
-  table.billing tfoot tr.total td {
-    font-size: 15px;
-    font-weight: 800;
-    background: #e0e0e0;
-    color: #111;
-  }
-  table.billing tfoot td.num {
-    font-variant-numeric: tabular-nums;
   }
 
-  /* ── フッター ── */
-  .footer-note {
-    margin-top: 14px;
-    padding-top: 8px;
-    border-top: 1.5px solid #888;
-    font-size: 11px;
-    color: #444;
-    text-align: center;
-    line-height: 1.7;
-    letter-spacing: .04em;
+  .doc-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 3.5px solid #111; padding-bottom: 8px; margin-bottom: 10px;
   }
+  .doc-header .brand { font-size: 20px; font-weight: 800; letter-spacing: .05em; color: #111; line-height: 1.2; }
+  .doc-header .brand span { display: block; font-size: 11px; font-weight: 500; color: #444; letter-spacing: .12em; margin-top: 3px; }
+  .doc-header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .doc-title { font-size: 22px; font-weight: 800; letter-spacing: .18em; color: #111; line-height: 1; }
+  .mgmt-badge { display: inline-block; border: 2px solid #111; border-radius: 3px; padding: 3px 12px 3px 8px; font-size: 13px; font-weight: 700; color: #111; letter-spacing: .05em; background: #f5f5f5; }
+  .mgmt-badge .mgmt-label { font-size: 10px; font-weight: 600; color: #555; letter-spacing: .08em; margin-right: 6px; }
+
+  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+  .meta-table td { border: 1.5px solid #555; padding: 6px 9px; vertical-align: middle; font-size: 12.5px; line-height: 1.5; }
+  .meta-table td.k { background: #ececec; font-weight: 700; color: #111; white-space: nowrap; width: 17%; font-size: 11.5px; letter-spacing: .04em; }
+  .meta-table td.v { width: 33%; font-size: 13px; font-weight: 600; color: #111; }
+  .meta-table td.v-wide { font-size: 13px; font-weight: 600; color: #111; }
+
+  .shipping-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+  .shipping-table td { border: 1.5px solid #555; padding: 6px 9px; font-size: 12.5px; vertical-align: middle; }
+  .shipping-table td.k { background: #ececec; font-weight: 700; color: #111; white-space: nowrap; width: 22%; font-size: 11.5px; letter-spacing: .04em; }
+  .shipping-table td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 13px; color: #111; }
+
+  .block-content {
+    border: 1.5px solid #555; border-radius: 2px; padding: 8px 12px; min-height: 40px;
+    white-space: pre-wrap; font-size: 16px; font-weight: 700; color: #111; line-height: 1.7;
+    background: #fff; margin-bottom: 2px;
+  }
+  .block-content.sm { font-size: 13.5px; font-weight: 500; min-height: 28px; }
+
+  table.check-table { width: 100%; border-collapse: collapse; margin-bottom: 2px; }
+  table.check-table th { border: 1px solid #666; padding: 2px 4px; background: #ececec; font-size: 9.5px; font-weight: 700; color: #111; text-align: center; width: 33.3%; }
+  table.check-table td { border: 1px solid #666; padding: 2px 4px; text-align: center; font-size: 11px; font-weight: 700; color: #111; line-height: 1.3; }
+
+  table.billing { width: 100%; border-collapse: collapse; margin-top: 4px; }
+  table.billing th { border: 1.5px solid #555; padding: 7px 9px; background: #ececec; font-size: 12px; font-weight: 700; color: #111; text-align: left; }
+  table.billing td { border: 1.5px solid #555; padding: 7px 9px; font-size: 13px; color: #111; }
+  table.billing td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  table.billing tfoot td { font-weight: 700; font-size: 13px; background: #f5f5f5; }
+  table.billing tfoot tr.total td { font-size: 15px; font-weight: 800; background: #e0e0e0; color: #111; }
+  table.billing tfoot td.num { font-variant-numeric: tabular-nums; }
+
+  .footer-note {
+    margin-top: 14px; padding-top: 8px; border-top: 1.5px solid #888;
+    font-size: 11px; color: #444; text-align: center; line-height: 1.7; letter-spacing: .04em;
+  }
+
+  .section-title {
+    font-size: 11.5px; font-weight: 700; letter-spacing: .06em;
+    border-left: 4px solid #333; padding-left: 7px; margin: 10px 0 4px; color: #111;
+  }
+  .section-title.compact { margin-top: 6px; }
 
   /* ── Toast ── */
   .toast {
@@ -576,6 +504,7 @@ table.check-table td {
     padding: 12px 20px; border-radius: 3px; font-size: 13px;
     opacity: 0; transform: translateY(10px);
     transition: all .2s; pointer-events: none;
+    max-width: calc(100vw - 48px);
   }
   .toast.show { opacity: 1; transform: none; }
   .toast.success { background: var(--success); }
@@ -590,16 +519,12 @@ table.check-table td {
     .report-layout { padding: 0; max-width: none; }
     .editor { display: none !important; }
     .preview-wrap { display: block; }
-    .page {
-      box-shadow: none;
-      width: 210mm; min-height: 297mm;
-      margin: 0; padding: 14mm 16mm 16mm;
-    }
+    .page { box-shadow: none; width: 210mm; min-height: 297mm; margin: 0; padding: 14mm 16mm 16mm; }
   }
 </style>
 </head>
 <body>
-    
+
 <!-- ══ LOGIN SCREEN ══ -->
 <div id="screenLogin" style="
   position:fixed;inset:0;z-index:999;
@@ -632,7 +557,13 @@ table.check-table td {
 
   <div class="topbar">
     <div class="topbar-brand">GOD-CLEANER <span>修理管理システム</span></div>
-        <div class="topbar-actions">
+    <div class="topbar-actions">
+      <!-- スマホモードトグル -->
+      <button class="mobile-toggle-btn" id="mobileToggleBtn" title="スマホ最適化モード切替">
+        <span class="toggle-icon">📱</span>
+        <span class="toggle-label-off">スマホ</span>
+        <span class="toggle-label-on">PC表示</span>
+      </button>
       <button class="btn btn-ghost" id="exportBtn">📥 DL</button>
       <button class="btn btn-ghost" id="importBtn">🔄 復元</button>
       <input type="file" id="importFile" accept=".json" style="display:none">
@@ -675,9 +606,9 @@ table.check-table td {
         <input type="date" id="searchDateTo">
       </div>
       <div class="search-group">
-  <label>電話番号</label>
-  <input type="text" id="searchPhone" placeholder="例）06-1234">
-</div>
+        <label>電話番号</label>
+        <input type="text" id="searchPhone" placeholder="例）06-1234">
+      </div>
       <button class="btn btn-white" id="btnSearch">検索</button>
       <button class="btn btn-ghost" id="btnReset">リセット</button>
     </div>
@@ -773,7 +704,6 @@ table.check-table td {
         <input type="text" id="customerName" placeholder="例）山田 太郎 様">
       </div>
 
-      <!-- 郵便番号・住所 -->
       <div class="field">
         <label>郵便番号</label>
         <div class="zip-row">
@@ -787,7 +717,6 @@ table.check-table td {
         <input type="text" id="address" placeholder="住所が自動入力されます">
       </div>
 
-      <!-- 電話番号 -->
       <div class="field">
         <label>電話番号</label>
         <input type="text" id="phoneNo" placeholder="例）06-1234-5678">
@@ -817,16 +746,15 @@ table.check-table td {
         </div>
       </div>
 
-      <!-- 荷物サイズ・送料 -->
       <div class="row2">
         <div class="field">
           <label>荷物サイズ</label>
           <select id="packageSize">
             <option value="">選択してください</option>
             <option value="80サイズ">80サイズ</option>
-<option value="100サイズ">100サイズ</option>
-<option value="140サイズ">140サイズ</option>
-<option value="160サイズ">160サイズ</option>
+            <option value="100サイズ">100サイズ</option>
+            <option value="140サイズ">140サイズ</option>
+            <option value="160サイズ">160サイズ</option>
           </select>
         </div>
         <div class="field">
@@ -852,13 +780,13 @@ table.check-table td {
         <label>故障内容</label>
         <select id="failureContentSel">
           <option value="">選択してください</option>
-         <option value="ピン折れ">ピン折れ</option>
-<option value="色出ない">色出ない</option>
-<option value="P3エラー">P3エラー</option>
-<option value="0％エラー">0％エラー</option>
-<option value="カートリッジ初期不良">カートリッジ初期不良</option>
-<option value="電源切れる">電源切れる</option>
-<option value="__other__">その他</option>
+          <option value="ピン折れ">ピン折れ</option>
+          <option value="色出ない">色出ない</option>
+          <option value="P3エラー">P3エラー</option>
+          <option value="0％エラー">0％エラー</option>
+          <option value="カートリッジ初期不良">カートリッジ初期不良</option>
+          <option value="電源切れる">電源切れる</option>
+          <option value="__other__">その他</option>
         </select>
         <textarea id="failureContent" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px" disabled></textarea>
       </div>
@@ -867,11 +795,11 @@ table.check-table td {
         <select id="repairContentSel">
           <option value="">選択してください</option>
           <option value="ピン挿入部交換">ピン挿入部交換</option>
-<option value="本体基盤交換">本体基盤交換</option>
-<option value="カートリッジ同等品交換">カートリッジ同等品交換</option>
-<option value="カートリッジ新品交換">カートリッジ新品交換</option>
-<option value="3Aヒューズ交換">3Aヒューズ交換</option>
-<option value="__other__">その他</option>
+          <option value="本体基盤交換">本体基盤交換</option>
+          <option value="カートリッジ同等品交換">カートリッジ同等品交換</option>
+          <option value="カートリッジ新品交換">カートリッジ新品交換</option>
+          <option value="3Aヒューズ交換">3Aヒューズ交換</option>
+          <option value="__other__">その他</option>
         </select>
         <textarea id="repairContent" placeholder="「その他」選択時に内容を入力してください" style="margin-top:6px" disabled></textarea>
       </div>
@@ -899,66 +827,42 @@ table.check-table td {
     <div class="preview-wrap">
       <div class="page" id="printArea">
 
-        <!-- ヘッダー：ブランド左・タイトル＋管理No.右 -->
         <div class="doc-header">
-          <div class="brand">
-            GOD-CLEANER
-            <span>株式会社マインドフィットネス</span>
-          </div>
+          <div class="brand">GOD-CLEANER<span>株式会社マインドフィットネス</span></div>
           <div class="doc-header-right">
             <div class="doc-title">修理報告書</div>
-            <div class="mgmt-badge">
-              <span class="mgmt-label">管理No.</span><span id="p_mgmtNo">&nbsp;</span>
-            </div>
+            <div class="mgmt-badge"><span class="mgmt-label">管理No.</span><span id="p_mgmtNo">&nbsp;</span></div>
           </div>
         </div>
 
-        <!-- お客様情報テーブル -->
         <table class="meta-table">
           <tr>
-            <td class="k">ご返却日</td>
-            <td class="v" id="p_returnDate">&nbsp;</td>
-            <td class="k">機器No.</td>
-            <td class="v" id="p_deviceNo">&nbsp;</td>
+            <td class="k">ご返却日</td><td class="v" id="p_returnDate">&nbsp;</td>
+            <td class="k">機器No.</td><td class="v" id="p_deviceNo">&nbsp;</td>
           </tr>
           <tr>
-            <td class="k">お客様名</td>
-            <td class="v" id="p_customerName">&nbsp;</td>
-            <td class="k">TEL</td>
-            <td class="v" id="p_phoneNo">&nbsp;</td>
+            <td class="k">お客様名</td><td class="v" id="p_customerName">&nbsp;</td>
+            <td class="k">TEL</td><td class="v" id="p_phoneNo">&nbsp;</td>
           </tr>
           <tr>
-            <td class="k">機器購入日</td>
-            <td class="v" id="p_purchaseDate">&nbsp;</td>
-            <td class="k">&nbsp;</td>
-            <td class="v">&nbsp;</td>
+            <td class="k">機器購入日</td><td class="v" id="p_purchaseDate">&nbsp;</td>
+            <td class="k">&nbsp;</td><td class="v">&nbsp;</td>
           </tr>
           <tr>
-            <td class="k">ご住所</td>
-            <td colspan="3" class="v-wide" id="p_address">&nbsp;</td>
+            <td class="k">ご住所</td><td colspan="3" class="v-wide" id="p_address">&nbsp;</td>
           </tr>
         </table>
 
-        <!-- 送料情報 -->
         <table class="shipping-table">
           <tr>
-            <td class="k">荷物サイズ</td>
-            <td id="p_packageSize">&nbsp;</td>
-            <td class="k">着払い送料</td>
-            <td class="num" id="p_shippingFee">&nbsp;</td>
+            <td class="k">荷物サイズ</td><td id="p_packageSize">&nbsp;</td>
+            <td class="k">着払い送料</td><td class="num" id="p_shippingFee">&nbsp;</td>
           </tr>
         </table>
 
-        <!-- 返却品 -->
         <div class="section-title compact">返却品</div>
         <table class="check-table">
-          <thead>
-            <tr>
-              <th>GC本体</th>
-              <th>ACコード</th>
-              <th>カートリッジ</th>
-            </tr>
-          </thead>
+          <thead><tr><th>GC本体</th><th>ACコード</th><th>カートリッジ</th></tr></thead>
           <tbody>
             <tr>
               <td class="p-ret-included" data-item="GC本体">□</td>
@@ -968,19 +872,13 @@ table.check-table td {
           </tbody>
         </table>
 
-        <!-- 故障内容 -->
         <div class="section-title">故障内容</div>
         <div class="block-content" id="p_failureContent">&nbsp;</div>
-
-        <!-- 修理内容 -->
         <div class="section-title">修理内容</div>
         <div class="block-content" id="p_repairContent">&nbsp;</div>
-
-        <!-- 備考 -->
         <div class="section-title">備考</div>
         <div class="block-content sm" id="p_remarks">&nbsp;</div>
 
-        <!-- 請求明細 -->
         <div class="section-title compact">修理費用ご請求明細</div>
         <table class="billing">
           <thead>
@@ -993,18 +891,9 @@ table.check-table td {
           </thead>
           <tbody id="p_billingBody"></tbody>
           <tfoot>
-            <tr>
-              <td colspan="3">小計</td>
-              <td class="num" id="p_subtotal">¥0</td>
-            </tr>
-            <tr>
-              <td colspan="3">消費税（10％）</td>
-              <td class="num" id="p_tax">¥0</td>
-            </tr>
-            <tr class="total">
-              <td colspan="3">総合計金額</td>
-              <td class="num" id="p_total">¥0</td>
-            </tr>
+            <tr><td colspan="3">小計</td><td class="num" id="p_subtotal">¥0</td></tr>
+            <tr><td colspan="3">消費税（10％）</td><td class="num" id="p_tax">¥0</td></tr>
+            <tr class="total"><td colspan="3">総合計金額</td><td class="num" id="p_total">¥0</td></tr>
           </tfoot>
         </table>
 
@@ -1033,32 +922,14 @@ table.check-table td {
       <button class="modal-close" id="demoModalClose">✕</button>
     </div>
     <div class="modal-body">
-      <div class="form-row">
-        <label>お客様名 <span style="color:var(--danger)">*</span></label>
-        <input type="text" id="df-name" placeholder="例）山田 太郎 様">
-      </div>
-      <div class="form-row">
-        <label>デモ機番号</label>
-        <input type="text" id="df-unitNo" placeholder="例）DEMO-001">
-      </div>
+      <div class="form-row"><label>お客様名 <span style="color:var(--danger)">*</span></label><input type="text" id="df-name" placeholder="例）山田 太郎 様"></div>
+      <div class="form-row"><label>デモ機番号</label><input type="text" id="df-unitNo" placeholder="例）DEMO-001"></div>
       <div class="form-row-grid">
-        <div class="form-row">
-          <label>デモ機発送日</label>
-          <input type="date" id="df-shipDate">
-        </div>
-        <div class="form-row">
-          <label>修理品発送日</label>
-          <input type="date" id="df-repairShipDate">
-        </div>
+        <div class="form-row"><label>デモ機発送日</label><input type="date" id="df-shipDate"></div>
+        <div class="form-row"><label>修理品発送日</label><input type="date" id="df-repairShipDate"></div>
       </div>
-      <div class="form-row">
-        <label>デモ機返却日 <span style="font-size:11px;color:var(--muted)">（返却済みの場合のみ入力）</span></label>
-        <input type="date" id="df-returnDate">
-      </div>
-      <div class="form-row">
-        <label>メモ</label>
-        <textarea id="df-note" placeholder="備考・連絡事項など…"></textarea>
-      </div>
+      <div class="form-row"><label>デモ機返却日 <span style="font-size:11px;color:var(--muted)">（返却済みの場合のみ入力）</span></label><input type="date" id="df-returnDate"></div>
+      <div class="form-row"><label>メモ</label><textarea id="df-note" placeholder="備考・連絡事項など…"></textarea></div>
       <div class="form-actions">
         <button class="btn btn-ghost" id="demoModalCancel" style="color:var(--ink);border-color:var(--border)">キャンセル</button>
         <button class="btn btn-green" id="demoModalSubmit">保存</button>
@@ -1107,25 +978,49 @@ async function fbGet(url) {
   return r.json();
 }
 async function fbPost(url, data) {
-  const r = await fetch(`${url}.json`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
+  const r = await fetch(`${url}.json`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
   if (!r.ok) throw new Error('保存失敗: ' + r.status);
   return r.json();
 }
 async function fbPatch(url, id, data) {
-  const r = await fetch(`${url}/${id}.json`, {
-    method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
+  const r = await fetch(`${url}/${id}.json`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
   if (!r.ok) throw new Error('更新失敗: ' + r.status);
   return r.json();
 }
 async function fbDelete(url, id) {
-  const r = await fetch(`${url}/${id}.json`, { method: 'DELETE' });
+  const r = await fetch(`${url}/${id}.json`, { method:'DELETE' });
   if (!r.ok) throw new Error('削除失敗: ' + r.status);
 }
+
+/* ══════════════════════════════
+   スマホモード
+══════════════════════════════ */
+const MOBILE_KEY = 'godcleaner_mobile_mode';
+let isMobileMode = localStorage.getItem(MOBILE_KEY) === '1';
+
+function applyMobileMode(mode) {
+  isMobileMode = mode;
+  document.body.classList.toggle('mobile-mode', mode);
+  const btn = document.getElementById('mobileToggleBtn');
+  btn.classList.toggle('active', mode);
+  localStorage.setItem(MOBILE_KEY, mode ? '1' : '0');
+  // 一覧を再レンダリング（モードに合わせてカード/テーブル切替）
+  if (currentTab === 'repair') renderRepairTable(allRecords);
+  else renderDemoTable(allDemoRecords);
+}
+
+document.getElementById('mobileToggleBtn').addEventListener('click', () => {
+  applyMobileMode(!isMobileMode);
+  toast(isMobileMode ? '📱 スマホ最適化モードON' : '🖥 PC表示に切り替えました', 'success');
+});
+
+// 初期化
+(function() {
+  if (isMobileMode) {
+    document.body.classList.add('mobile-mode');
+    document.getElementById('mobileToggleBtn').classList.add('active');
+  }
+})();
 
 /* ══════════════════════════════
    郵便番号 → 住所 自動入力
@@ -1137,9 +1032,7 @@ async function lookupZip(zip) {
   const res  = await fetch(url);
   if (!res.ok) throw new Error('ネットワークエラー');
   const json = await res.json();
-  if (json.status !== 200 || !json.results || !json.results.length) {
-    throw new Error('住所が見つかりませんでした');
-  }
+  if (json.status !== 200 || !json.results || !json.results.length) throw new Error('住所が見つかりませんでした');
   const r = json.results[0];
   return `${r.address1}${r.address2}${r.address3}`;
 }
@@ -1165,10 +1058,7 @@ document.getElementById('zipSearchBtn').addEventListener('click', async () => {
     btn.disabled = false; btn.textContent = '住所を検索';
   }
 });
-
-document.getElementById('zipCode').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('zipSearchBtn').click();
-});
+document.getElementById('zipCode').addEventListener('keydown', e => { if (e.key==='Enter') document.getElementById('zipSearchBtn').click(); });
 
 /* ══════════════════════════════
    Screen / Tab switching
@@ -1193,7 +1083,6 @@ function copyToClip(text, label) {
   navigator.clipboard.writeText(text).then(() => {
     toast('✓ ' + label + 'をコピーしました', 'success');
   }).catch(() => {
-    // fallback
     const ta = document.createElement('textarea');
     ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta); ta.select();
@@ -1215,55 +1104,31 @@ function switchTab(tab, btn) {
 }
 
 document.getElementById('topNewBtn').addEventListener('click', () => {
-  if (currentTab === 'repair') {
-    resetReportForm();
-    showScreen('report');
-  } else {
-    openDemoModal();
-  }
+  if (currentTab === 'repair') { resetReportForm(); showScreen('report'); }
+  else openDemoModal();
 });
 
 /* ══════════════════════════════
    Helpers
 ══════════════════════════════ */
-function yen(n) {
-  const sign = n < 0 ? '-' : '';
-  return sign + '¥' + Math.abs(Math.round(n)).toLocaleString('ja-JP');
-}
-function fmtDate(v) {
-  if (!v) return '';
-  const [y, m, d] = v.split('-');
-  if (!y || !m || !d) return v;
-  return `${y}年${Number(m)}月${Number(d)}日`;
-}
-function fmtDateShort(v) {
-  if (!v) return '';
-  const [y, m, d] = v.split('-');
-  return `${Number(m)}/${Number(d)}`;
-}
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function toast(msg, type = '') {
+function yen(n) { const sign = n < 0 ? '-' : ''; return sign + '¥' + Math.abs(Math.round(n)).toLocaleString('ja-JP'); }
+function fmtDate(v) { if (!v) return ''; const [y,m,d] = v.split('-'); if (!y||!m||!d) return v; return `${y}年${Number(m)}月${Number(d)}日`; }
+function fmtDateShort(v) { if (!v) return ''; const [y,m,d] = v.split('-'); return `${Number(m)}/${Number(d)}`; }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toast(msg, type='') {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.className = 'toast show' + (type ? ' ' + type : '');
   setTimeout(() => { el.className = 'toast'; }, 3200);
 }
-function daysBetween(dateStr1, dateStr2) {
-  return Math.floor((new Date(dateStr2) - new Date(dateStr1)) / 86400000);
-}
-function todayStr() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
+function daysBetween(s1,s2) { return Math.floor((new Date(s2)-new Date(s1))/86400000); }
+function todayStr() { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 
 /* ══════════════════════════════
    CONFIRM DIALOG
 ══════════════════════════════ */
 let _pendingConfirm = null;
-
-function openConfirm({ icon = '🗑️', title = '確認', msg = 'よろしいですか？', okLabel = '削除する', onOk }) {
+function openConfirm({ icon='🗑️', title='確認', msg='よろしいですか？', okLabel='削除する', onOk }) {
   document.getElementById('confirmIcon').textContent  = icon;
   document.getElementById('confirmTitle').textContent = title;
   document.getElementById('confirmMsg').textContent   = msg;
@@ -1287,31 +1152,27 @@ document.getElementById('confirmNo').addEventListener('click', () => {
 let allRecords = [];
 
 async function loadAllRepairs() {
-  document.getElementById('tableBody').innerHTML =
-    '<div class="empty-state"><div class="empty-icon">📋</div><p>読み込み中…</p></div>';
+  document.getElementById('tableBody').innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><p>読み込み中…</p></div>';
   try {
     const data = await fbGet(REPAIR_URL);
-    allRecords = data
-      ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
-      : [];
-    allRecords.sort((a, b) => {
-      const na = parseInt((a.data.mgmtNo || '').match(/\d+/)?.[0] || '0', 10);
-      const nb = parseInt((b.data.mgmtNo || '').match(/\d+/)?.[0] || '0', 10);
+    allRecords = data ? Object.entries(data).map(([id,d]) => ({id,data:d})) : [];
+    allRecords.sort((a,b) => {
+      const na = parseInt((a.data.mgmtNo||'').match(/\d+/)?.[0]||'0',10);
+      const nb = parseInt((b.data.mgmtNo||'').match(/\d+/)?.[0]||'0',10);
       return nb - na;
     });
     updateRepairStats(allRecords);
     renderRepairTable(allRecords);
-  } catch (e) {
-    document.getElementById('tableBody').innerHTML =
-      `<div class="empty-state"><p style="color:var(--danger)">読み込みに失敗しました: ${e.message}</p></div>`;
+  } catch(e) {
+    document.getElementById('tableBody').innerHTML = `<div class="empty-state"><p style="color:var(--danger)">読み込みに失敗しました: ${e.message}</p></div>`;
   }
 }
 
 function updateRepairStats(records) {
   const now = new Date();
-  const ym  = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-  const thisMonth = records.filter(r => (r.data.returnDate || '').startsWith(ym));
-  const rev = thisMonth.reduce((s, r) => s + (r.data.total || 0), 0);
+  const ym = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const thisMonth = records.filter(r => (r.data.returnDate||'').startsWith(ym));
+  const rev = thisMonth.reduce((s,r) => s+(r.data.total||0), 0);
   document.getElementById('statTotal').textContent   = records.length;
   document.getElementById('statMonth').textContent   = thisMonth.length;
   document.getElementById('statRevenue').textContent = rev ? yen(rev) : '¥0';
@@ -1320,66 +1181,85 @@ function updateRepairStats(records) {
 function renderRepairTable(records) {
   document.getElementById('resultCount').textContent = `${records.length}件`;
   if (!records.length) {
-    document.getElementById('tableBody').innerHTML =
-      '<div class="empty-state"><div class="empty-icon">🔍</div><p>該当する報告書が見つかりませんでした。</p></div>';
+    document.getElementById('tableBody').innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>該当する報告書が見つかりませんでした。</p></div>';
     return;
   }
-  const rows = records.map(r => {
-    const d = r.data;
-    return `<tr>
-      <td class="td-mgmt">${esc(d.mgmtNo || '—')}</td>
-      <td class="td-customer">${esc(d.customerName || '—')}</td>
-      <td class="td-device">${esc(d.deviceNo || '—')}</td>
-      <td>${esc(fmtDate(d.returnDate || ''))}</td>
-      <td>${esc(d.failureContent || '—')}</td>
-      <td class="td-total">${d.total != null ? yen(d.total) : '—'}</td>
-      <td class="td-actions">
-        <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
-          onclick="openRepairDetail('${r.id}')">詳細</button>
-        <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
-          onclick="openRepairEdit('${r.id}')">編集</button>
-        <button class="btn btn-sm btn-red"
-          onclick="askDeleteRepair('${r.id}')">削除</button>
-      </td>
-    </tr>`;
-  }).join('');
 
-  document.getElementById('tableBody').innerHTML = `
-    <table class="archive-table">
-      <thead><tr>
-        <th>管理No.</th><th>お客様名</th><th>機器No.</th>
-        <th>返却日</th><th>故障内容</th>
-        <th style="text-align:right">合計金額</th><th></th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`;
+  if (isMobileMode) {
+    // ── カード形式（スマホ） ──
+    const cards = records.map(r => {
+      const d = r.data;
+      return `<div class="m-card">
+        <div class="m-card-header">
+          <div class="m-card-name">${esc(d.customerName||'—')}</div>
+          <div class="m-card-mgmt">No.${esc(d.mgmtNo||'—')}</div>
+        </div>
+        <div class="m-card-row"><span class="m-card-label">機器No.</span><span class="m-card-value">${esc(d.deviceNo||'—')}</span></div>
+        <div class="m-card-row"><span class="m-card-label">返却日</span><span class="m-card-value">${esc(fmtDate(d.returnDate||''))}</span></div>
+        <div class="m-card-row"><span class="m-card-label">故障内容</span><span class="m-card-value">${esc(d.failureContent||'—')}</span></div>
+        <div class="m-card-row"><span class="m-card-label">合計金額</span><span class="m-card-value" style="color:var(--ink);font-size:16px">${d.total!=null?yen(d.total):'—'}</span></div>
+        <div class="m-card-actions">
+          <button class="btn btn-sm" style="background:#555;color:#fff;border:none" onclick="openRepairDetail('${r.id}')">詳細</button>
+          <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none" onclick="openRepairEdit('${r.id}')">編集</button>
+          <button class="btn btn-sm btn-red" onclick="askDeleteRepair('${r.id}')">削除</button>
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('tableBody').innerHTML = `<div class="mobile-card-list" style="padding:12px">${cards}</div>`;
+  } else {
+    // ── テーブル形式（PC） ──
+    const rows = records.map(r => {
+      const d = r.data;
+      return `<tr>
+        <td class="td-mgmt">${esc(d.mgmtNo||'—')}</td>
+        <td class="td-customer">${esc(d.customerName||'—')}</td>
+        <td class="td-device">${esc(d.deviceNo||'—')}</td>
+        <td>${esc(fmtDate(d.returnDate||''))}</td>
+        <td>${esc(d.failureContent||'—')}</td>
+        <td class="td-total">${d.total!=null?yen(d.total):'—'}</td>
+        <td class="td-actions">
+          <button class="btn btn-sm" style="background:#555;color:#fff;border:none" onclick="openRepairDetail('${r.id}')">詳細</button>
+          <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none" onclick="openRepairEdit('${r.id}')">編集</button>
+          <button class="btn btn-sm btn-red" onclick="askDeleteRepair('${r.id}')">削除</button>
+        </td>
+      </tr>`;
+    }).join('');
+    document.getElementById('tableBody').innerHTML = `
+      <table class="archive-table">
+        <thead><tr>
+          <th>管理No.</th><th>お客様名</th><th>機器No.</th>
+          <th>返却日</th><th>故障内容</th>
+          <th style="text-align:right">合計金額</th><th></th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
 }
 
 /* Repair Search */
 document.getElementById('btnSearch').addEventListener('click', doRepairSearch);
 document.getElementById('btnReset').addEventListener('click', () => {
-  ['searchCustomer','searchDevice','searchMgmt','searchPhone','searchDateFrom','searchDateTo']
-  .forEach(id => document.getElementById(id).value = '');
+  ['searchCustomer','searchDevice','searchMgmt','searchPhone','searchDateFrom','searchDateTo'].forEach(id => document.getElementById(id).value='');
   renderRepairTable(allRecords);
 });
 ['searchCustomer','searchDevice','searchMgmt','searchPhone'].forEach(id => {
-  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') doRepairSearch(); });
+  document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') doRepairSearch(); });
 });
 function doRepairSearch() {
   const qc = document.getElementById('searchCustomer').value.trim().toLowerCase();
   const qd = document.getElementById('searchDevice').value.trim().toLowerCase();
   const qm = document.getElementById('searchMgmt').value.trim().toLowerCase();
-  const qp = document.getElementById('searchPhone').value.trim().replace(/[^0-9]/g, '');
+  const qp = document.getElementById('searchPhone').value.trim().replace(/[^0-9]/g,'');
   const qf = document.getElementById('searchDateFrom').value;
   const qt = document.getElementById('searchDateTo').value;
   const filtered = allRecords.filter(r => {
     const d = r.data;
-    if (qc && !(d.customerName || '').toLowerCase().includes(qc)) return false;
-    if (qd && !(d.deviceNo || '').toLowerCase().includes(qd)) return false;
-    if (qm && !(d.mgmtNo || '').toLowerCase().includes(qm)) return false;
-    if (qp && !(d.phoneNo || '').replace(/[^0-9]/g, '').includes(qp)) return false;
-    if (qf && (d.returnDate || '') < qf) return false;
-    if (qt && (d.returnDate || '') > qt) return false;
+    if (qc && !(d.customerName||'').toLowerCase().includes(qc)) return false;
+    if (qd && !(d.deviceNo||'').toLowerCase().includes(qd)) return false;
+    if (qm && !(d.mgmtNo||'').toLowerCase().includes(qm)) return false;
+    if (qp && !(d.phoneNo||'').replace(/[^0-9]/g,'').includes(qp)) return false;
+    if (qf && (d.returnDate||'')<qf) return false;
+    if (qt && (d.returnDate||'')>qt) return false;
     return true;
   });
   renderRepairTable(filtered);
@@ -1387,12 +1267,12 @@ function doRepairSearch() {
 
 /* Repair Detail Modal */
 function openRepairDetail(id) {
-  const rec = allRecords.find(r => r.id === id);
+  const rec = allRecords.find(r => r.id===id);
   if (!rec) return;
   const d = rec.data;
-  document.getElementById('modalTitle').textContent = `修理報告書 #${d.mgmtNo || id}`;
-  const returnedItems = (d.returnedItems || []).filter(Boolean).join('・') || '—';
-  const bRows = (d.billingLines || []).filter(b => b && b.name).map(b =>
+  document.getElementById('modalTitle').textContent = `修理報告書 #${d.mgmtNo||id}`;
+  const returnedItems = (d.returnedItems||[]).filter(Boolean).join('・')||'—';
+  const bRows = (d.billingLines||[]).filter(b=>b&&b.name).map(b =>
     `<tr><td>${esc(b.name)}</td><td class="r">${b.qty}</td><td class="r">${yen(b.price)}</td><td class="r">${yen(b.amount)}</td></tr>`
   ).join('');
   document.getElementById('modalBody').innerHTML = `
@@ -1405,68 +1285,52 @@ function openRepairDetail(id) {
       <div class="detail-meta-k">TEL</div><div class="detail-meta-v">${esc(d.phoneNo||'—')}</div>
       <div class="detail-meta-k">住所</div><div class="detail-meta-v" style="grid-column:span 3">${esc(d.address||'—')}</div>
       <div class="detail-meta-k">荷物サイズ</div><div class="detail-meta-v">${esc(d.packageSize||'—')}</div>
-      <div class="detail-meta-k">送料</div><div class="detail-meta-v">${d.shippingFee != null && d.shippingFee !== '' ? yen(d.shippingFee) : '—'}</div>
+      <div class="detail-meta-k">送料</div><div class="detail-meta-v">${d.shippingFee!=null&&d.shippingFee!==''?yen(d.shippingFee):'—'}</div>
       <div class="detail-meta-k">返却品</div><div class="detail-meta-v">${esc(returnedItems)}</div>
     </div>
-    <div class="detail-sec">故障内容</div>
-    <div class="detail-box">${esc(d.failureContent||'—')}</div>
-    <div class="detail-sec">修理内容</div>
-    <div class="detail-box">${esc(d.repairContent||'—')}</div>
-    <div class="detail-sec">備考</div>
-    <div class="detail-box sm">${esc(d.remarks||'—')}</div>
+    <div class="detail-sec">故障内容</div><div class="detail-box">${esc(d.failureContent||'—')}</div>
+    <div class="detail-sec">修理内容</div><div class="detail-box">${esc(d.repairContent||'—')}</div>
+    <div class="detail-sec">備考</div><div class="detail-box sm">${esc(d.remarks||'—')}</div>
     <div class="detail-sec">請求明細</div>
     <table class="detail-billing">
       <thead><tr><th>項目</th><th>数量</th><th>単価</th><th>金額</th></tr></thead>
-      <tbody>${bRows || '<tr><td colspan="4" style="text-align:center;color:#aaa">なし</td></tr>'}</tbody>
+      <tbody>${bRows||'<tr><td colspan="4" style="text-align:center;color:#aaa">なし</td></tr>'}</tbody>
       <tfoot>
         <tr><td colspan="3">小計</td><td class="r">${yen(d.subtotal||0)}</td></tr>
         <tr><td colspan="3">消費税（10%）</td><td class="r">${yen(d.tax||0)}</td></tr>
         <tr class="total"><td colspan="3">総合計</td><td class="r">${yen(d.total||0)}</td></tr>
       </tfoot>
     </table>
-          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;padding:10px;background:#f7f7f7;border-radius:4px;border:1px solid #e0e0e0">
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;padding:10px;background:#f7f7f7;border-radius:4px;border:1px solid #e0e0e0">
       <div style="width:100%;font-size:11px;color:#888;margin-bottom:4px;letter-spacing:.05em">📋 クリップボードにコピー</div>
-      <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
-        onclick="copyToClip('${(d.zipCode||'').replace(/[^0-9]/g,'')}','郵便番号')">〒</button>
-      <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
-        onclick="copyToClip('${esc((d.address||'').replace(/^〒\d{3}-\d{4}\s*/,''))}','住所')">住所</button>
-      <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
-        onclick="copyToClip('${esc((d.customerName||'').replace(/\u3000\u3000様\/御中$/,'').trim())}','お客様名')">名前</button>
-      <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
-        onclick="copyToClip('${esc(d.phoneNo||'')}','電話番号')">TEL</button>
+      <button class="btn btn-sm" style="background:#555;color:#fff;border:none" onclick="copyToClip('${(d.zipCode||'').replace(/[^0-9]/g,'')}','郵便番号')">〒</button>
+      <button class="btn btn-sm" style="background:#555;color:#fff;border:none" onclick="copyToClip('${esc((d.address||'').replace(/^〒\d{3}-\d{4}\s*/,''))}','住所')">住所</button>
+      <button class="btn btn-sm" style="background:#555;color:#fff;border:none" onclick="copyToClip('${esc((d.customerName||'').replace(/\u3000\u3000様\/御中$/,'').trim())}','お客様名')">名前</button>
+      <button class="btn btn-sm" style="background:#555;color:#fff;border:none" onclick="copyToClip('${esc(d.phoneNo||'')}','電話番号')">TEL</button>
     </div>
     <div style="margin-top:10px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
-      <button class="btn btn-sm btn-green"
-        onclick="closeRepairModal();copyRepairAsNew('${id}')">📋 コピーして新規作成</button>
-      <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
-        onclick="closeRepairModal();openRepairEdit('${id}')">この報告書を編集</button>
-      <button class="btn btn-red btn-sm"
-        onclick="closeRepairModal();askDeleteRepair('${id}')">この報告書を削除</button>
+      <button class="btn btn-sm btn-green" onclick="closeRepairModal();copyRepairAsNew('${id}')">📋 コピーして新規作成</button>
+      <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none" onclick="closeRepairModal();openRepairEdit('${id}')">この報告書を編集</button>
+      <button class="btn btn-red btn-sm" onclick="closeRepairModal();askDeleteRepair('${id}')">この報告書を削除</button>
     </div>`;
   document.getElementById('detailModal').classList.add('open');
 }
 function closeRepairModal() { document.getElementById('detailModal').classList.remove('open'); }
 document.getElementById('modalClose').addEventListener('click', closeRepairModal);
-document.getElementById('detailModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('detailModal')) closeRepairModal();
-});
+document.getElementById('detailModal').addEventListener('click', e => { if(e.target===document.getElementById('detailModal')) closeRepairModal(); });
 
 function askDeleteRepair(id) {
   openConfirm({
-    icon: '🗑️', title: '報告書を削除しますか？',
-    msg: 'この操作は取り消すことができません。',
-    okLabel: '削除する',
+    icon:'🗑️', title:'報告書を削除しますか？', msg:'この操作は取り消すことができません。', okLabel:'削除する',
     onOk: async () => {
       try {
         await fbDelete(REPAIR_URL, id);
-        allRecords = allRecords.filter(r => r.id !== id);
+        allRecords = allRecords.filter(r => r.id!==id);
         closeRepairModal();
         updateRepairStats(allRecords);
         renderRepairTable(allRecords);
         toast('報告書を削除しました', 'success');
-      } catch (e) {
-        toast('削除に失敗しました: ' + e.message, 'error');
-      }
+      } catch(e) { toast('削除に失敗しました: '+e.message, 'error'); }
     }
   });
 }
@@ -1479,125 +1343,127 @@ let allDemoRecords = [];
 let _editingDemoId = null;
 
 async function loadAllDemo() {
-  document.getElementById('demoTableBody').innerHTML =
-    '<div class="empty-state"><div class="empty-icon">🔧</div><p>読み込み中…</p></div>';
+  document.getElementById('demoTableBody').innerHTML = '<div class="empty-state"><div class="empty-icon">🔧</div><p>読み込み中…</p></div>';
   try {
     const data = await fbGet(DEMO_URL);
-    allDemoRecords = data
-      ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
-      : [];
-    allDemoRecords.sort((a, b) => (b.data.createdAt || '').localeCompare(a.data.createdAt || ''));
+    allDemoRecords = data ? Object.entries(data).map(([id,d]) => ({id,data:d})) : [];
+    allDemoRecords.sort((a,b) => (b.data.createdAt||'').localeCompare(a.data.createdAt||''));
     updateDemoStats(allDemoRecords);
     renderDemoAlertBanner(allDemoRecords);
     renderDemoTable(allDemoRecords);
-  } catch (e) {
-    document.getElementById('demoTableBody').innerHTML =
-      `<div class="empty-state"><p style="color:var(--danger)">読み込みに失敗しました: ${e.message}</p></div>`;
+  } catch(e) {
+    document.getElementById('demoTableBody').innerHTML = `<div class="empty-state"><p style="color:var(--danger)">読み込みに失敗しました: ${e.message}</p></div>`;
   }
 }
 
 function getDemoStatus(d) {
   if (d.returnDate) return 'returned';
-  if (d.repairShipDate) {
-    const days = daysBetween(d.repairShipDate, todayStr());
-    if (days >= OVERDUE_DAYS) return 'overdue';
-    return 'waiting';
-  }
+  if (d.repairShipDate) { const days=daysBetween(d.repairShipDate,todayStr()); if(days>=OVERDUE_DAYS) return 'overdue'; return 'waiting'; }
   return 'active';
 }
-
 function getDemoStatusBadge(status) {
-  const map = {
-    returned: '<span class="badge badge-green">返却済</span>',
-    overdue:  '<span class="badge badge-red">要確認</span>',
-    waiting:  '<span class="badge badge-orange">返却待ち</span>',
-    active:   '<span class="badge badge-gray">貸出中</span>',
-  };
-  return map[status] || '';
+  const map = { returned:'<span class="badge badge-green">返却済</span>', overdue:'<span class="badge badge-red">要確認</span>', waiting:'<span class="badge badge-orange">返却待ち</span>', active:'<span class="badge badge-gray">貸出中</span>' };
+  return map[status]||'';
 }
-
 function updateDemoStats(records) {
   document.getElementById('demoStatTotal').textContent   = records.length;
-  document.getElementById('demoStatActive').textContent  = records.filter(r => getDemoStatus(r.data) !== 'returned').length;
-  document.getElementById('demoStatOverdue').textContent = records.filter(r => getDemoStatus(r.data) === 'overdue').length;
+  document.getElementById('demoStatActive').textContent  = records.filter(r=>getDemoStatus(r.data)!=='returned').length;
+  document.getElementById('demoStatOverdue').textContent = records.filter(r=>getDemoStatus(r.data)==='overdue').length;
 }
-
 function renderDemoAlertBanner(records) {
-  const overdue = records.filter(r => getDemoStatus(r.data) === 'overdue');
+  const overdue = records.filter(r=>getDemoStatus(r.data)==='overdue');
   const banner  = document.getElementById('demoAlertBanner');
-  if (overdue.length) {
-    banner.textContent = `⚠️ 修理品発送から${OVERDUE_DAYS}日以上経過している未返却のデモ機が ${overdue.length} 件あります。お客様へご確認ください。`;
-    banner.classList.remove('hidden');
-  } else {
-    banner.classList.add('hidden');
-  }
+  if (overdue.length) { banner.textContent=`⚠️ 修理品発送から${OVERDUE_DAYS}日以上経過している未返却のデモ機が ${overdue.length} 件あります。お客様へご確認ください。`; banner.classList.remove('hidden'); }
+  else banner.classList.add('hidden');
 }
 
 function renderDemoTable(records) {
   document.getElementById('demoResultCount').textContent = `${records.length}件`;
   if (!records.length) {
-    document.getElementById('demoTableBody').innerHTML =
-      '<div class="empty-state"><div class="empty-icon">🔍</div><p>該当するデモ機貸出が見つかりませんでした。</p></div>';
+    document.getElementById('demoTableBody').innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>該当するデモ機貸出が見つかりませんでした。</p></div>';
     return;
   }
-  const rows = records.map(r => {
-    const d = r.data;
-    const status = getDemoStatus(d);
-    const days   = d.repairShipDate && !d.returnDate ? daysBetween(d.repairShipDate, todayStr()) : null;
-    const overdueNote = status === 'overdue' ? `<br><span style="font-size:11px;color:var(--danger)">${days}日経過</span>` : '';
-    return `<tr>
-      <td class="td-customer">${esc(d.name || '—')}</td>
-      <td class="td-device">${esc(d.unitNo || '—')}</td>
-      <td>${d.shipDate ? fmtDateShort(d.shipDate) : '—'}</td>
-      <td>${d.repairShipDate ? fmtDateShort(d.repairShipDate) : '—'}${overdueNote}</td>
-      <td>${d.returnDate ? fmtDateShort(d.returnDate) : '—'}</td>
-      <td>${getDemoStatusBadge(status)}</td>
-           <td class="td-actions">
-        ${!d.repairShipDate && !d.returnDate ? `<button class="btn btn-sm btn-orange"
-          onclick="markDemoDate('${r.id}','repairShipDate')">修理品発送</button>` : ''}
-        ${!d.returnDate ? `<button class="btn btn-sm btn-green"
-          onclick="markDemoDate('${r.id}','returnDate')">返却</button>` : ''}
-        <button class="btn btn-sm" style="background:#555;color:#fff;border:none"
-          onclick="openDemoDetail('${r.id}')">詳細</button>
-        <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
-          onclick="openDemoEditModal('${r.id}')">編集</button>
-        <button class="btn btn-sm btn-red"
-          onclick="askDeleteDemo('${r.id}')">削除</button>
-      </td>
-    </tr>`;
-  }).join('');
 
-  document.getElementById('demoTableBody').innerHTML = `
-    <table class="archive-table">
-      <thead><tr>
-        <th>お客様名</th><th>デモ機No.</th>
-        <th>デモ機発送日</th><th>修理品発送日</th>
-        <th>返却日</th><th>ステータス</th><th></th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`;
+  if (isMobileMode) {
+    // ── カード形式（スマホ） ──
+    const cards = records.map(r => {
+      const d = r.data;
+      const status = getDemoStatus(d);
+      const days = d.repairShipDate && !d.returnDate ? daysBetween(d.repairShipDate, todayStr()) : null;
+      const overdueNote = status==='overdue' ? `<span style="color:var(--danger);margin-left:6px;font-size:12px">(${days}日経過)</span>` : '';
+      return `<div class="m-card">
+        <div class="m-card-header">
+          <div class="m-card-name">${esc(d.name||'—')}</div>
+          ${getDemoStatusBadge(status)}
+        </div>
+        <div class="m-card-row"><span class="m-card-label">デモ機No.</span><span class="m-card-value">${esc(d.unitNo||'—')}</span></div>
+        <div class="m-card-row"><span class="m-card-label">デモ機発送</span><span class="m-card-value">${d.shipDate?fmtDateShort(d.shipDate):'—'}</span></div>
+        <div class="m-card-row"><span class="m-card-label">修理品発送</span><span class="m-card-value">${d.repairShipDate?fmtDateShort(d.repairShipDate)+''+overdueNote:'—'}</span></div>
+        <div class="m-card-row"><span class="m-card-label">返却日</span><span class="m-card-value">${d.returnDate?fmtDateShort(d.returnDate):'未返却'}</span></div>
+        <div class="m-card-actions">
+          ${!d.repairShipDate&&!d.returnDate?`<button class="btn btn-sm btn-orange" onclick="markDemoDate('${r.id}','repairShipDate')">修理品発送</button>`:''}
+          ${!d.returnDate?`<button class="btn btn-sm btn-green" onclick="markDemoDate('${r.id}','returnDate')">返却</button>`:''}
+          <button class="btn btn-sm" style="background:#555;color:#fff;border:none" onclick="openDemoDetail('${r.id}')">詳細</button>
+          <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none" onclick="openDemoEditModal('${r.id}')">編集</button>
+          <button class="btn btn-sm btn-red" onclick="askDeleteDemo('${r.id}')">削除</button>
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('demoTableBody').innerHTML = `<div class="demo-card-list" style="padding:12px">${cards}</div>`;
+  } else {
+    // ── テーブル形式（PC） ──
+    const rows = records.map(r => {
+      const d = r.data;
+      const status = getDemoStatus(d);
+      const days = d.repairShipDate && !d.returnDate ? daysBetween(d.repairShipDate,todayStr()) : null;
+      const overdueNote = status==='overdue'?`<br><span style="font-size:11px;color:var(--danger)">${days}日経過</span>`:'';
+      return `<tr>
+        <td class="td-customer">${esc(d.name||'—')}</td>
+        <td class="td-device">${esc(d.unitNo||'—')}</td>
+        <td>${d.shipDate?fmtDateShort(d.shipDate):'—'}</td>
+        <td>${d.repairShipDate?fmtDateShort(d.repairShipDate):'—'}${overdueNote}</td>
+        <td>${d.returnDate?fmtDateShort(d.returnDate):'—'}</td>
+        <td>${getDemoStatusBadge(status)}</td>
+        <td class="td-actions">
+          ${!d.repairShipDate&&!d.returnDate?`<button class="btn btn-sm btn-orange" onclick="markDemoDate('${r.id}','repairShipDate')">修理品発送</button>`:''}
+          ${!d.returnDate?`<button class="btn btn-sm btn-green" onclick="markDemoDate('${r.id}','returnDate')">返却</button>`:''}
+          <button class="btn btn-sm" style="background:#555;color:#fff;border:none" onclick="openDemoDetail('${r.id}')">詳細</button>
+          <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none" onclick="openDemoEditModal('${r.id}')">編集</button>
+          <button class="btn btn-sm btn-red" onclick="askDeleteDemo('${r.id}')">削除</button>
+        </td>
+      </tr>`;
+    }).join('');
+    document.getElementById('demoTableBody').innerHTML = `
+      <table class="archive-table">
+        <thead><tr>
+          <th>お客様名</th><th>デモ機No.</th>
+          <th>デモ機発送日</th><th>修理品発送日</th>
+          <th>返却日</th><th>ステータス</th><th></th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
 }
 
 /* Demo Search */
 document.getElementById('demoBtnSearch').addEventListener('click', doDemoSearch);
 document.getElementById('demoBtnReset').addEventListener('click', () => {
-  document.getElementById('demoSearchName').value   = '';
-  document.getElementById('demoSearchUnit').value   = '';
-  document.getElementById('demoSearchStatus').value = '';
+  document.getElementById('demoSearchName').value='';
+  document.getElementById('demoSearchUnit').value='';
+  document.getElementById('demoSearchStatus').value='';
   renderDemoTable(allDemoRecords);
 });
-document.getElementById('demoSearchName').addEventListener('keydown', e => { if (e.key === 'Enter') doDemoSearch(); });
-document.getElementById('demoSearchUnit').addEventListener('keydown', e => { if (e.key === 'Enter') doDemoSearch(); });
-
+document.getElementById('demoSearchName').addEventListener('keydown', e => { if(e.key==='Enter') doDemoSearch(); });
+document.getElementById('demoSearchUnit').addEventListener('keydown', e => { if(e.key==='Enter') doDemoSearch(); });
 function doDemoSearch() {
   const qn = document.getElementById('demoSearchName').value.trim().toLowerCase();
   const qu = document.getElementById('demoSearchUnit').value.trim().toLowerCase();
   const qs = document.getElementById('demoSearchStatus').value;
   const filtered = allDemoRecords.filter(r => {
     const d = r.data;
-    if (qn && !(d.name   || '').toLowerCase().includes(qn)) return false;
-    if (qu && !(d.unitNo || '').toLowerCase().includes(qu)) return false;
-    if (qs && getDemoStatus(d) !== qs) return false;
+    if(qn&&!(d.name||'').toLowerCase().includes(qn)) return false;
+    if(qu&&!(d.unitNo||'').toLowerCase().includes(qu)) return false;
+    if(qs&&getDemoStatus(d)!==qs) return false;
     return true;
   });
   renderDemoTable(filtered);
@@ -1605,71 +1471,60 @@ function doDemoSearch() {
 
 /* Demo Detail Modal */
 function openDemoDetail(id) {
-  const rec = allDemoRecords.find(r => r.id === id);
+  const rec = allDemoRecords.find(r => r.id===id);
   if (!rec) return;
   const d = rec.data;
   const status = getDemoStatus(d);
-  const days   = d.repairShipDate && !d.returnDate ? daysBetween(d.repairShipDate, todayStr()) : null;
-  document.getElementById('demoDetailTitle').textContent = `デモ機貸出 詳細 — ${d.name || id}`;
+  const days = d.repairShipDate&&!d.returnDate ? daysBetween(d.repairShipDate,todayStr()) : null;
+  document.getElementById('demoDetailTitle').textContent = `デモ機貸出 詳細 — ${d.name||id}`;
   document.getElementById('demoDetailBody').innerHTML = `
     <div class="detail-meta">
       <div class="detail-meta-k">お客様名</div><div class="detail-meta-v">${esc(d.name||'—')}</div>
       <div class="detail-meta-k">デモ機No.</div><div class="detail-meta-v">${esc(d.unitNo||'—')}</div>
       <div class="detail-meta-k">デモ機発送日</div><div class="detail-meta-v">${fmtDate(d.shipDate||'')||'—'}</div>
-      <div class="detail-meta-k">修理品発送日</div><div class="detail-meta-v">${fmtDate(d.repairShipDate||'')||'—'}${days !== null ? `<span style="margin-left:8px;font-size:12px;color:${status==='overdue'?'var(--danger)':'var(--muted)'}">(${days}日経過)</span>` : ''}</div>
+      <div class="detail-meta-k">修理品発送日</div><div class="detail-meta-v">${fmtDate(d.repairShipDate||'')||'—'}${days!==null?`<span style="margin-left:8px;font-size:12px;color:${status==='overdue'?'var(--danger)':'var(--muted)'}">(${days}日経過)</span>`:''}</div>
       <div class="detail-meta-k">返却日</div><div class="detail-meta-v">${fmtDate(d.returnDate||'')||'未返却'}</div>
       <div class="detail-meta-k">ステータス</div><div class="detail-meta-v">${getDemoStatusBadge(status)}</div>
     </div>
-    ${d.note ? `<div class="detail-sec">メモ</div><div class="detail-box sm">${esc(d.note)}</div>` : ''}
+    ${d.note?`<div class="detail-sec">メモ</div><div class="detail-box sm">${esc(d.note)}</div>`:''}
     <div class="detail-sec">登録日時</div>
-    <div class="detail-box sm">${d.createdAt ? new Date(d.createdAt).toLocaleString('ja-JP') : '—'}</div>
+    <div class="detail-box sm">${d.createdAt?new Date(d.createdAt).toLocaleString('ja-JP'):'—'}</div>
     <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
-      <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none"
-        onclick="closeDemoDetail();openDemoEditModal('${id}')">編集</button>
-      <button class="btn btn-sm btn-red"
-        onclick="closeDemoDetail();askDeleteDemo('${id}')">削除</button>
+      <button class="btn btn-sm" style="background:#2980b9;color:#fff;border:none" onclick="closeDemoDetail();openDemoEditModal('${id}')">編集</button>
+      <button class="btn btn-sm btn-red" onclick="closeDemoDetail();askDeleteDemo('${id}')">削除</button>
     </div>`;
   document.getElementById('demoDetailModal').classList.add('open');
 }
 function closeDemoDetail() { document.getElementById('demoDetailModal').classList.remove('open'); }
 document.getElementById('demoDetailClose').addEventListener('click', closeDemoDetail);
-document.getElementById('demoDetailModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('demoDetailModal')) closeDemoDetail();
-});
+document.getElementById('demoDetailModal').addEventListener('click', e => { if(e.target===document.getElementById('demoDetailModal')) closeDemoDetail(); });
 
 /* Demo Add/Edit Modal */
 function openDemoModal() {
   _editingDemoId = null;
   document.getElementById('demoModalTitle').textContent = 'デモ機貸出 追加';
-  ['df-name','df-unitNo','df-shipDate','df-repairShipDate','df-returnDate','df-note']
-    .forEach(id => document.getElementById(id).value = '');
-  // デモ機発送日は今日をプリセット（変更可能）
+  ['df-name','df-unitNo','df-shipDate','df-repairShipDate','df-returnDate','df-note'].forEach(id => document.getElementById(id).value='');
   document.getElementById('df-shipDate').value = todayStr();
   document.getElementById('demoModal').classList.add('open');
 }
 function openDemoEditModal(id) {
-  const rec = allDemoRecords.find(r => r.id === id);
+  const rec = allDemoRecords.find(r => r.id===id);
   if (!rec) return;
   const d = rec.data;
   _editingDemoId = id;
-  document.getElementById('demoModalTitle').textContent       = 'デモ機貸出 編集';
-  document.getElementById('df-name').value                    = d.name || '';
-  document.getElementById('df-unitNo').value                  = d.unitNo || '';
-  document.getElementById('df-shipDate').value                = d.shipDate || '';
-  document.getElementById('df-repairShipDate').value          = d.repairShipDate || '';
-  document.getElementById('df-returnDate').value              = d.returnDate || '';
-  document.getElementById('df-note').value                    = d.note || '';
+  document.getElementById('demoModalTitle').textContent = 'デモ機貸出 編集';
+  document.getElementById('df-name').value         = d.name||'';
+  document.getElementById('df-unitNo').value        = d.unitNo||'';
+  document.getElementById('df-shipDate').value      = d.shipDate||'';
+  document.getElementById('df-repairShipDate').value= d.repairShipDate||'';
+  document.getElementById('df-returnDate').value    = d.returnDate||'';
+  document.getElementById('df-note').value          = d.note||'';
   document.getElementById('demoModal').classList.add('open');
 }
-function closeDemoModal() {
-  document.getElementById('demoModal').classList.remove('open');
-  _editingDemoId = null;
-}
+function closeDemoModal() { document.getElementById('demoModal').classList.remove('open'); _editingDemoId=null; }
 document.getElementById('demoModalClose').addEventListener('click', closeDemoModal);
 document.getElementById('demoModalCancel').addEventListener('click', closeDemoModal);
-document.getElementById('demoModal').addEventListener('click', e => {
-  if (e.target === document.getElementById('demoModal')) closeDemoModal();
-});
+document.getElementById('demoModal').addEventListener('click', e => { if(e.target===document.getElementById('demoModal')) closeDemoModal(); });
 
 document.getElementById('demoModalSubmit').addEventListener('click', async () => {
   const name           = document.getElementById('df-name').value.trim();
@@ -1678,40 +1533,28 @@ document.getElementById('demoModalSubmit').addEventListener('click', async () =>
   const repairShipDate = document.getElementById('df-repairShipDate').value;
   const returnDate     = document.getElementById('df-returnDate').value;
   const note           = document.getElementById('df-note').value.trim();
-
   if (!name) { toast('お客様名を入力してください', 'error'); return; }
-
   const btn = document.getElementById('demoModalSubmit');
-  btn.disabled = true; btn.textContent = '保存中…';
+  btn.disabled=true; btn.textContent='保存中…';
   try {
     const payload = { name, unitNo, shipDate, repairShipDate, returnDate, note };
-    if (_editingDemoId) {
-      await fbPatch(DEMO_URL, _editingDemoId, payload);
-      toast('更新しました', 'success');
-    } else {
-      payload.createdAt = new Date().toISOString();
-      await fbPost(DEMO_URL, payload);
-      toast('デモ機貸出を追加しました', 'success');
-    }
+    if (_editingDemoId) { await fbPatch(DEMO_URL, _editingDemoId, payload); toast('更新しました','success'); }
+    else { payload.createdAt=new Date().toISOString(); await fbPost(DEMO_URL, payload); toast('デモ機貸出を追加しました','success'); }
     closeDemoModal();
     await loadAllDemo();
-  } catch (e) {
-    toast('保存に失敗しました: ' + e.message, 'error');
-  } finally {
-    btn.disabled = false; btn.textContent = '保存';
-  }
+  } catch(e) { toast('保存に失敗しました: '+e.message,'error'); }
+  finally { btn.disabled=false; btn.textContent='保存'; }
 });
 
-/* 修理品発送日 / 返却日 をワンクリックで今日の日付に記録 */
 function markDemoDate(id, field) {
-  const rec = allDemoRecords.find(r => r.id === id);
+  const rec = allDemoRecords.find(r => r.id===id);
   if (!rec) return;
-  const label = field === 'repairShipDate' ? '修理品発送日' : 'デモ機返却日';
+  const label = field==='repairShipDate'?'修理品発送日':'デモ機返却日';
   const today = todayStr();
   openConfirm({
-    icon: field === 'repairShipDate' ? '📦' : '✅',
+    icon: field==='repairShipDate'?'📦':'✅',
     title: `${label}を記録しますか？`,
-    msg: `「${rec.data.name || id}」の${label}を ${fmtDate(today)} で記録します。`,
+    msg: `「${rec.data.name||id}」の${label}を ${fmtDate(today)} で記録します。`,
     okLabel: '記録する',
     onOk: async () => {
       try {
@@ -1719,32 +1562,26 @@ function markDemoDate(id, field) {
         rec.data[field] = today;
         updateDemoStats(allDemoRecords);
         renderDemoAlertBanner(allDemoRecords);
-        doDemoSearch();   // 検索条件を保ったまま一覧を再描画
+        doDemoSearch();
         toast(`${label}を記録しました`, 'success');
-      } catch (e) {
-        toast('記録に失敗しました: ' + e.message, 'error');
-      }
+      } catch(e) { toast('記録に失敗しました: '+e.message,'error'); }
     }
   });
 }
-
 function askDeleteDemo(id) {
-  const rec = allDemoRecords.find(r => r.id === id);
+  const rec = allDemoRecords.find(r => r.id===id);
   openConfirm({
-    icon: '🗑️', title: 'デモ機貸出データを削除しますか？',
-    msg: `「${rec?.data?.name || id}」のデータを削除します。この操作は取り消せません。`,
-    okLabel: '削除する',
+    icon:'🗑️', title:'デモ機貸出データを削除しますか？',
+    msg:`「${rec?.data?.name||id}」のデータを削除します。この操作は取り消せません。`, okLabel:'削除する',
     onOk: async () => {
       try {
         await fbDelete(DEMO_URL, id);
-        allDemoRecords = allDemoRecords.filter(r => r.id !== id);
+        allDemoRecords = allDemoRecords.filter(r => r.id!==id);
         updateDemoStats(allDemoRecords);
         renderDemoAlertBanner(allDemoRecords);
         renderDemoTable(allDemoRecords);
-        toast('削除しました', 'success');
-      } catch (e) {
-        toast('削除に失敗しました: ' + e.message, 'error');
-      }
+        toast('削除しました','success');
+      } catch(e) { toast('削除に失敗しました: '+e.message,'error'); }
     }
   });
 }
@@ -1757,47 +1594,33 @@ document.getElementById('p_companyAddress').textContent = COMPANY_ADDRESS;
 
 const CATEGORY_DATA = {
   "交換部品代": [
-    { label:"ピン挿入部", price:3000 },{ label:"基盤", price:15000 },
-    { label:"ACコード", price:1500 },{ label:"CA同等品or基盤", price:3000 },
-    { label:"ファン", price:2000 },{ label:"電源挿入口", price:2000 },
-    { label:"ヒューズ", price:350 },{ label:"スイッチ", price:2000 },
-    { label:"その他", price:null }
+    {label:"ピン挿入部",price:3000},{label:"基盤",price:15000},
+    {label:"ACコード",price:1500},{label:"CA同等品or基盤",price:3000},
+    {label:"ファン",price:2000},{label:"電源挿入口",price:2000},
+    {label:"ヒューズ",price:350},{label:"スイッチ",price:2000},
+    {label:"その他",price:null}
   ],
-  "修理工賃": [
-    { label:"工賃（固定）", price:5000 },{ label:"その他", price:null }
-  ],
+  "修理工賃": [{label:"工賃（固定）",price:5000},{label:"その他",price:null}],
   "送料（発）": [
-    { label:"関東・信越・九州", price:1680 },
-    { label:"北陸・中部・関西・中国・四国", price:1590 },
-    { label:"その他", price:null }
+    {label:"関東・信越・九州",price:1680},
+    {label:"北陸・中部・関西・中国・四国",price:1590},
+    {label:"その他",price:null}
   ],
-    "送料（受）": [{ label:"着払い送料を参照", price:null }],
-  "特別割引": [
-    { label:"2年越え", price:-3000 },{ label:"2年以内", price:-5000 },
-    { label:"その他", price:null }
-  ]
+  "送料（受）": [{label:"着払い送料を参照",price:null}],
+  "特別割引": [{label:"2年越え",price:-3000},{label:"2年以内",price:-5000},{label:"その他",price:null}]
 };
 const CATEGORY_NAMES = Object.keys(CATEGORY_DATA);
-const BILLING_ROWS   = 7;
+const BILLING_ROWS = 7;
 
-function buildCatHTML() {
-  return '<option value="">項目を選択</option>' +
-    CATEGORY_NAMES.map(n => `<option value="${n}">${n}</option>`).join('');
-}
-function buildSubHTML(cat) {
-  if (!cat || !CATEGORY_DATA[cat]) return '<option value="">-</option>';
-  return CATEGORY_DATA[cat].map((item, i) =>
-    `<option value="${i}">${item.label}${item.price !== null ? '（' + yen(item.price) + '）' : ''}</option>`
-  ).join('');
-}
+function buildCatHTML() { return '<option value="">項目を選択</option>'+CATEGORY_NAMES.map(n=>`<option value="${n}">${n}</option>`).join(''); }
+function buildSubHTML(cat) { if(!cat||!CATEGORY_DATA[cat]) return '<option value="">-</option>'; return CATEGORY_DATA[cat].map((item,i)=>`<option value="${i}">${item.label}${item.price!==null?'（'+yen(item.price)+'）':''}</option>`).join(''); }
 
 const billingRowsEl = document.getElementById('billingRows');
 const pBillingBody  = document.getElementById('p_billingBody');
 
 function buildBillingRows() {
-  billingRowsEl.innerHTML = '';
-  pBillingBody.innerHTML  = '';
-  for (let i = 0; i < BILLING_ROWS; i++) {
+  billingRowsEl.innerHTML = ''; pBillingBody.innerHTML = '';
+  for (let i=0;i<BILLING_ROWS;i++) {
     const card = document.createElement('div');
     card.className = 'billing-card';
     card.innerHTML = `
@@ -1813,463 +1636,269 @@ function buildBillingRows() {
       </div>`;
     billingRowsEl.appendChild(card);
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td class="p-b-name">&nbsp;</td><td class="num p-b-qty"></td><td class="num p-b-price"></td><td class="num p-b-amount"></td>`;
+    tr.innerHTML=`<td class="p-b-name">&nbsp;</td><td class="num p-b-qty"></td><td class="num p-b-price"></td><td class="num p-b-amount"></td>`;
     pBillingBody.appendChild(tr);
-
-    const catSel    = card.querySelector('.b-cat');
-    const subSel    = card.querySelector('.b-sub');
-    const freeName  = card.querySelector('.b-freename');
-    const priceInput = card.querySelector('.b-price');
-    const qtyInput   = card.querySelector('.b-qty');
-
-    catSel.addEventListener('change', () => {
-      subSel.disabled = !catSel.value;
-      subSel.innerHTML = buildSubHTML(catSel.value);
-      subSel.dispatchEvent(new Event('change'));
-    });
-    subSel.addEventListener('change', () => {
-      const item = catSel.value && subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
-      if (item && item.price !== null) {
-        priceInput.value = item.price; priceInput.readOnly = true;
-        freeName.disabled = true; freeName.value = '';
-      } else if (item && item.price === null) {
-        priceInput.readOnly = false; freeName.disabled = false;
-        freeName.placeholder = '項目名を入力してください';
-      } else {
-        priceInput.value = 0; priceInput.readOnly = true;
-        freeName.disabled = true; freeName.value = '';
-      }
+    const catSel=card.querySelector('.b-cat'),subSel=card.querySelector('.b-sub');
+    const freeName=card.querySelector('.b-freename'),priceInput=card.querySelector('.b-price'),qtyInput=card.querySelector('.b-qty');
+    catSel.addEventListener('change',()=>{ subSel.disabled=!catSel.value; subSel.innerHTML=buildSubHTML(catSel.value); subSel.dispatchEvent(new Event('change')); });
+    subSel.addEventListener('change',()=>{
+      const item=catSel.value&&subSel.value!==''?CATEGORY_DATA[catSel.value][subSel.value]:null;
+      if(item&&item.price!==null){ priceInput.value=item.price; priceInput.readOnly=true; freeName.disabled=true; freeName.value=''; }
+      else if(item&&item.price===null){ priceInput.readOnly=false; freeName.disabled=false; freeName.placeholder='項目名を入力してください'; }
+      else{ priceInput.value=0; priceInput.readOnly=true; freeName.disabled=true; freeName.value=''; }
       recalcBilling();
     });
-    [freeName, priceInput, qtyInput].forEach(el => el.addEventListener('input', recalcBilling));
+    [freeName,priceInput,qtyInput].forEach(el=>el.addEventListener('input',recalcBilling));
   }
 }
 buildBillingRows();
 
-let currentSubtotal = 0, currentTax = 0, currentTotal = 0;
-
+let currentSubtotal=0,currentTax=0,currentTotal=0;
 function recalcBilling() {
-  const pRows = pBillingBody.querySelectorAll('tr');
-  let subtotal = 0;
-  // 着払い送料を取得（shippingFeeフィールドから）
-  const shippingFeeVal = parseFloat(document.getElementById('shippingFee').value) || 0;
-  billingRowsEl.querySelectorAll('.billing-card').forEach((card, i) => {
-    const catSel    = card.querySelector('.b-cat');
-    const subSel    = card.querySelector('.b-sub');
-    const freeName  = card.querySelector('.b-freename');
-    const priceInput = card.querySelector('.b-price');
-    const qtyInput   = card.querySelector('.b-qty');
-    const amountEl   = card.querySelector('.b-amount');
-    const hasContent = !!catSel.value;
-    const item       = hasContent && subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
-    const isOther    = !!(item && item.price === null);
-    // 送料（受け）の場合は着払い送料を自動セット
-    if (hasContent && catSel.value === '送料（受）' && isOther) {
-      priceInput.value = shippingFeeVal;
-      priceInput.readOnly = true;
-    }
-    const qty        = parseFloat(qtyInput.value) || 0;
-    const price      = parseFloat(priceInput.value) || 0;
-    const amount     = qty * price;
-    amountEl.value   = hasContent ? yen(amount) : '';
-    const displayName = hasContent
-      ? (isOther && freeName.value.trim() ? freeName.value.trim() : catSel.value)
-      : '';
-    const pr = pRows[i];
-    pr.querySelector('.p-b-name').textContent   = displayName || '\u00A0';
-    pr.querySelector('.p-b-qty').textContent    = hasContent ? qty : '';
-    pr.querySelector('.p-b-price').textContent  = hasContent ? yen(price) : '';
-    pr.querySelector('.p-b-amount').textContent = hasContent ? yen(amount) : '';
-    if (hasContent) subtotal += amount;
+  const pRows=pBillingBody.querySelectorAll('tr');
+  let subtotal=0;
+  const shippingFeeVal=parseFloat(document.getElementById('shippingFee').value)||0;
+  billingRowsEl.querySelectorAll('.billing-card').forEach((card,i)=>{
+    const catSel=card.querySelector('.b-cat'),subSel=card.querySelector('.b-sub');
+    const freeName=card.querySelector('.b-freename'),priceInput=card.querySelector('.b-price');
+    const qtyInput=card.querySelector('.b-qty'),amountEl=card.querySelector('.b-amount');
+    const hasContent=!!catSel.value;
+    const item=hasContent&&subSel.value!==''?CATEGORY_DATA[catSel.value][subSel.value]:null;
+    const isOther=!!(item&&item.price===null);
+    if(hasContent&&catSel.value==='送料（受）'&&isOther){ priceInput.value=shippingFeeVal; priceInput.readOnly=true; }
+    const qty=parseFloat(qtyInput.value)||0,price=parseFloat(priceInput.value)||0,amount=qty*price;
+    amountEl.value=hasContent?yen(amount):'';
+    const displayName=hasContent?(isOther&&freeName.value.trim()?freeName.value.trim():catSel.value):'';
+    const pr=pRows[i];
+    pr.querySelector('.p-b-name').textContent=displayName||'\u00A0';
+    pr.querySelector('.p-b-qty').textContent=hasContent?qty:'';
+    pr.querySelector('.p-b-price').textContent=hasContent?yen(price):'';
+    pr.querySelector('.p-b-amount').textContent=hasContent?yen(amount):'';
+    if(hasContent) subtotal+=amount;
   });
-  currentSubtotal = subtotal;
-  currentTax      = Math.floor(subtotal * 0.10);
-  currentTotal    = subtotal + currentTax;
-  document.getElementById('p_subtotal').textContent = yen(currentSubtotal);
-  document.getElementById('p_tax').textContent      = yen(currentTax);
-  document.getElementById('p_total').textContent    = yen(currentTotal);
+  currentSubtotal=subtotal; currentTax=Math.floor(subtotal*0.10); currentTotal=subtotal+currentTax;
+  document.getElementById('p_subtotal').textContent=yen(currentSubtotal);
+  document.getElementById('p_tax').textContent=yen(currentTax);
+  document.getElementById('p_total').textContent=yen(currentTotal);
 }
 
-/* Preview sync */
-function syncText(inputId, previewId, formatter) {
-  const input   = document.getElementById(inputId);
-  const preview = document.getElementById(previewId);
-  const update  = () => {
-    const val = formatter ? formatter(input.value) : input.value;
-    preview.textContent = val && val.trim() ? val : '\u00A0';
-  };
-  input.addEventListener('input', update);
-  update();
+function syncText(inputId,previewId,formatter) {
+  const input=document.getElementById(inputId),preview=document.getElementById(previewId);
+  const update=()=>{ const val=formatter?formatter(input.value):input.value; preview.textContent=val&&val.trim()?val:'\u00A0'; };
+  input.addEventListener('input',update); update();
 }
-syncText('mgmtNo',        'p_mgmtNo');
-syncText('returnDate',    'p_returnDate', fmtDate);
-syncText('deviceNo',      'p_deviceNo');
+syncText('mgmtNo','p_mgmtNo');
+syncText('returnDate','p_returnDate',fmtDate);
+syncText('deviceNo','p_deviceNo');
 syncText('failureContent','p_failureContent');
-syncText('repairContent', 'p_repairContent');
-syncText('remarks',       'p_remarks');
-syncText('phoneNo',       'p_phoneNo');
-syncText('address',       'p_address');
+syncText('repairContent','p_repairContent');
+syncText('remarks','p_remarks');
+syncText('phoneNo','p_phoneNo');
+syncText('address','p_address');
 
-document.getElementById('packageSize').addEventListener('change', () => {
-  const v = document.getElementById('packageSize').value;
-  document.getElementById('p_packageSize').textContent = v || '\u00A0';
-});
+document.getElementById('packageSize').addEventListener('change',()=>{ const v=document.getElementById('packageSize').value; document.getElementById('p_packageSize').textContent=v||'\u00A0'; });
+document.getElementById('shippingFee').addEventListener('input',()=>{ const v=document.getElementById('shippingFee').value; document.getElementById('p_shippingFee').textContent=v!==''?yen(parseFloat(v)||0):yen(0); recalcBilling(); });
 
-document.getElementById('shippingFee').addEventListener('input', () => {
-  const v = document.getElementById('shippingFee').value;
-  document.getElementById('p_shippingFee').textContent = v !== '' ? yen(parseFloat(v) || 0) : yen(0);
-  // 送料（受け）行が存在する場合は自動で再計算
-  recalcBilling();
-});
-
-const cnInput   = document.getElementById('customerName');
-const cnPreview = document.getElementById('p_customerName');
-cnInput.addEventListener('input', () => {
-  const val = cnInput.value.trim();
-  cnPreview.textContent = val ? val + '\u3000\u3000様/御中' : '\u00A0';
-});
-cnPreview.textContent = '\u00A0';
+const cnInput=document.getElementById('customerName'),cnPreview=document.getElementById('p_customerName');
+cnInput.addEventListener('input',()=>{ const val=cnInput.value.trim(); cnPreview.textContent=val?val+'\u3000\u3000様/御中':'\u00A0'; });
+cnPreview.textContent='\u00A0';
 
 function syncPurchaseDate() {
-  const y = document.getElementById('purchaseYear').value;
-  const m = document.getElementById('purchaseMonth').value;
-  const d = document.getElementById('purchaseDay').value;
-  let t = '';
-  if (y) t += `${y}年`;
-  if (m) t += `${Number(m)}月`;
-  if (d) t += `${Number(d)}日`;
-  document.getElementById('p_purchaseDate').textContent = t || '\u00A0';
+  const y=document.getElementById('purchaseYear').value,m=document.getElementById('purchaseMonth').value,d=document.getElementById('purchaseDay').value;
+  let t=''; if(y)t+=`${y}年`; if(m)t+=`${Number(m)}月`; if(d)t+=`${Number(d)}日`;
+  document.getElementById('p_purchaseDate').textContent=t||'\u00A0';
 }
-['purchaseYear','purchaseMonth','purchaseDay'].forEach(id => {
-  document.getElementById(id).addEventListener('input',  syncPurchaseDate);
-  document.getElementById(id).addEventListener('change', syncPurchaseDate);
-});
+['purchaseYear','purchaseMonth','purchaseDay'].forEach(id=>{ document.getElementById(id).addEventListener('input',syncPurchaseDate); document.getElementById(id).addEventListener('change',syncPurchaseDate); });
 
 function setupReturnCheck() {
-  const sync = () => {
-    document.querySelectorAll('.ret-included').forEach(cb => {
-      const cell = document.querySelector(`.p-ret-included[data-item="${cb.dataset.item}"]`);
-      if (cell) cell.textContent = cb.checked ? '✓' : '□';
-    });
-  };
-  document.querySelectorAll('.ret-included').forEach(cb => cb.addEventListener('change', sync));
-  sync();
+  const sync=()=>{ document.querySelectorAll('.ret-included').forEach(cb=>{ const cell=document.querySelector(`.p-ret-included[data-item="${cb.dataset.item}"]`); if(cell) cell.textContent=cb.checked?'✓':'□'; }); };
+  document.querySelectorAll('.ret-included').forEach(cb=>cb.addEventListener('change',sync)); sync();
 }
 setupReturnCheck();
 
-function setupSelectField(selId, taId) {
-  const sel = document.getElementById(selId);
-  const ta  = document.getElementById(taId);
-  sel.addEventListener('change', () => {
-    if (sel.value === '__other__') {
-      ta.disabled = false; ta.value = ''; ta.focus();
-    } else {
-      ta.disabled = true; ta.value = sel.value;
-    }
+function setupSelectField(selId,taId) {
+  const sel=document.getElementById(selId),ta=document.getElementById(taId);
+  sel.addEventListener('change',()=>{
+    if(sel.value==='__other__'){ ta.disabled=false; ta.value=''; ta.focus(); }
+    else{ ta.disabled=true; ta.value=sel.value; }
     ta.dispatchEvent(new Event('input'));
   });
 }
-setupSelectField('failureContentSel', 'failureContent');
-setupSelectField('repairContentSel',  'repairContent');
-setupSelectField('remarksSel',        'remarks');
+setupSelectField('failureContentSel','failureContent');
+setupSelectField('repairContentSel','repairContent');
+setupSelectField('remarksSel','remarks');
 
-/* 管理番号自動採番 */
 async function getNextMgmtNo() {
   try {
-    const data = await fbGet(REPAIR_URL);
-    if (!data) return '001';
-    const max = Object.values(data)
-      .map(d => parseInt((d.mgmtNo || '').match(/\d+/)?.[0] || '0', 10))
-      .reduce((a, b) => Math.max(a, b), 0);
-    return String(max + 1).padStart(3, '0');
-  } catch {
-    return '001';
-  }
-}
-function saveMgmtNo() {}
-
-function resetReportForm(skipMgmtNo = false) {
-  if (!skipMgmtNo) {
-    const mgmtEl = document.getElementById('mgmtNo');
-    mgmtEl.value = '採番中…';
-    mgmtEl.dispatchEvent(new Event('input'));
-    getNextMgmtNo().then(no => {
-      mgmtEl.value = no;
-      mgmtEl.dispatchEvent(new Event('input'));
-    });
-  }
-  const rd = document.getElementById('returnDate');
-  rd.value = new Date().toISOString().slice(0, 10);
-  rd.dispatchEvent(new Event('input'));
-
-  const dn = document.getElementById('deviceNo');
-  dn.value = 'G';
-  dn.dispatchEvent(new Event('input'));
-
-  ['customerName','phoneNo','address','zipCode','purchaseYear','failureContent','repairContent','remarks'].forEach(id => {
-    const el = document.getElementById(id);
-    el.value = ''; el.dispatchEvent(new Event('input'));
-  });
-  document.getElementById('zipMsg').textContent = '';
-  document.getElementById('zipMsg').className   = 'zip-msg';
-
-  document.getElementById('packageSize').value = '140サイズ';
-  document.getElementById('p_packageSize').textContent = '140サイズ';
-  document.getElementById('shippingFee').value = '0';
-  document.getElementById('p_shippingFee').textContent = yen(0);
-
-  ['purchaseMonth','purchaseDay'].forEach(id => {
-    const el = document.getElementById(id);
-    el.value = ''; el.dispatchEvent(new Event('change'));
-  });
-  ['failureContentSel','repairContentSel','remarksSel'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  ['failureContent','repairContent','remarks'].forEach(id => {
-    const el = document.getElementById(id);
-    el.disabled = true; el.value = '';
-    el.dispatchEvent(new Event('input'));
-  });
-  document.querySelectorAll('.ret-included').forEach(cb => {
-    cb.checked = false; cb.dispatchEvent(new Event('change'));
-  });
-  buildBillingRows();
-  recalcBilling();
-  syncPurchaseDate();
+    const data=await fbGet(REPAIR_URL);
+    if(!data) return '001';
+    const max=Object.values(data).map(d=>parseInt((d.mgmtNo||'').match(/\d+/)?.[0]||'0',10)).reduce((a,b)=>Math.max(a,b),0);
+    return String(max+1).padStart(3,'0');
+  } catch { return '001'; }
 }
 
-/* collect billingLines */
+function resetReportForm(skipMgmtNo=false) {
+  if(!skipMgmtNo) {
+    const mgmtEl=document.getElementById('mgmtNo');
+    mgmtEl.value='採番中…'; mgmtEl.dispatchEvent(new Event('input'));
+    getNextMgmtNo().then(no=>{ mgmtEl.value=no; mgmtEl.dispatchEvent(new Event('input')); });
+  }
+  const rd=document.getElementById('returnDate'); rd.value=new Date().toISOString().slice(0,10); rd.dispatchEvent(new Event('input'));
+  const dn=document.getElementById('deviceNo'); dn.value='G'; dn.dispatchEvent(new Event('input'));
+  ['customerName','phoneNo','address','zipCode','purchaseYear','failureContent','repairContent','remarks'].forEach(id=>{ const el=document.getElementById(id); el.value=''; el.dispatchEvent(new Event('input')); });
+  document.getElementById('zipMsg').textContent=''; document.getElementById('zipMsg').className='zip-msg';
+  document.getElementById('packageSize').value='140サイズ'; document.getElementById('p_packageSize').textContent='140サイズ';
+  document.getElementById('shippingFee').value='0'; document.getElementById('p_shippingFee').textContent=yen(0);
+  ['purchaseMonth','purchaseDay'].forEach(id=>{ const el=document.getElementById(id); el.value=''; el.dispatchEvent(new Event('change')); });
+  ['failureContentSel','repairContentSel','remarksSel'].forEach(id=>document.getElementById(id).value='');
+  ['failureContent','repairContent','remarks'].forEach(id=>{ const el=document.getElementById(id); el.disabled=true; el.value=''; el.dispatchEvent(new Event('input')); });
+  document.querySelectorAll('.ret-included').forEach(cb=>{ cb.checked=false; cb.dispatchEvent(new Event('change')); });
+  buildBillingRows(); recalcBilling(); syncPurchaseDate();
+}
+
 function collectBillingLines() {
-  const lines = [];
-  billingRowsEl.querySelectorAll('.billing-card').forEach(card => {
-    const catSel    = card.querySelector('.b-cat');
-    if (!catSel.value) return;
-    const subSel    = card.querySelector('.b-sub');
-    const freeName  = card.querySelector('.b-freename');
-    const priceInput = card.querySelector('.b-price');
-    const qtyInput   = card.querySelector('.b-qty');
-    const item       = subSel.value !== '' ? CATEGORY_DATA[catSel.value][subSel.value] : null;
-    const isOther    = !!(item && item.price === null);
-    const qty        = parseFloat(qtyInput.value) || 0;
-    const price      = parseFloat(priceInput.value) || 0;
-    const name       = isOther && freeName.value.trim() ? freeName.value.trim() : catSel.value;
-    lines.push({ name, qty, price, amount: qty * price });
+  const lines=[];
+  billingRowsEl.querySelectorAll('.billing-card').forEach(card=>{
+    const catSel=card.querySelector('.b-cat');
+    if(!catSel.value) return;
+    const subSel=card.querySelector('.b-sub'),freeName=card.querySelector('.b-freename');
+    const priceInput=card.querySelector('.b-price'),qtyInput=card.querySelector('.b-qty');
+    const item=subSel.value!==''?CATEGORY_DATA[catSel.value][subSel.value]:null;
+    const isOther=!!(item&&item.price===null);
+    const qty=parseFloat(qtyInput.value)||0,price=parseFloat(priceInput.value)||0;
+    const name=isOther&&freeName.value.trim()?freeName.value.trim():catSel.value;
+    lines.push({name,qty,price,amount:qty*price});
   });
   return lines;
 }
 
-/* ── コピーして新規作成 ── */
 async function copyRepairAsNew(id) {
-  const rec = allRecords.find(r => r.id === id);
-  if (!rec) return;
-  const d = rec.data;
-
-  // フォームをリセット（管理No.は最新番号で自動採番）
+  const rec=allRecords.find(r=>r.id===id);
+  if(!rec) return;
+  const d=rec.data;
   resetReportForm(false);
-
-  // 住所・名前・機器番号・電話番号だけコピー
-  const setVal = (elId, val) => {
-    const el = document.getElementById(elId);
-    el.value = val || '';
-    el.dispatchEvent(new Event('input'));
-  };
-  // customerNameはプレビュー表示用サフィックスを除去して復元
-  setVal('customerName', (d.customerName || '').replace(/\u3000\u3000様\/御中$/, '').trim());
-  setVal('deviceNo',     d.deviceNo);
-  setVal('phoneNo',      d.phoneNo);
-  setVal('address',      d.address);
-  setVal('zipCode',      d.zipCode || '');
-
-  _editingRepairId = null;
-  document.querySelector('.report-toolbar h1').textContent = '修理報告書 作成（コピー）';
-  document.getElementById('saveBtn').textContent = '💾 保存してアーカイブ';
+  const setVal=(elId,val)=>{ const el=document.getElementById(elId); el.value=val||''; el.dispatchEvent(new Event('input')); };
+  setVal('customerName',(d.customerName||'').replace(/\u3000\u3000様\/御中$/,'').trim());
+  setVal('deviceNo',d.deviceNo); setVal('phoneNo',d.phoneNo); setVal('address',d.address); setVal('zipCode',d.zipCode||'');
+  _editingRepairId=null;
+  document.querySelector('.report-toolbar h1').textContent='修理報告書 作成（コピー）';
+  document.getElementById('saveBtn').textContent='💾 保存してアーカイブ';
   showScreen('report');
-  toast('お客様情報をコピーしました。修理内容・明細を入力してください。', 'success');
+  toast('お客様情報をコピーしました。修理内容・明細を入力してください。','success');
 }
 
-/* ── 編集モード ── */
-let _editingRepairId = null;
-
+let _editingRepairId=null;
 function openRepairEdit(id) {
-  const rec = allRecords.find(r => r.id === id);
-  if (!rec) return;
-  const d = rec.data;
-  _editingRepairId = id;
-
+  const rec=allRecords.find(r=>r.id===id);
+  if(!rec) return;
+  const d=rec.data;
+  _editingRepairId=id;
   resetReportForm(true);
-
-  const setVal = (elId, val) => {
-    const el = document.getElementById(elId);
-    el.value = val || '';
-    el.dispatchEvent(new Event('input'));
-  };
-  setVal('mgmtNo',       d.mgmtNo);
-  setVal('returnDate',   d.returnDate);
-  setVal('customerName', (d.customerName || '').replace(/\u3000\u3000様\/御中$/, '').trim());
-  setVal('deviceNo',     d.deviceNo);
-  setVal('phoneNo',      d.phoneNo);
-  setVal('address',      d.address);
-  setVal('zipCode',      d.zipCode || '');
-
-  document.getElementById('packageSize').value = d.packageSize || '';
-  document.getElementById('p_packageSize').textContent = d.packageSize || '\u00A0';
-  document.getElementById('shippingFee').value = d.shippingFee != null ? d.shippingFee : '';
-  document.getElementById('p_shippingFee').textContent =
-    d.shippingFee != null && d.shippingFee !== '' ? yen(d.shippingFee) : '\u00A0';
-
-  if (d.purchaseDate) {
-    const my = (d.purchaseDate.match(/(\d+)年/) || [])[1];
-    const mm = (d.purchaseDate.match(/(\d+)月/) || [])[1];
-    const md = (d.purchaseDate.match(/(\d+)日/) || [])[1];
-    if (my) document.getElementById('purchaseYear').value  = my;
-    if (mm) document.getElementById('purchaseMonth').value = mm;
-    if (md) document.getElementById('purchaseDay').value   = md;
+  const setVal=(elId,val)=>{ const el=document.getElementById(elId); el.value=val||''; el.dispatchEvent(new Event('input')); };
+  setVal('mgmtNo',d.mgmtNo); setVal('returnDate',d.returnDate);
+  setVal('customerName',(d.customerName||'').replace(/\u3000\u3000様\/御中$/,'').trim());
+  setVal('deviceNo',d.deviceNo); setVal('phoneNo',d.phoneNo); setVal('address',d.address); setVal('zipCode',d.zipCode||'');
+  document.getElementById('packageSize').value=d.packageSize||''; document.getElementById('p_packageSize').textContent=d.packageSize||'\u00A0';
+  document.getElementById('shippingFee').value=d.shippingFee!=null?d.shippingFee:'';
+  document.getElementById('p_shippingFee').textContent=d.shippingFee!=null&&d.shippingFee!==''?yen(d.shippingFee):'\u00A0';
+  if(d.purchaseDate) {
+    const my=(d.purchaseDate.match(/(\d+)年/)||[])[1],mm=(d.purchaseDate.match(/(\d+)月/)||[])[1],md=(d.purchaseDate.match(/(\d+)日/)||[])[1];
+    if(my) document.getElementById('purchaseYear').value=my;
+    if(mm) document.getElementById('purchaseMonth').value=mm;
+    if(md) document.getElementById('purchaseDay').value=md;
     syncPurchaseDate();
   }
-
-  const items = d.returnedItems || [];
-  document.querySelectorAll('.ret-included').forEach(cb => {
-    cb.checked = items.includes(cb.dataset.item);
-    cb.dispatchEvent(new Event('change'));
-  });
-
-  const fillTextField = (selId, taId, val) => {
-    const sel = document.getElementById(selId);
-    const ta  = document.getElementById(taId);
-    const opt = Array.from(sel.options).find(o => o.value === val && o.value !== '__other__' && o.value !== '');
-    if (opt) {
-      sel.value = val; ta.disabled = true; ta.value = val;
-    } else {
-      sel.value = '__other__'; ta.disabled = false; ta.value = val || '';
-    }
+  const items=d.returnedItems||[];
+  document.querySelectorAll('.ret-included').forEach(cb=>{ cb.checked=items.includes(cb.dataset.item); cb.dispatchEvent(new Event('change')); });
+  const fillTextField=(selId,taId,val)=>{
+    const sel=document.getElementById(selId),ta=document.getElementById(taId);
+    const opt=Array.from(sel.options).find(o=>o.value===val&&o.value!=='__other__'&&o.value!=='');
+    if(opt){ sel.value=val; ta.disabled=true; ta.value=val; }
+    else{ sel.value='__other__'; ta.disabled=false; ta.value=val||''; }
     ta.dispatchEvent(new Event('input'));
   };
-  fillTextField('failureContentSel', 'failureContent', d.failureContent);
-  fillTextField('repairContentSel',  'repairContent',  d.repairContent);
-  fillTextField('remarksSel',        'remarks',        d.remarks);
-
-  const lines = d.billingLines || [];
-  billingRowsEl.querySelectorAll('.billing-card').forEach((card, i) => {
-    const line = lines[i];
-    if (!line || !line.name) return;
-    const catSel     = card.querySelector('.b-cat');
-    const subSel     = card.querySelector('.b-sub');
-    const freeName   = card.querySelector('.b-freename');
-    const priceInput = card.querySelector('.b-price');
-    const qtyInput   = card.querySelector('.b-qty');
-    const matchedCat = CATEGORY_NAMES.find(c => c === line.name) || '交換部品代';
-    catSel.value     = matchedCat;
-    subSel.innerHTML = buildSubHTML(matchedCat);
-    subSel.disabled  = false;
-    const otherIdx   = CATEGORY_DATA[matchedCat].findIndex(it => it.price === null);
-    if (otherIdx >= 0) subSel.value = String(otherIdx);
-    freeName.disabled  = false;
-    freeName.value     = line.name;
-    priceInput.readOnly = false;
-    priceInput.value   = line.price != null ? line.price : 0;
-    qtyInput.value     = line.qty   != null ? line.qty   : 1;
+  fillTextField('failureContentSel','failureContent',d.failureContent);
+  fillTextField('repairContentSel','repairContent',d.repairContent);
+  fillTextField('remarksSel','remarks',d.remarks);
+  const lines=d.billingLines||[];
+  billingRowsEl.querySelectorAll('.billing-card').forEach((card,i)=>{
+    const line=lines[i];
+    if(!line||!line.name) return;
+    const catSel=card.querySelector('.b-cat'),subSel=card.querySelector('.b-sub');
+    const freeName=card.querySelector('.b-freename'),priceInput=card.querySelector('.b-price'),qtyInput=card.querySelector('.b-qty');
+    const matchedCat=CATEGORY_NAMES.find(c=>c===line.name)||'交換部品代';
+    catSel.value=matchedCat; subSel.innerHTML=buildSubHTML(matchedCat); subSel.disabled=false;
+    const otherIdx=CATEGORY_DATA[matchedCat].findIndex(it=>it.price===null);
+    if(otherIdx>=0) subSel.value=String(otherIdx);
+    freeName.disabled=false; freeName.value=line.name; priceInput.readOnly=false;
+    priceInput.value=line.price!=null?line.price:0; qtyInput.value=line.qty!=null?line.qty:1;
   });
   recalcBilling();
-
-  document.querySelector('.report-toolbar h1').textContent = '修理報告書 編集';
-  document.getElementById('saveBtn').textContent = '💾 更新して保存';
+  document.querySelector('.report-toolbar h1').textContent='修理報告書 編集';
+  document.getElementById('saveBtn').textContent='💾 更新して保存';
   showScreen('report');
 }
 
-/* ── 保存ボタン ── */
 document.getElementById('saveBtn').addEventListener('click', async () => {
-  const btn = document.getElementById('saveBtn');
-  btn.disabled = true; btn.textContent = '保存中…';
+  const btn=document.getElementById('saveBtn');
+  btn.disabled=true; btn.textContent='保存中…';
   try {
-    const y = document.getElementById('purchaseYear').value;
-    const m = document.getElementById('purchaseMonth').value;
-    const d = document.getElementById('purchaseDay').value;
-    let purchaseDate = '';
-    if (y) purchaseDate += `${y}年`;
-    if (m) purchaseDate += `${Number(m)}月`;
-    if (d) purchaseDate += `${Number(d)}日`;
-
-    const shippingFeeRaw = document.getElementById('shippingFee').value;
-    const payload = {
-      mgmtNo:       document.getElementById('mgmtNo').value.trim(),
-      returnDate:   document.getElementById('returnDate').value,
-      customerName: document.getElementById('customerName').value.trim(),
-      deviceNo:     document.getElementById('deviceNo').value.trim(),
-      phoneNo:      document.getElementById('phoneNo').value.trim(),
-      zipCode:      document.getElementById('zipCode').value.trim(),
-      address:      document.getElementById('address').value.trim(),
-      packageSize:  document.getElementById('packageSize').value,
-      shippingFee:  shippingFeeRaw !== '' ? parseFloat(shippingFeeRaw) : '',
+    const y=document.getElementById('purchaseYear').value,m=document.getElementById('purchaseMonth').value,d=document.getElementById('purchaseDay').value;
+    let purchaseDate='';
+    if(y) purchaseDate+=`${y}年`; if(m) purchaseDate+=`${Number(m)}月`; if(d) purchaseDate+=`${Number(d)}日`;
+    const shippingFeeRaw=document.getElementById('shippingFee').value;
+    const payload={
+      mgmtNo:document.getElementById('mgmtNo').value.trim(),
+      returnDate:document.getElementById('returnDate').value,
+      customerName:document.getElementById('customerName').value.trim(),
+      deviceNo:document.getElementById('deviceNo').value.trim(),
+      phoneNo:document.getElementById('phoneNo').value.trim(),
+      zipCode:document.getElementById('zipCode').value.trim(),
+      address:document.getElementById('address').value.trim(),
+      packageSize:document.getElementById('packageSize').value,
+      shippingFee:shippingFeeRaw!==''?parseFloat(shippingFeeRaw):'',
       purchaseDate,
-      returnedItems: Array.from(document.querySelectorAll('.ret-included'))
-        .filter(cb => cb.checked).map(cb => cb.dataset.item),
-      failureContent: document.getElementById('failureContent').value.trim(),
-      repairContent:  document.getElementById('repairContent').value.trim(),
-      remarks:        document.getElementById('remarks').value.trim(),
-      billingLines:   collectBillingLines(),
-      subtotal: currentSubtotal,
-      tax:      currentTax,
-      total:    currentTotal,
-      issueDate: new Date().toISOString().slice(0, 10),
+      returnedItems:Array.from(document.querySelectorAll('.ret-included')).filter(cb=>cb.checked).map(cb=>cb.dataset.item),
+      failureContent:document.getElementById('failureContent').value.trim(),
+      repairContent:document.getElementById('repairContent').value.trim(),
+      remarks:document.getElementById('remarks').value.trim(),
+      billingLines:collectBillingLines(),
+      subtotal:currentSubtotal, tax:currentTax, total:currentTotal,
+      issueDate:new Date().toISOString().slice(0,10),
     };
-
-        const mgmtNo = payload.mgmtNo;
-    const existing = mgmtNo
-      ? allRecords.find(r => r.data.mgmtNo === mgmtNo)
-      : null;
-
-    if (existing) {
-      payload.updatedAt = new Date().toISOString();
+    const mgmtNo=payload.mgmtNo;
+    const existing=mgmtNo?allRecords.find(r=>r.data.mgmtNo===mgmtNo):null;
+    if(existing) {
+      payload.updatedAt=new Date().toISOString();
       await fbPatch(REPAIR_URL, existing.id, payload);
-      existing.data = { ...existing.data, ...payload };
-      toast('✓ 既存の報告書を上書き保存しました（管理No.' + mgmtNo + '）', 'success');
+      existing.data={...existing.data,...payload};
+      toast('✓ 既存の報告書を上書き保存しました（管理No.'+mgmtNo+'）','success');
     } else {
-      payload.savedAt = new Date().toISOString();
+      payload.savedAt=new Date().toISOString();
       await fbPost(REPAIR_URL, payload);
-      const data = await fbGet(REPAIR_URL);
-      allRecords = data
-        ? Object.entries(data).map(([id, d]) => ({ id, data: d }))
-        : [];
-      toast('✓ アーカイブに保存しました', 'success');
+      const data=await fbGet(REPAIR_URL);
+      allRecords=data?Object.entries(data).map(([id,d])=>({id,data:d})):[];
+      toast('✓ アーカイブに保存しました','success');
     }
-  } catch (e) {
-    toast('保存に失敗しました: ' + e.message, 'error');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = _editingRepairId ? '💾 更新して保存' : '💾 保存してアーカイブ';
-  }
+  } catch(e) { toast('保存に失敗しました: '+e.message,'error'); }
+  finally { btn.disabled=false; btn.textContent=_editingRepairId?'💾 更新して保存':'💾 保存してアーカイブ'; }
 });
 
-document.getElementById('printBtn').addEventListener('click', () => {
-  saveMgmtNo();
-  window.print();
-});
+document.getElementById('printBtn').addEventListener('click', () => { window.print(); });
 
 /* ══════════════════════════════
    LOGIN
 ══════════════════════════════ */
-(function() {
-  const _a = '09';
-  const _b = '01';
-  const _pw = _a + _b;
-
-  const overlay = document.getElementById('screenLogin');
-  const input   = document.getElementById('loginPw');
-  const errEl   = document.getElementById('loginErr');
-  const btn     = document.getElementById('loginBtn');
-
+(function(){
+  const _pw='0901';
+  const overlay=document.getElementById('screenLogin');
+  const input=document.getElementById('loginPw'),errEl=document.getElementById('loginErr'),btn=document.getElementById('loginBtn');
   function tryLogin() {
-    if (input.value === _pw) {
-      overlay.style.display = 'none';
-    } else {
-      errEl.textContent = 'パスワードが違います';
-      input.value = '';
-      input.focus();
-    }
+    if(input.value===_pw){ overlay.style.display='none'; }
+    else{ errEl.textContent='パスワードが違います'; input.value=''; input.focus(); }
   }
-
-  btn.addEventListener('click', tryLogin);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+  btn.addEventListener('click',tryLogin);
+  input.addEventListener('keydown',e=>{ if(e.key==='Enter') tryLogin(); });
   input.focus();
 })();
 
@@ -2278,73 +1907,34 @@ document.getElementById('printBtn').addEventListener('click', () => {
 ══════════════════════════════ */
 document.getElementById('exportBtn').addEventListener('click', async () => {
   try {
-    const [repairs, demos] = await Promise.all([
-      fbGet(REPAIR_URL),
-      fbGet(DEMO_URL)
-    ]);
-    const payload = {
-      exportedAt: new Date().toISOString(),
-      repairReports: repairs || {},
-      demoUnits: demos || {}
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    const d = new Date();
-    a.download = `godcleaner_backup_${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}.json`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-    toast('バックアップを保存しました', 'success');
-  } catch(e) {
-    toast('バックアップ失敗: ' + e.message, 'error');
-  }
+    const [repairs,demos]=await Promise.all([fbGet(REPAIR_URL),fbGet(DEMO_URL)]);
+    const payload={exportedAt:new Date().toISOString(),repairReports:repairs||{},demoUnits:demos||{}};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    const d=new Date();
+    a.download=`godcleaner_backup_${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}.json`;
+    a.click(); URL.revokeObjectURL(a.href);
+    toast('バックアップを保存しました','success');
+  } catch(e) { toast('バックアップ失敗: '+e.message,'error'); }
 });
 
-document.getElementById('importBtn').addEventListener('click', () => {
-  document.getElementById('importFile').value = '';
-  document.getElementById('importFile').click();
-});
-
+document.getElementById('importBtn').addEventListener('click', () => { document.getElementById('importFile').value=''; document.getElementById('importFile').click(); });
 document.getElementById('importFile').addEventListener('change', async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file=e.target.files[0]; if(!file) return;
   openConfirm({
-    icon: '📤',
-    title: 'データを復元しますか？',
-    msg: '現在のデータにバックアップを上書きします。この操作は取り消せません。',
-    okLabel: '復元する',
+    icon:'📤', title:'データを復元しますか？', msg:'現在のデータにバックアップを上書きします。この操作は取り消せません。', okLabel:'復元する',
     onOk: async () => {
       try {
-        const text = await file.text();
-        const payload = JSON.parse(text);
-        const repairs = payload.repairReports || {};
-        const demos   = payload.demoUnits || {};
-
-        const repairEntries = Object.entries(repairs);
-        const demoEntries   = Object.entries(demos);
-
+        const text=await file.text(),payload=JSON.parse(text);
+        const repairs=payload.repairReports||{},demos=payload.demoUnits||{};
+        const repairEntries=Object.entries(repairs),demoEntries=Object.entries(demos);
         await Promise.all([
-          ...repairEntries.map(([id, data]) =>
-            fetch(`${REPAIR_URL}/${id}.json`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data)
-            })
-          ),
-          ...demoEntries.map(([id, data]) =>
-            fetch(`${DEMO_URL}/${id}.json`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data)
-            })
-          )
+          ...repairEntries.map(([id,data])=>fetch(`${REPAIR_URL}/${id}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})),
+          ...demoEntries.map(([id,data])=>fetch(`${DEMO_URL}/${id}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}))
         ]);
-
-        toast(`復元完了：報告書 ${repairEntries.length}件・デモ機 ${demoEntries.length}件`, 'success');
+        toast(`復元完了：報告書 ${repairEntries.length}件・デモ機 ${demoEntries.length}件`,'success');
         await loadAllRepairs();
-      } catch(e) {
-        toast('復元失敗: ' + e.message, 'error');
-      }
+      } catch(e) { toast('復元失敗: '+e.message,'error'); }
     }
   });
 });
